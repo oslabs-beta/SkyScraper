@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",                                  // Target ECMAScript version
+    "module": "esnext",                               // Enable ES module syntax
+    "moduleResolution": "node",                       // Use Node.js module resolution
+    "jsx": "react-jsx",                               // Enable JSX for React
+    "strict": true,                                   // Enable all strict type-checking options
+    "esModuleInterop": true,                          // Enables default imports from modules with no default export
+    "skipLibCheck": true,                             // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true,         // Disallow inconsistently-cased references to the same file
+    "baseUrl": ".",                                   // Base directory to resolve non-relative module names
+    "paths": {
+      "*": ["node_modules/*", "/server/src/*"]        // Path mapping for custom type definitions
+    },
+    "lib": ["dom", "dom.iterable", "esnext"]          // Library files to be included in the compilation
+  },
+  "include": ["client/src/**/*", "server/src/**/*"],  // Include all TypeScript files in the src directory
+  "exclude": ["node_modules", "**/*.spec.ts"]         // Exclude node_modules and test files
+}
