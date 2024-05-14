@@ -1,19 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es6",                                  // Target ECMAScript version
-    "module": "esnext",                               // Enable ES module syntax
-    "moduleResolution": "node",                       // Use Node.js module resolution
-    "jsx": "react-jsx",                               // Enable JSX for React
-    "strict": true,                                   // Enable all strict type-checking options
-    "esModuleInterop": true,                          // Enables default imports from modules with no default export
-    "skipLibCheck": true,                             // Skip type checking of declaration files
-    "forceConsistentCasingInFileNames": true,         // Disallow inconsistently-cased references to the same file
-    "baseUrl": ".",                                   // Base directory to resolve non-relative module names
+    //"target": "es6", // Target ECMAScript version
+    "target": "ESNext", // Or a specific ECMAScript version that supports ES Modules
+    //"module": "esnext", // Enable ES module syntax
+    "module": "ESNext",
+    "moduleResolution": "node", // Use Node.js module resolution
+    // "jsx": "react-jsx", // Enable JSX for React
+    "jsx": "react",
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables default imports from modules with no default export
+    "outDir": "./dist",
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    //"baseUrl": ".", // Base directory to resolve non-relative module names
+    "baseUrl": "./", // Base directory to resolve non-relative module names
     "paths": {
-      "*": ["node_modules/*", "/server/src/*"]        // Path mapping for custom type definitions
+      // "*": ["node_modules/*", "/server/src/*"] // Path mapping for custom type definitions
+      "*": ["node_modules/*", "src/*"]
     },
-    "lib": ["dom", "dom.iterable", "esnext"]          // Library files to be included in the compilation
+    "lib": ["dom", "dom.iterable", "esnext"] // Library files to be included in the compilation
   },
-  "include": ["client/src/**/*", "server/src/**/*"],  // Include all TypeScript files in the src directory
-  "exclude": ["node_modules", "**/*.spec.ts"]         // Exclude node_modules and test files
+  "include": ["client/src/**/*", "server/src/**/*"], // Include all TypeScript files in the src directory
+  // "exclude": ["node_modules", "**/*.spec.ts"] // Exclude node_modules and test files
+  "exclude": ["node_modules", "**/*.spec.js"], // Exclude node_modules and test files
+  //-------
+  "strict": true, // Enables all strict type-checking options
+  "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file.
 }

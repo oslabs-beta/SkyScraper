@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { ErrorHandler } from './utils/ErrorHandler';
 import exampleRoute from './routes/exampleRouter';
+import AWS from 'aws-sdk';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ const PORT: number =
 app.use('/example', exampleRoute);
 
 app.use(express.json());
+
+const ec2 = new AWS.EC2({ apiVersion: '2016-11-15' });
 
 // Catch All Handler
 app.use('*', (req, res) => {
