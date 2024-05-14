@@ -39,14 +39,16 @@ fs.readdir(directoryPath, (err, files) => {
     return;
   }
   files.forEach((file) => {
-    if (file.endsWith('.js')) {
+    // Check for files ending with .js or .jsx
+    if (file.endsWith('.js') || file.endsWith('.jsx')) {
       const filePath = path.join(directoryPath, file);
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
           console.error(err);
           return;
         }
-        const result = data.replace(/\.js(['"]\)?)/g, '$1');
+        // Replace '.js' with '.jsx' in the imported module paths if needed
+        const result = data.replace(/\.js(['"]\)?)/g, '.jsx$1');
         fs.writeFile(filePath, result, 'utf8', (err) => {
           if (err) console.error(err);
         });

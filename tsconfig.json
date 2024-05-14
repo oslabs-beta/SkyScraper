@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     //"target": "es6", // Target ECMAScript version
-    "target": "ESNext", // Or a specific ECMAScript version that supports ES Modules
+    "target": "ESNext",
+    //"allowImportingTsExtensions": true, // Or a specific ECMAScript version that supports ES Modules
+    "noEmit": false, // Added noEmit to complement allowImportingTsExtensions
     //"module": "esnext", // Enable ES module syntax
     "module": "ESNext",
     "moduleResolution": "node", // Use Node.js module resolution
@@ -11,7 +13,7 @@
     "esModuleInterop": true, // Enables default imports from modules with no default export
     "outDir": "./dist",
     "skipLibCheck": true, // Skip type checking of declaration files
-    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    //"forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
     //"baseUrl": ".", // Base directory to resolve non-relative module names
     "baseUrl": "./", // Base directory to resolve non-relative module names
     "paths": {
@@ -24,6 +26,6 @@
   // "exclude": ["node_modules", "**/*.spec.ts"] // Exclude node_modules and test files
   "exclude": ["node_modules", "**/*.spec.js"], // Exclude node_modules and test files
   //-------
-  "strict": true, // Enables all strict type-checking options
-  "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file.
+  "strict": true // Enables all strict type-checking options
+  // "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file.
 }

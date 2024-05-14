@@ -1,17 +1,23 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { ErrorHandler } from './utils/ErrorHandler';
-import exampleRoute from './routes/exampleRouter';
+import { ErrorHandler } from './utils/ErrorHandler.js';
+import exampleRoute from './routes/exampleRouter.js';
 import AWS from 'aws-sdk';
 
 dotenv.config();
 
 const app = express();
 
-const PORT: number =
-  process.env.NODE_ENV === 'development'
-    ? Number(process.env.DEV_PORT)
-    : Number(process.env.PROD_PORT);
+// const PORT: number =
+//   process.env.NODE_ENV === 'development'
+//     ? Number(process.env.DEV_PORT)
+//     : Number(process.env.PROD_PORT);
+
+const PORT = process.env.NODE_ENV === 'development' ? process.env.DEV_PORT : process.env.PROD_PORT;
+
+console.log(process.env.DEV_PORT, 'dev port');
+console.log(process.env.PROD_PORT, 'prod port');
+console.log(process.env.NODE_ENV, 'process.env');
 
 app.use('/example', exampleRoute);
 

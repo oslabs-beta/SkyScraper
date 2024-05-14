@@ -7,7 +7,8 @@
     "clean": "rm -rf ./dist/*",
     "build": "npm run clean && tsc",
     "postbuild": "node remove-js-extensions.js",
-    "start": "node dist/server/src/server.js",
+    "start": "NODE_ENV=development node dist/server/src/server.js",
+    "start:dev": "NODE_ENV=production node dist/server/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'server/**/*.ts' 'client/**/*.{ts,tsx}'"
   },

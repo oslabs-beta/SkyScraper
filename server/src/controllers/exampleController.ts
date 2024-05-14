@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import ErrorObject from '../utils/ErrorObject';
+import ErrorObject from '../utils/ErrorObject.js';
 import AWS from 'aws-sdk';
 
 const ec2 = new AWS.EC2({ apiVersion: '2016-11-15' });
