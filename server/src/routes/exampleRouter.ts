@@ -3,7 +3,7 @@ import exampleController from '../controllers/exampleController.js';
 
 const router = express.Router();
 
-router.get('/', exampleController.exampleMiddleware, (req: Request, res: Response) => {
+router.get('/ec2', exampleController.getEC2, (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 

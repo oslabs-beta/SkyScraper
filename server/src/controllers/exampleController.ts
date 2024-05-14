@@ -6,13 +6,31 @@ const ec2 = new AWS.EC2({ apiVersion: '2016-11-15' });
 const cloudwatch = new AWS.CloudWatch();
 
 interface ExampleController {
-  exampleMiddleware: (req: Request, res: Response, next: NextFunction) => void;
+  getEC2: (req: Request, res: Response, next: NextFunction) => void;
   getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 const exampleController: ExampleController = {
-  exampleMiddleware: async (req, res, next) => {
+  getEC2: async (req, res, next) => {
     try {
+      // declare an ec2 client
+      const ec2 = new AWS.EC2();
+
+      // invoke describeInstances
+      const data = await ec2.describeInstances().promise();
+
+      // checks if data is undefined, returns 404 error 'no reservations found'
+      if (!data.Reservations)
+        return next(
+          new ErrorObject(
+            'this string is the error log',
+            500,
+            'this string is the response message',
+          ),
+        );
+
+      const instances = data.Reservations.map((r) => r.Instances).flat();
+      res.locals.instances = instances;
       return next();
     } catch (err) {
       return next(
