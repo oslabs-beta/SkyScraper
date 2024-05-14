@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import ErrorObject from '../utils/ErrorObject';
+import ErrorObject from '../utils/ErrorObject.js';
+import AWS from 'aws-sdk';
+
+const ec2 = new AWS.EC2({ apiVersion: '2016-11-15' });
+const cloudwatch = new AWS.CloudWatch();
 
 interface ExampleController {
   exampleMiddleware: (req: Request, res: Response, next: NextFunction) => void;
-  anotherMiddleware: (req: Request, res: Response, next: NextFunction) => void;
+  getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 const exampleController: ExampleController = {
@@ -16,13 +20,33 @@ const exampleController: ExampleController = {
       );
     }
   },
-  anotherMiddleware: async (req, res, next) => {
+  getMetricStatistics: async (req, res, next) => {
     try {
-      console.log('hi there');
+      const params = {
+        StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // duration (24 hours ago)
+        EndTime: new Date(),
+        MetricName: 'CPUUtilization',
+        Namespace: 'AWS/EC2',
+        Period: 300, // granularity in seconds
+        Statistics: ['Average'],
+        Dimensions: [
+          {
+            Name: 'InstanceId',
+            Value: 'i-0af1559a766076588', //instanceid
+          },
+        ],
+      };
+      const data = await cloudwatch.getMetricStatistics(params).promise();
+      res.locals.cpuUsageData = data; // Attach data to the request object
+      next(); // Call the next middleware or route handler
       return next();
     } catch (err) {
       return next(
-        new ErrorObject('this string is the error log', 500, 'this string is the response message'),
+        new ErrorObject(
+          'this string is the error log',
+          500,
+          'this string is the response message. Failed to retrieve CPU usage metrics',
+        ),
       );
     }
   },
