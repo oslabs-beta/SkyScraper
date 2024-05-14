@@ -12,6 +12,5 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <Provider store={store}>
     <App />
-  </Provider>
+  </Provider>,
 );
-a

@@ -1,19 +1,37 @@
+// import { createSlice } from '@reduxjs/toolkit';
+
+// const initialState = {
+//   isOpen: true,
+// };
+
+// export const menuSlice = createSlice({
+//   name: 'menu',
+//   initialState,
+//   reducers: {
+//     toggleMenu: (state, action) => {
+//       state.isOpen = !state.isOpen;
+//     },
+//   },
+// });
+
+// export const { toggleMenu } = menuSlice.actions;
+
+// export default menuSlice.reducer;
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isOpen: true,
+  isOpen: false,
 };
 
-export const menuSlice = createSlice({
+const menuSlice = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    toggleMenu: (state, action) => {
+    toggleMenu(state) {
       state.isOpen = !state.isOpen;
     },
   },
 });
 
-export const { toggleMenu } = menuSlice.actions;
-
-export default menuSlice.reducer;
+export const burgerMenuReducer = menuSlice.reducer; // Export as a named export
+export const { toggleMenu } = menuSlice.actions; // Export actions as needed

@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 
 export default {
   mode: process.env.NODE_ENV,
-  entry: './client/src/index.tsx',
+  // entry: './client/src/index.tsx',
+  entry: '.dist/client/src/index.tsx',
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', 'client'),
@@ -41,7 +42,7 @@ export default {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.tsx'],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   devServer: {
     historyApiFallback: true,
