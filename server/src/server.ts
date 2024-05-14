@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { ErrorHandler } from './utils/ErrorHandler.js';
 import exampleRoute from './routes/exampleRouter.js';
-import AWS from 'aws-sdk';
 
 dotenv.config();
 
@@ -15,15 +14,8 @@ const app = express();
 
 const PORT = process.env.NODE_ENV === 'development' ? process.env.DEV_PORT : process.env.PROD_PORT;
 
-console.log(process.env.DEV_PORT, 'dev port');
-console.log(process.env.PROD_PORT, 'prod port');
-console.log(process.env.NODE_ENV, 'process.env');
-
-app.use('/example', exampleRoute);
-
 app.use(express.json());
-
-const ec2 = new AWS.EC2({ apiVersion: '2016-11-15' });
+app.use('/', exampleRoute);
 
 // Catch All Handler
 app.use('*', (req, res) => {
@@ -40,7 +32,7 @@ app.use('*', (req, res) => {
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+  console.log(`Server is running on port http://localhost:${PORT}`);
 });
 
 export default app;
