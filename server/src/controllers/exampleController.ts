@@ -12,7 +12,7 @@ const exampleController: ExampleController = {
     try {
       // AWS config
       AWS.config.update({
-        region: process.env.AWS_ACCESS_KEY_ID, // Your AWS region
+        region: process.env.REGION, // Your AWS region
         accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Ensure these are set in your environment
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       });
@@ -44,7 +44,7 @@ const exampleController: ExampleController = {
     try {
       // AWS config
       AWS.config.update({
-        region: 'us-east-1', // Your AWS region
+        region: process.env.REGION, // Your AWS region
         accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Ensure these are set in your environment
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       });
@@ -70,9 +70,13 @@ const exampleController: ExampleController = {
 
       // invoke metrics method and store as data
       const data = await cloudwatch.getMetricStatistics(params).promise();
+      const needData = data.Datapoints || [];
+      const cleanData = needData.map((each) => {
+        return { Timestamp: each.Timestamp, Average: each.Average };
+      });
 
       // store data to res.locals.cpuUsageData
-      res.locals.cpuUsageData = data;
+      res.locals.cpuUsageData = cleanData;
 
       next();
       return next();
