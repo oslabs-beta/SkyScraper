@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import ErrorObject from '../utils/ErrorObject.js';
-import AWS from 'aws-sdk';
+
+// migrated to AWS SDK v3 by importing only the needed modules
+import { EC2Client, DescribeInstancesCommand } from '@aws-sdk/client-ec2';
+import {
+  CloudWatchClient,
+  GetMetricStatisticsCommand,
+  GetMetricStatisticsCommandInput,
+} from '@aws-sdk/client-cloudwatch';
 
 interface ExampleController {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
@@ -10,18 +17,20 @@ interface ExampleController {
 const exampleController: ExampleController = {
   getEC2Instances: async (req, res, next) => {
     try {
-      // AWS config
-      AWS.config.update({
-        region: process.env.REGION, // user region from env
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // user keys from env
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      // create new ec2 client with credentials included
+      const ec2 = new EC2Client({
+        region: process.env.REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // AWS Secret Access Key
+        },
       });
 
-      // create ec2 client
-      const ec2 = new AWS.EC2();
+      // create new command to describe instances
+      const command = new DescribeInstancesCommand();
 
-      // invoke describeInstances and store to data variable
-      const data = await ec2.describeInstances().promise();
+      // invoke describeInstancesCommand and store to data
+      const data = await ec2.send(command);
 
       // checks if data is undefined, returns 404 error 'no reservations found'
       if (!data.Reservations)
@@ -42,39 +51,62 @@ const exampleController: ExampleController = {
 
   getMetricStatistics: async (req, res, next) => {
     try {
-      // AWS config
-      AWS.config.update({
-        region: process.env.REGION, // user region from env
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // user keys from env
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      // create cloudwatch client
+      const cloudwatch = new CloudWatchClient({
+        region: process.env.REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // AWS Secret Access Key
+        },
       });
 
-      // create cloudwatch client
-      const cloudwatch = new AWS.CloudWatch();
-
-      // declare parameters
-      const params = {
+      // declare parameters for the getMetricStatsCommand method
+      const paramsCPU: GetMetricStatisticsCommandInput = {
         StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // duration (24 hours ago)
         EndTime: new Date(),
         MetricName: 'CPUUtilization',
         Namespace: 'AWS/EC2',
-        Period: 300, // granularity in seconds
+        Period: 300, // in seconds
         Statistics: ['Average'],
         Dimensions: [
           {
             Name: 'InstanceId',
-            Value: 'i-0af1559a766076588', //instanceid
+            Value: 'i-0af1559a766076588', // instanceid from query
           },
         ],
       };
 
-      // invoke metrics method and store as data
-      const data = await cloudwatch.getMetricStatistics(params).promise();
+      const paramsDisk: GetMetricStatisticsCommandInput = {
+        StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // duration (24 hours ago)
+        EndTime: new Date(),
+        MetricName: 'DiskUtilization',
+        Namespace: 'AWS/EC2',
+        Period: 300, // in seconds
+        Statistics: ['Average'],
+        Dimensions: [
+          {
+            Name: 'InstanceId',
+            Value: 'i-0af1559a766076588', // instanceid from query
+          },
+          {
+            Name: 'Device',
+            Value: '/dev/xvda',
+          },
+        ],
+      };
+
+      // create commands
+      const commandCPU = new GetMetricStatisticsCommand(paramsCPU);
+      const commandDisk = new GetMetricStatisticsCommand(paramsDisk);
+
+      // invoke metrics methods and store as data
+      const data = await cloudwatch.send(commandCPU);
+      const data2 = await cloudwatch.send(commandDisk);
 
       // store data to res.locals.cpuUsageData
-      res.locals.cpuUsageData = data;
+      res.locals.cpuUsage = data;
+      res.locals.diskUsage = data2;
 
-      next();
       return next();
     } catch (err) {
       return next(
