@@ -7,11 +7,6 @@ dotenv.config();
 
 const app = express();
 
-// const PORT: number =
-//   process.env.NODE_ENV === 'development'
-//     ? Number(process.env.DEV_PORT)
-//     : Number(process.env.PROD_PORT);
-
 const PORT = process.env.NODE_ENV === 'development' ? process.env.DEV_PORT : process.env.PROD_PORT;
 
 app.use(express.json());
