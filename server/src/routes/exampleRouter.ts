@@ -4,14 +4,14 @@ import exampleController from '../controllers/exampleController.js';
 const router = express.Router();
 
 router.get('/ec2', exampleController.getEC2, (req: Request, res: Response) => {
-  res.sendStatus(200);
+  res.status(200).send(res.locals.instances);
 });
 
 router.get(
   '/getMetricStatistics',
   exampleController.getMetricStatistics,
   (req: Request, res: Response) => {
-    res.sendStatus(200);
+    res.status(200).send(res.locals.cpuUsageData);
   },
 );
 
