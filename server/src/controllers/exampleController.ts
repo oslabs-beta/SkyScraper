@@ -12,8 +12,8 @@ const exampleController: ExampleController = {
     try {
       // AWS config
       AWS.config.update({
-        region: process.env.AWS_ACCESS_KEY_ID, // Your AWS region
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Ensure these are set in your environment
+        region: process.env.REGION, // user region from env
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // user keys from env
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       });
 
@@ -44,8 +44,8 @@ const exampleController: ExampleController = {
     try {
       // AWS config
       AWS.config.update({
-        region: 'us-east-1', // Your AWS region
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Ensure these are set in your environment
+        region: process.env.REGION, // user region from env
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // user keys from env
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       });
 
