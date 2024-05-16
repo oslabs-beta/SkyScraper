@@ -22,7 +22,7 @@ const exampleController: ExampleController = {
         region: process.env.REGION,
         credentials: {
           accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // AWS Secret Access Key
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // exclamation point default to undefined if .env file error
         },
       });
 
@@ -37,10 +37,11 @@ const exampleController: ExampleController = {
         return next(new ErrorObject('no reservation found', 500, 'no reservation found'));
 
       // flatten data into instances variable
-      const instances = data.Reservations.map((r) => r.Instances).flat();
+      const flattedReservation = data.Reservations.map((r) => r.Instances).flat();
+      // flattedReservation.forEach((element) => {});
 
       // store into res.locals.instances
-      res.locals.instances = instances;
+      res.locals.instances = flattedReservation;
       return next();
     } catch (err) {
       return next(
@@ -56,56 +57,63 @@ const exampleController: ExampleController = {
         region: process.env.REGION,
         credentials: {
           accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // AWS Secret Access Key
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // exclamation point default to undefined if .env file error
         },
       });
 
-      // declare parameters for the getMetricStatsCommand method
-      const paramsCPU: GetMetricStatisticsCommandInput = {
-        StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // duration (24 hours ago)
-        EndTime: new Date(),
-        MetricName: 'CPUUtilization',
-        Namespace: 'AWS/EC2',
-        Period: 300, // in seconds
-        Statistics: ['Average'],
-        Dimensions: [
-          {
-            Name: 'InstanceId',
-            Value: 'i-0af1559a766076588', // instanceid from query
-          },
-        ],
-      };
+      interface Results {
+        metric: string;
+        data: any;
+      }
 
-      const paramsDisk: GetMetricStatisticsCommandInput = {
-        StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // duration (24 hours ago)
-        EndTime: new Date(),
-        MetricName: 'DiskUtilization',
-        Namespace: 'AWS/EC2',
-        Period: 300, // in seconds
-        Statistics: ['Average'],
-        Dimensions: [
-          {
-            Name: 'InstanceId',
-            Value: 'i-0af1559a766076588', // instanceid from query
-          },
-          {
-            Name: 'Device',
-            Value: '/dev/xvda',
-          },
-        ],
-      };
+      const metricsName: string[] = [
+        'CPUUtilization',
+        'DiskReadBytes',
+        'DiskWriteBytes',
+        'NetworkIn',
+        'NetworkOut',
+      ];
 
-      // create commands
-      const commandCPU = new GetMetricStatisticsCommand(paramsCPU);
-      const commandDisk = new GetMetricStatisticsCommand(paramsDisk);
+      const metricsNameStatus: string[] = [
+        'StatusCheckFailed',
+        'StatusCheckFailed_Instance',
+        'StatusCheckFailed_System',
+      ];
+      const results: Results[] = [];
 
-      // invoke metrics methods and store as data
-      const data = await cloudwatch.send(commandCPU);
-      const data2 = await cloudwatch.send(commandDisk);
+      for (const metric of metricsName) {
+        const params: GetMetricStatisticsCommandInput = {
+          Namespace: 'AWS/EC2',
+          MetricName: metric,
+          Dimensions: [{ Name: 'InstanceId', Value: 'i-0af1559a766076588' }],
+          StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
+          EndTime: new Date(),
+          Period: 3600, // Data points in seconds
+          Statistics: ['Average'],
+        };
 
-      // store data to res.locals.cpuUsageData
-      res.locals.cpuUsage = data;
-      res.locals.diskUsage = data2;
+        const command = new GetMetricStatisticsCommand(params);
+        const data = await cloudwatch.send(command);
+        results.push({ metric, data });
+      }
+
+      for (const metric of metricsNameStatus) {
+        const params: GetMetricStatisticsCommandInput = {
+          Namespace: 'AWS/EC2',
+          MetricName: metric,
+          Dimensions: [{ Name: 'InstanceId', Value: 'i-0af1559a766076588' }],
+          StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
+          EndTime: new Date(),
+          Period: 3600, // Data points in seconds
+          Statistics: ['Sum'],
+        };
+
+        const command = new GetMetricStatisticsCommand(params);
+        const data = await cloudwatch.send(command);
+        results.push({ metric, data });
+      }
+
+      res.locals.metrics = results;
 
       return next();
     } catch (err) {
