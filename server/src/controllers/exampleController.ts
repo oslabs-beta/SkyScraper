@@ -40,8 +40,34 @@ const exampleController: ExampleController = {
       const flattedReservation = data.Reservations.map((r) => r.Instances).flat();
       // flattedReservation.forEach((element) => {});
 
+      interface SanitizedInstance { //interface for sanitized data
+        InstanceId: string;
+        InstanceType:string;
+        KeyName: string;
+        StateName: string;
+      }
+
+      const sanitizeInstance(instance: any): SanitizedInstance => {
+        return {
+          InstanceId: instance.InstanceId,
+          InstanceType: instance.InstanceType,
+          KeyName: instance.KeyName,
+          StateName: instance.State.Name,
+        };
+      }
+      // flattedReservation.forEach((instance) => {
+      //   (instance: any):SanitizedInstance {
+      //     return {
+      //       InstanceId: instance.InstanceId,
+      //       InstanceType: instance.InstanceType,
+      //       KeyName: instance.KeyName,
+      //       StateName: instance.State.Name,
+      //     }
+      //   }
+      // })
+
       // store into res.locals.instances
-      res.locals.instances = flattedReservation;
+      res.locals.instances = flattedReservation.map(sanitizeInstance);
       return next();
     } catch (err) {
       return next(
