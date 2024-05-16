@@ -36,12 +36,28 @@ const exampleController: ExampleController = {
       if (!data.Reservations)
         return next(new ErrorObject('no reservation found', 500, 'no reservation found'));
 
-      // flatten data into instances variable
+      // flatten data
       const flattedReservation = data.Reservations.map((r) => r.Instances).flat();
-      // flattedReservation.forEach((element) => {});
+
+      //interface for sanitized data
+      interface SanitizedInstance {
+        InstanceId: string;
+        InstanceType: string;
+        KeyName: string;
+        State: string;
+      }
+
+      // map and sanitize flattedReservation array
+      const sanitizedInstance: SanitizedInstance[] = flattedReservation.map((instance: any) => ({
+        InstanceId: instance.InstanceId,
+        InstanceType: instance.InstanceType,
+        KeyName: instance.KeyName,
+        State: instance.State.Name,
+      }));
 
       // store into res.locals.instances
-      res.locals.instances = flattedReservation;
+      res.locals.instances = sanitizedInstance;
+
       return next();
     } catch (err) {
       return next(
@@ -66,6 +82,7 @@ const exampleController: ExampleController = {
         data: any;
       }
 
+      // array of metrics we want to gather from AWS
       const metricsName: string[] = [
         'CPUUtilization',
         'DiskReadBytes',
@@ -74,6 +91,7 @@ const exampleController: ExampleController = {
         'NetworkOut',
       ];
 
+      //
       const metricsNameStatus: string[] = [
         'StatusCheckFailed',
         'StatusCheckFailed_Instance',
