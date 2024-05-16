@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { ErrorHandler } from './utils/ErrorHandler.js';
-import exampleRoute from './routes/exampleRouter.js';
+import exampleRoute from './routers/AWSRouter.js';
 
 dotenv.config();
 
