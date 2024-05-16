@@ -9,12 +9,19 @@ import {
   GetMetricStatisticsCommandInput,
 } from '@aws-sdk/client-cloudwatch';
 
-interface ExampleController {
+interface AWSController {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
   getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
 }
 
-const exampleController: ExampleController = {
+interface SanitizedInstance {
+  InstanceId: string;
+  InstanceType: string;
+  KeyName: string;
+  State: string;
+}
+
+const AWSController: AWSController = {
   getEC2Instances: async (req, res, next) => {
     try {
       // create new ec2 client with credentials included
@@ -39,13 +46,13 @@ const exampleController: ExampleController = {
       // flatten data
       const flattedReservation = data.Reservations.map((r) => r.Instances).flat();
 
-      //interface for sanitized data
-      interface SanitizedInstance {
-        InstanceId: string;
-        InstanceType: string;
-        KeyName: string;
-        State: string;
-      }
+      // //interface for sanitized data
+      // interface SanitizedInstance {
+      //   InstanceId: string;
+      //   InstanceType: string;
+      //   KeyName: string;
+      //   State: string;
+      // }
 
       // map and sanitize flattedReservation array
       const sanitizedInstance: SanitizedInstance[] = flattedReservation.map((instance: any) => ({
@@ -77,11 +84,6 @@ const exampleController: ExampleController = {
         },
       });
 
-      interface Results {
-        metric: string;
-        data: any;
-      }
-
       // array of metrics we want to gather from AWS
       const metricsName: string[] = [
         'CPUUtilization',
@@ -89,46 +91,43 @@ const exampleController: ExampleController = {
         'DiskWriteBytes',
         'NetworkIn',
         'NetworkOut',
-      ];
-
-      //
-      const metricsNameStatus: string[] = [
         'StatusCheckFailed',
         'StatusCheckFailed_Instance',
         'StatusCheckFailed_System',
       ];
-      const results: Results[] = [];
 
-      for (const metric of metricsName) {
-        const params: GetMetricStatisticsCommandInput = {
-          Namespace: 'AWS/EC2',
-          MetricName: metric,
-          Dimensions: [{ Name: 'InstanceId', Value: 'i-0af1559a766076588' }],
-          StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
-          EndTime: new Date(),
-          Period: 3600, // Data points in seconds
-          Statistics: ['Average'],
-        };
-
-        const command = new GetMetricStatisticsCommand(params);
-        const data = await cloudwatch.send(command);
-        results.push({ metric, data });
+      interface Results {
+        instanceID: string;
+        metric: string;
+        data: any;
       }
 
-      for (const metric of metricsNameStatus) {
-        const params: GetMetricStatisticsCommandInput = {
-          Namespace: 'AWS/EC2',
-          MetricName: metric,
-          Dimensions: [{ Name: 'InstanceId', Value: 'i-0af1559a766076588' }],
-          StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
-          EndTime: new Date(),
-          Period: 3600, // Data points in seconds
-          Statistics: ['Sum'],
-        };
+      const results: Results[] = [];
 
-        const command = new GetMetricStatisticsCommand(params);
-        const data = await cloudwatch.send(command);
-        results.push({ metric, data });
+      const allInstances = res.locals.instances;
+      console.log(allInstances);
+
+      for (const instance of allInstances) {
+        for (const metric of metricsName) {
+          const params: GetMetricStatisticsCommandInput = {
+            Namespace: 'AWS/EC2',
+            MetricName: metric,
+            Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
+            StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
+            EndTime: new Date(),
+            Period: 3600, // Data points in seconds
+            Statistics:
+              metric === 'StatusCheckFailed' ||
+              metric === 'StatusCheckFailed_Instance' ||
+              metric === 'StatusCheckFailed_System'
+                ? ['Sum']
+                : ['Average'],
+          };
+          const instanceID = instance.InstanceId;
+          const command = new GetMetricStatisticsCommand(params);
+          const data = await cloudwatch.send(command);
+          results.push({instanceID, metric, data });
+        }
       }
 
       interface Datapoint {
@@ -144,6 +143,7 @@ const exampleController: ExampleController = {
       }
 
       interface Metrics {
+        instanceId: string;
         label: string;
         unit: string;
         datapoints: { Timestamp: string; Average: number; Sum: number }[];
@@ -153,11 +153,12 @@ const exampleController: ExampleController = {
       for (const ele of results) {
         const data: Data = ele.data;
         const label = data.Label;
+        const instanceId = ele.instanceID
         const unit = data.Datapoints[0].Unit;
         const datapoints = data.Datapoints.map((datapoint: Datapoint) => {
           return { Timestamp: datapoint.Timestamp, Average: datapoint.Average, Sum: datapoint.Sum };
         });
-        metrics.push({ label, unit, datapoints });
+        metrics.push({ label,instanceId, unit, datapoints });
       }
       //{label: "cpu", unit :"percentage", datapoints:[{timestamp:"xxx",averag:"xxx"}]}
       res.locals.metrics = metrics;
@@ -175,4 +176,4 @@ const exampleController: ExampleController = {
   },
 };
 
-export default exampleController;
+export default AWSController;
