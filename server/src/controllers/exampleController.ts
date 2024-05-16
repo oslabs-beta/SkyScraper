@@ -113,7 +113,36 @@ const exampleController: ExampleController = {
         results.push({ metric, data });
       }
 
-      res.locals.metrics = results;
+      interface Datapoint {
+        Timestamp: string; // or Date if you prefer
+        Average: number;
+        Unit: string;
+        Sum: number;
+      }
+
+      interface Data {
+        Label: string;
+        Datapoints: Datapoint[];
+      }
+
+      interface Metrics {
+        label: string;
+        unit: string;
+        datapoints: { Timestamp: string; Average: number; Sum: number }[];
+      }
+      const metrics: Metrics[] = [];
+
+      for (const ele of results) {
+        const data: Data = ele.data;
+        const label = data.Label;
+        const unit = data.Datapoints[0].Unit;
+        const datapoints = data.Datapoints.map((datapoint: Datapoint) => {
+          return { Timestamp: datapoint.Timestamp, Average: datapoint.Average, Sum: datapoint.Sum };
+        });
+        metrics.push({ label, unit, datapoints });
+      }
+      //{label: "cpu", unit :"percentage", datapoints:[{timestamp:"xxx",averag:"xxx"}]}
+      res.locals.metrics = metrics;
 
       return next();
     } catch (err) {
