@@ -105,7 +105,32 @@ const AWSController: AWSController = {
       const results: Results[] = [];
 
       const allInstances = res.locals.instances;
-      console.log(allInstances);
+      const startTime = new Date(new Date().getTime() - 24 * 60 * 60 * 1000); // 24hr period
+      const endTime = new Date();
+
+      // for (const instance of allInstances) {
+      //   for (const metric of metricsName) {
+      //     const params: GetMetricStatisticsCommandInput = {
+      //       Namespace: 'AWS/EC2',
+      //       MetricName: metric,
+      //       Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
+      //       StartTime: startTime, // 24hr period
+      //       EndTime: endTime,
+      //       Period: 7200, // Data points in seconds
+      //       Statistics:
+      //         metric === 'StatusCheckFailed' ||
+      //         metric === 'StatusCheckFailed_Instance' ||
+      //         metric === 'StatusCheckFailed_System'
+      //           ? ['Sum']
+      //           : ['Average'],
+      //     };
+      //     const instanceID = instance.InstanceId;
+      //     const command = new GetMetricStatisticsCommand(params);
+      //     const data = await cloudwatch.send(command);
+      //     results.push({ instanceID, metric, data });
+      //   }
+      // }
+      const promises: Promise<void>[] = [];
 
       for (const instance of allInstances) {
         for (const metric of metricsName) {
@@ -113,9 +138,9 @@ const AWSController: AWSController = {
             Namespace: 'AWS/EC2',
             MetricName: metric,
             Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
-            StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
-            EndTime: new Date(),
-            Period: 3600, // Data points in seconds
+            StartTime: startTime, // 24hr period
+            EndTime: endTime,
+            Period: 7200, // Data points in seconds
             Statistics:
               metric === 'StatusCheckFailed' ||
               metric === 'StatusCheckFailed_Instance' ||
@@ -125,10 +150,13 @@ const AWSController: AWSController = {
           };
           const instanceID = instance.InstanceId;
           const command = new GetMetricStatisticsCommand(params);
-          const data = await cloudwatch.send(command);
-          results.push({instanceID, metric, data });
+          const promise = cloudwatch.send(command).then((data) => {
+            results.push({ instanceID, metric, data });
+          });
+          promises.push(promise);
         }
       }
+      await Promise.all(promises);
 
       interface Datapoint {
         Timestamp: string; // or Date if you prefer
@@ -153,12 +181,12 @@ const AWSController: AWSController = {
       for (const ele of results) {
         const data: Data = ele.data;
         const label = data.Label;
-        const instanceId = ele.instanceID
+        const instanceId = ele.instanceID;
         const unit = data.Datapoints[0].Unit;
         const datapoints = data.Datapoints.map((datapoint: Datapoint) => {
           return { Timestamp: datapoint.Timestamp, Average: datapoint.Average, Sum: datapoint.Sum };
         });
-        metrics.push({ label,instanceId, unit, datapoints });
+        metrics.push({ label, instanceId, unit, datapoints });
       }
       //{label: "cpu", unit :"percentage", datapoints:[{timestamp:"xxx",averag:"xxx"}]}
       res.locals.metrics = metrics;
