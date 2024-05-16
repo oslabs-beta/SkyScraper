@@ -8,7 +8,7 @@ router.get('/ec2', exampleController.getEC2Instances, (req: Request, res: Respon
 });
 
 router.get('/stats', exampleController.getMetricStatistics, (req: Request, res: Response) => {
-  res.status(200).send(res.locals.cpuUsageData);
+  res.status(200).send(res.locals.metrics);
 });
 
 export default router;

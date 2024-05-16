@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import ErrorObject from '../utils/ErrorObject.js';
-import AWS from 'aws-sdk';
+
+// migrated to AWS SDK v3 by importing only the needed modules
+import { EC2Client, DescribeInstancesCommand } from '@aws-sdk/client-ec2';
+import {
+  CloudWatchClient,
+  GetMetricStatisticsCommand,
+  GetMetricStatisticsCommandInput,
+} from '@aws-sdk/client-cloudwatch';
 
 interface ExampleController {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
@@ -10,28 +17,31 @@ interface ExampleController {
 const exampleController: ExampleController = {
   getEC2Instances: async (req, res, next) => {
     try {
-      // AWS config
-      AWS.config.update({
-        region: process.env.REGION, // Your AWS region
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Ensure these are set in your environment
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      // create new ec2 client with credentials included
+      const ec2 = new EC2Client({
+        region: process.env.REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // exclamation point default to undefined if .env file error
+        },
       });
 
-      // create ec2 client
-      const ec2 = new AWS.EC2();
+      // create new command to describe instances
+      const command = new DescribeInstancesCommand();
 
-      // invoke describeInstances and store to data variable
-      const data = await ec2.describeInstances().promise();
+      // invoke describeInstancesCommand and store to data
+      const data = await ec2.send(command);
 
       // checks if data is undefined, returns 404 error 'no reservations found'
       if (!data.Reservations)
         return next(new ErrorObject('no reservation found', 500, 'no reservation found'));
 
       // flatten data into instances variable
-      const instances = data.Reservations.map((r) => r.Instances).flat();
+      const flattedReservation = data.Reservations.map((r) => r.Instances).flat();
+      // flattedReservation.forEach((element) => {});
 
       // store into res.locals.instances
-      res.locals.instances = instances;
+      res.locals.instances = flattedReservation;
       return next();
     } catch (err) {
       return next(
@@ -42,43 +52,98 @@ const exampleController: ExampleController = {
 
   getMetricStatistics: async (req, res, next) => {
     try {
-      // AWS config
-      AWS.config.update({
-        region: process.env.REGION, // Your AWS region
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Ensure these are set in your environment
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      });
-
       // create cloudwatch client
-      const cloudwatch = new AWS.CloudWatch();
-
-      // declare parameters
-      const params = {
-        StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // duration (24 hours ago)
-        EndTime: new Date(),
-        MetricName: 'CPUUtilization',
-        Namespace: 'AWS/EC2',
-        Period: 300, // granularity in seconds
-        Statistics: ['Average'],
-        Dimensions: [
-          {
-            Name: 'InstanceId',
-            Value: 'i-0af1559a766076588', //instanceid
-          },
-        ],
-      };
-
-      // invoke metrics method and store as data
-      const data = await cloudwatch.getMetricStatistics(params).promise();
-      const needData = data.Datapoints || [];
-      const cleanData = needData.map((each) => {
-        return { Timestamp: each.Timestamp, Average: each.Average };
+      const cloudwatch = new CloudWatchClient({
+        region: process.env.REGION,
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!, // exclamation point default to undefined if .env file error
+        },
       });
 
-      // store data to res.locals.cpuUsageData
-      res.locals.cpuUsageData = cleanData;
+      interface Results {
+        metric: string;
+        data: any;
+      }
 
-      next();
+      const metricsName: string[] = [
+        'CPUUtilization',
+        'DiskReadBytes',
+        'DiskWriteBytes',
+        'NetworkIn',
+        'NetworkOut',
+      ];
+
+      const metricsNameStatus: string[] = [
+        'StatusCheckFailed',
+        'StatusCheckFailed_Instance',
+        'StatusCheckFailed_System',
+      ];
+      const results: Results[] = [];
+
+      for (const metric of metricsName) {
+        const params: GetMetricStatisticsCommandInput = {
+          Namespace: 'AWS/EC2',
+          MetricName: metric,
+          Dimensions: [{ Name: 'InstanceId', Value: 'i-0af1559a766076588' }],
+          StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
+          EndTime: new Date(),
+          Period: 3600, // Data points in seconds
+          Statistics: ['Average'],
+        };
+
+        const command = new GetMetricStatisticsCommand(params);
+        const data = await cloudwatch.send(command);
+        results.push({ metric, data });
+      }
+
+      for (const metric of metricsNameStatus) {
+        const params: GetMetricStatisticsCommandInput = {
+          Namespace: 'AWS/EC2',
+          MetricName: metric,
+          Dimensions: [{ Name: 'InstanceId', Value: 'i-0af1559a766076588' }],
+          StartTime: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // 24hr period
+          EndTime: new Date(),
+          Period: 3600, // Data points in seconds
+          Statistics: ['Sum'],
+        };
+
+        const command = new GetMetricStatisticsCommand(params);
+        const data = await cloudwatch.send(command);
+        results.push({ metric, data });
+      }
+
+      interface Datapoint {
+        Timestamp: string; // or Date if you prefer
+        Average: number;
+        Unit: string;
+        Sum: number;
+      }
+
+      interface Data {
+        Label: string;
+        Datapoints: Datapoint[];
+      }
+
+      interface Metrics {
+        label: string;
+        unit: string;
+        datapoints: { Timestamp: string; Average: number; Sum: number }[];
+      }
+      const metrics: Metrics[] = [];
+
+      for (const ele of results) {
+        const data: Data = ele.data;
+        const label = data.Label;
+        const unit = data.Datapoints[0].Unit;
+        const datapoints = data.Datapoints.map((datapoint: Datapoint) => {
+          return { Timestamp: datapoint.Timestamp, Average: datapoint.Average, Sum: datapoint.Sum };
+        });
+        metrics.push({ label, unit, datapoints });
+      }
+      //{label: "cpu", unit :"percentage", datapoints:[{timestamp:"xxx",averag:"xxx"}]}
+      res.locals.metrics = metrics;
+
       return next();
     } catch (err) {
       return next(
