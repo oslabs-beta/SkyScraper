@@ -1,18 +1,49 @@
+// import the middleware Types from express for Typescript to work, used in AWSController interface
 import { Request, Response, NextFunction } from 'express';
+
+// import default ErrorObject type
 import ErrorObject from '../utils/ErrorObject.js';
 
 // migrated to AWS SDK v3 by importing only the needed modules
+// EC2Client is a constructor function that has methods that interact with AWS API
 import { EC2Client, DescribeInstancesCommand } from '@aws-sdk/client-ec2';
+
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
   GetMetricStatisticsCommandInput,
 } from '@aws-sdk/client-cloudwatch';
 
+// AWSController is an object that conntains 2 middleware funcs
+// we imported the middleware types for these: (Request, Response, NextFunction)
 interface AWSController {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
   getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
 }
+
+// interface for the responsedata result
+// results is an object, we gave instanceID's key type of string and value type of array and referenced it by the value stored for instanceId, on the next level, we are saying the keys in elements of instanceId has to be name with the type string, metric with the type string, unit with the type string and datapoints which is an array where element is an object with a key that has to be a type of string and another key with a value that must be of type number
+
+// results: object
+// instanceId: array of objects
+// datapoints: array of objects
+interface Results {
+  [instanceId: string]: {
+    name: string;
+    metric: string;
+    unit: string;
+    datapoints: { Timestamp: string; Value: number }[];
+  }[];
+}
+// Example:
+// const results = {
+//   "i-1234": [{
+//     "name": test,
+//     "metric": cpuUsage,
+//     "unit": avg percent,
+//     "datapoints"
+//   }]
+// }
 
 interface SanitizedInstance {
   InstanceId: string;
@@ -46,14 +77,6 @@ const AWSController: AWSController = {
       // flatten data
       const flattedReservation = data.Reservations.map((r) => r.Instances).flat();
 
-      // //interface for sanitized data
-      // interface SanitizedInstance {
-      //   InstanceId: string;
-      //   InstanceType: string;
-      //   KeyName: string;
-      //   State: string;
-      // }
-
       // map and sanitize flattedReservation array
       const sanitizedInstance: SanitizedInstance[] = flattedReservation.map((instance: any) => ({
         InstanceId: instance.InstanceId,
@@ -64,7 +87,6 @@ const AWSController: AWSController = {
 
       // store into res.locals.instances
       res.locals.instances = sanitizedInstance;
-
       return next();
     } catch (err) {
       return next(
@@ -96,40 +118,13 @@ const AWSController: AWSController = {
         'StatusCheckFailed_System',
       ];
 
-      interface Results {
-        instanceID: string;
-        metric: string;
-        data: any;
-      }
-
-      const results: Results[] = [];
+      //
+      const results: Results = {};
 
       const allInstances = res.locals.instances;
       const startTime = new Date(new Date().getTime() - 24 * 60 * 60 * 1000); // 24hr period
       const endTime = new Date();
 
-      // for (const instance of allInstances) {
-      //   for (const metric of metricsName) {
-      //     const params: GetMetricStatisticsCommandInput = {
-      //       Namespace: 'AWS/EC2',
-      //       MetricName: metric,
-      //       Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
-      //       StartTime: startTime, // 24hr period
-      //       EndTime: endTime,
-      //       Period: 7200, // Data points in seconds
-      //       Statistics:
-      //         metric === 'StatusCheckFailed' ||
-      //         metric === 'StatusCheckFailed_Instance' ||
-      //         metric === 'StatusCheckFailed_System'
-      //           ? ['Sum']
-      //           : ['Average'],
-      //     };
-      //     const instanceID = instance.InstanceId;
-      //     const command = new GetMetricStatisticsCommand(params);
-      //     const data = await cloudwatch.send(command);
-      //     results.push({ instanceID, metric, data });
-      //   }
-      // }
       const promises: Promise<void>[] = [];
 
       for (const instance of allInstances) {
@@ -138,9 +133,9 @@ const AWSController: AWSController = {
             Namespace: 'AWS/EC2',
             MetricName: metric,
             Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
-            StartTime: startTime, // 24hr period
+            StartTime: startTime,
             EndTime: endTime,
-            Period: 7200, // Data points in seconds
+            Period: 3600, // Data points in seconds
             Statistics:
               metric === 'StatusCheckFailed' ||
               metric === 'StatusCheckFailed_Instance' ||
@@ -148,49 +143,45 @@ const AWSController: AWSController = {
                 ? ['Sum']
                 : ['Average'],
           };
-          const instanceID = instance.InstanceId;
+
+          const instanceId = instance.InstanceId;
+
           const command = new GetMetricStatisticsCommand(params);
           const promise = cloudwatch.send(command).then((data) => {
-            results.push({ instanceID, metric, data });
+            if (!results[instanceId]) {
+              results[instanceId] = [];
+            }
+
+            const name = instance.KeyName;
+
+            const sumAvg =
+              metric === 'StatusCheckFailed' ||
+              metric === 'StatusCheckFailed_Instance' ||
+              metric === 'StatusCheckFailed_System'
+                ? 'Sum'
+                : 'Average';
+
+            const unit =
+              data.Datapoints && data.Datapoints.length > 0
+                ? sumAvg + ' ' + data.Datapoints[0].Unit
+                : 'no data';
+
+            const datapoints = (data.Datapoints || [])
+              .map((datapoint: any) => ({
+                Timestamp: datapoint.Timestamp,
+                Value: sumAvg === 'Sum' ? datapoint.Sum || 0 : datapoint.Average || 0,
+              }))
+              .sort((a, b) => new Date(a.Timestamp).getTime() - new Date(b.Timestamp).getTime());
+
+            results[instanceId].push({ name, metric, unit, datapoints });
           });
           promises.push(promise);
         }
       }
+
       await Promise.all(promises);
 
-      interface Datapoint {
-        Timestamp: string; // or Date if you prefer
-        Average: number;
-        Unit: string;
-        Sum: number;
-      }
-
-      interface Data {
-        Label: string;
-        Datapoints: Datapoint[];
-      }
-
-      interface Metrics {
-        instanceId: string;
-        label: string;
-        unit: string;
-        datapoints: { Timestamp: string; Average: number; Sum: number }[];
-      }
-      const metrics: Metrics[] = [];
-
-      for (const ele of results) {
-        const data: Data = ele.data;
-        const label = data.Label;
-        const instanceId = ele.instanceID;
-        const unit = data.Datapoints[0].Unit;
-        const datapoints = data.Datapoints.map((datapoint: Datapoint) => {
-          return { Timestamp: datapoint.Timestamp, Average: datapoint.Average, Sum: datapoint.Sum };
-        });
-        metrics.push({ label, instanceId, unit, datapoints });
-      }
-      //{label: "cpu", unit :"percentage", datapoints:[{timestamp:"xxx",averag:"xxx"}]}
-      res.locals.metrics = metrics;
-
+      res.locals.metrics = results;
       return next();
     } catch (err) {
       return next(

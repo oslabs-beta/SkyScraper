@@ -1,4 +1,4 @@
-class ErrorObject extends Error{
+class ErrorObject extends Error {
   log: string;
   status: number;
   message: string;
