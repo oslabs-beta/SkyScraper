@@ -32,7 +32,7 @@ interface AWSController {
 interface SanitizedInstances {
   InstanceId: string;
   InstanceType: string;
-  KeyName: string;
+  Name: string;
   State: string;
 }
 
@@ -72,7 +72,7 @@ const AWSController: AWSController = {
       const sanitizedInstances: SanitizedInstances[] = flattedReservation.map((instance: any) => ({
         InstanceId: instance.InstanceId,
         InstanceType: instance.InstanceType,
-        KeyName: instance.KeyName,
+        Name: instance.Tags[0].Value,
         State: instance.State.Name,
       }));
 
@@ -165,7 +165,7 @@ const AWSController: AWSController = {
                 results[instanceId] = [];
               }
 
-              const name: string = instance.KeyName;
+              const name: string = instance.Name;
 
               const sumAvg: string =
                 metric === 'StatusCheckFailed' ||
