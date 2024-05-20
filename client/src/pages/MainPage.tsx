@@ -7,10 +7,10 @@ import {
   selectEC2Instances,
   selectEC2Status,
   selectEC2Error,
-} from '../features/ec2Monitor/ec2MonitorSlice.js';
-import MainMenu from '../features/common/MainMenu.js';
-import Header from '../features/common/Header.js';
-import Footer from '../features/common/Footer.js';
+} from '../features/ec2Monitor/ec2MonitorSlice';
+import MainMenu from '../features/common/MainMenu';
+import Header from '../features/common/Header';
+import Footer from '../features/common/Footer';
 import { AppDispatch, RootState } from '../app/store';
 
 const MainPage: React.FC = () => {
