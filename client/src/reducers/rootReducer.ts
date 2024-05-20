@@ -1,7 +1,7 @@
 // /src/app/rootReducer.ts
 import { combineReducers } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/authSlice';
-import ec2MonitorReducer from '../features/ec2Monitor/ec2MonitorSlice';
+import authReducer from './authSlice';
+import ec2MonitorReducer from './ec2MonitorSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
