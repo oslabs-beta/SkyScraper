@@ -10,16 +10,23 @@ const __dirname = path.dirname(__filename);
 const config = {
   // mode: process.env.NODE_ENV || 'development',
   mode: 'development',
-  entry: './client/src/index.tsx',
+  // entry: './client/src/index.tsx',
   // entry: '.dist/client/src/index.tsx',
+  // entry: './src/index.tsx',
+  entry: path.resolve(__dirname, 'src/index.tsx'),
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist', 'client'),
+    // path: path.resolve(__dirname, 'dist', 'client'),
+    path: path.resolve(__dirname, '../../dist/client'),
     publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/src/index.html',
+      // template: './client/src/index.html',
+      // template: './src/index.html',
+      // template: path.resolve(__dirname, '../dist/client/index.html'), // Update template path if necessary
+      template: path.resolve(__dirname, 'src/index.html'), // Update template path to correct location
+
       filename: 'index.html',
     }),
     new MiniCssExtractPlugin({
@@ -58,7 +65,7 @@ const config = {
     historyApiFallback: true,
     static: [
       {
-        directory: path.resolve('dist', 'client'),
+        directory: path.resolve(__dirname, '../../dist/client'),
         publicPath: '/',
       },
     ],
@@ -70,11 +77,11 @@ const config = {
     // ],
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3000',
         changeOrigin: true,
       },
     },
-    port: 3000, // Explicitly set the port for the webpack dev server
+    port: 8080, // Explicitly set the port for the webpack dev server
   },
 };
 

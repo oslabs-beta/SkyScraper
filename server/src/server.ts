@@ -56,10 +56,15 @@ app.use(express.static(path.join(__dirname, '../../dist/client')));
 
 app.use('/api', AWSRouter);
 
-// Catch All Handler
-app.use('*', (req, res) => {
-  res.sendStatus(404);
+// Catch All Handler for React App
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../dist/client/index.html'));
 });
+
+// // Catch All Handler
+// app.use('*', (req, res) => {
+//   res.sendStatus(404);
+// });
 
 // Global Error Handler
 app.use(ErrorHandler);

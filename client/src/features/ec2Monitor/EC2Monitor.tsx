@@ -64,8 +64,8 @@ const EC2Monitor: React.FC = () => {
     <div>
       <h1>EC2 Monitor</h1>
       {instances.map((instance) => (
-        <div key={instance.id}>
-          <h2>{instance.name}</h2>
+        <div key={instance.InstanceId}>
+          <h2>{instance.Name}</h2>
           {/* Render instance metrics and details */}
         </div>
       ))}
