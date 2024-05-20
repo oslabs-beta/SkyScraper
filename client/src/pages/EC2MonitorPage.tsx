@@ -25,10 +25,10 @@ import {
   selectEC2Instances,
   selectEC2Status,
   selectEC2Error,
-} from '../features/ec2Monitor/ec2MonitorSlice.js';
-import EC2InstanceDetail from '../features/ec2Monitor/EC2InstanceDetail.js';
-import Header from '../features/common/Header.js';
-import Footer from '../features/common/Footer.js';
+} from '../features/ec2Monitor/ec2MonitorSlice';
+import EC2InstanceDetail from '../features/ec2Monitor/EC2InstanceDetail';
+import Header from '../features/common/Header';
+import Footer from '../features/common/Footer';
 import { AppDispatch, RootState } from '../app/store';
 
 const EC2MonitorPage: React.FC = () => {

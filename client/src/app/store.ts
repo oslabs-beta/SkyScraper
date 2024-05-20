@@ -12,7 +12,7 @@
 // export default store;
 // store.ts
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import rootReducer from './rootReducer.js';
+import rootReducer from './rootReducer';
 
 export const store = configureStore({
   reducer: rootReducer,

@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "ESNext", //"target": "es6", // Target ECMAScript version
+    "target": "ES6", //"target": "es6", // Target ECMAScript version
     //"allowImportingTsExtensions": true, // Or a specific ECMAScript version that supports ES Modules
     "noEmit": false, // Added noEmit to complement allowImportingTsExtensions
-    "module": "ESNext", //"module": "esnext", // Enable ES module syntax
+    "module": "CommonJS", //"module": "esnext", // Enable ES module syntax
     "moduleResolution": "node", // Use Node.js module resolution
     // "jsx": "react-jsx", // Enable JSX for React
     "jsx": "react", // Enable JSX for React
@@ -12,6 +12,7 @@
     "esModuleInterop": true, // Enables default imports from modules with no default export
     "outDir": "./dist",
     "skipLibCheck": true, // Skip type checking of declaration files
+    "resolveJsonModule": true,
     //"forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
     //"baseUrl": ".", // Base directory to resolve non-relative module names
     "baseUrl": "./", // Base directory to resolve non-relative module names

@@ -2,11 +2,11 @@
   "name": "skyscraper",
   "version": "1.0.0",
   "description": "GUI Dashboard for AWS Infrastructure and Managing Resources and Usage Costs",
-  "main": "dist/client/index.js",
+  "main": "",
   "scripts": {
     "clean": "rm -rf ./dist/*",
-    "build": "node --loader ts-node/esm ./node_modules/webpack/bin/webpack --config ./client/webpack.config.ts",
-    "dev": "nodemon webpack-dev-server",
+    "build": "npm start",
+    "dev": "webpack serve --config webpack.config.ts --open",
     "start": "npm run clean && tsc && nodemon dist/server/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'server/**/*.ts' 'client/**/*.{ts,tsx}'"
@@ -21,7 +21,6 @@
     "url": "https://github.com/oslabs-beta/SkyScraper/issues"
   },
   "homepage": "https://github.com/oslabs-beta/SkyScraper#readme",
-  "type": "module",
   "devDependencies": {
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
@@ -62,6 +61,7 @@
     "aws-sdk": "^2.1619.0",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
+    "copy-webpack-plugin": "^12.0.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "react": "^18.3.1",

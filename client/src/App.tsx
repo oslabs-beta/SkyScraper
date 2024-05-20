@@ -26,11 +26,11 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage.js';
-import MainPage from './pages/MainPage.js';
-import EC2MonitorPage from './pages/EC2MonitorPage.js';
-import Header from './features/common/Header.js';
-import Footer from './features/common/Footer.js';
+import LoginPage from './pages/LoginPage';
+import MainPage from './pages/MainPage';
+import EC2MonitorPage from './pages/EC2MonitorPage';
+import Header from './features/common/Header';
+import Footer from './features/common/Footer';
 
 const App: React.FC = () => {
   return (

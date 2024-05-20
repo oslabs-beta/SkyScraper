@@ -1,32 +1,15 @@
-// /src/index.tsx
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { Provider } from 'react-redux';
-// import store from './app/store';
-// import App from './App';
-// import './styles/styles.css';
-
-// const rootElement = document.getElementById('root');
-// if (!rootElement) {
-//   throw new Error('Failed to find the root element');
-// }
-
-// ReactDOM.render(
-//   <Provider store={store}>
-//     <App />
-//   </Provider>,
-//   rootElement,
-// );
-
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client'; // Note the new import path for ReactDOM
 import { Provider } from 'react-redux';
-import store from './app/store.js';
-import App from './App.js';
+import store from './app/store';
+import App from './App';
 
-ReactDOM.render(
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Failed to find the root element');
+}
+createRoot(rootElement).render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root'),
 );
