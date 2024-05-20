@@ -37,9 +37,10 @@ const App: React.FC = () => {
     <Router>
       <Header />
       <Routes>
+        <Route path='/' element={<MainPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/main' element={<MainPage />} />
-        <Route path='/ec2-monitor' element={<EC2MonitorPage />} />
+        <Route path='/ec2' element={<EC2MonitorPage />} />
       </Routes>
       <Footer />
     </Router>

@@ -58,7 +58,7 @@ const config = {
     historyApiFallback: true,
     proxy: [
       {
-        '/api': 'http://localhost:3000',
+        '/api': 'http://localhost:3000', // Adjust the port if your backend server runs on a different port
       },
     ],
     static: {

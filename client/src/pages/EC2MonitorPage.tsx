@@ -51,14 +51,10 @@ const EC2MonitorPage: React.FC = () => {
 
   return (
     <div>
-      <Header />
-      <main>
-        <h1>EC2 Monitor</h1>
-        {instances.map((instance) => (
-          <EC2InstanceDetail key={instance.InstanceId} instance={instance} />
-        ))}
-      </main>
-      <Footer />
+      <h1>EC2 Monitor</h1>
+      {instances.map((instance) => (
+        <EC2InstanceDetail key={instance.InstanceId} instance={instance} />
+      ))}
     </div>
   );
 };

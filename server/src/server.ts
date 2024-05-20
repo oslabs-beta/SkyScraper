@@ -4,6 +4,7 @@ import { ErrorHandler } from './utils/ErrorHandler.js';
 import AWSRouter from './routers/AWSRouter.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const app = express();
 
 const PORT = process.env.NODE_ENV === 'development' ? process.env.DEV_PORT : process.env.PROD_PORT;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../dist/client')));
 
