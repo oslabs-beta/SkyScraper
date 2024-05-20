@@ -49,8 +49,8 @@
 // export default EC2Monitor;
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../../app/store';
-import { fetchEC2Instances, selectEC2Instances } from './ec2MonitorSlice';
+import { RootState, AppDispatch } from '../../app/store.js';
+import { fetchEC2Instances, selectEC2Instances } from './ec2MonitorSlice.js';
 
 const EC2Monitor: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();

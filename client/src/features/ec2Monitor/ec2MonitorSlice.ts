@@ -229,7 +229,7 @@ export const { fetchEC2InstancesStart, fetchEC2InstancesSuccess, fetchEC2Instanc
 export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   dispatch(fetchEC2InstancesStart());
   try {
-    const response = await axios.get('http://localhost:8080/api/ec2');
+    const response = await axios.get('http://localhost:3000/api/ec2');
     dispatch(fetchEC2InstancesSuccess(response.data));
   } catch (error) {
     if (error instanceof Error) {

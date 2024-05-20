@@ -1,6 +1,6 @@
 // /src/components/Input.tsx
 import React from 'react';
-import Login from '../features/auth/Login';
+import Login from '../features/auth/Login.js';
 
 const LoginPage: React.FC = () => {
   return (

@@ -2,24 +2,25 @@
   "name": "skyscraper",
   "version": "1.0.0",
   "description": "GUI Dashboard for AWS Infrastructure and Managing Resources and Usage Costs",
-  "main": "index.js",
+  "main": "dist/client/index.js",
   "scripts": {
     "clean": "rm -rf ./dist/*",
     "build": "node --loader ts-node/esm ./node_modules/webpack/bin/webpack --config ./client/webpack.config.ts",
+    "dev": "nodemon webpack-dev-server",
     "start": "npm run clean && tsc && nodemon dist/server/src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'server/**/*.ts' 'client/**/*.{ts,tsx}'"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/ABCTN.git"
+    "url": "git+https://github.com/oslabs-beta/SkyScraper.git"
   },
   "author": "Tripp Murphy, Christie Laferriere, Bin He, Abel, Nikola",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/ABCTN/issues"
+    "url": "https://github.com/oslabs-beta/SkyScraper/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/ABCTN#readme",
+  "homepage": "https://github.com/oslabs-beta/SkyScraper#readme",
   "type": "module",
   "devDependencies": {
     "@babel/core": "^7.24.5",
