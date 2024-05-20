@@ -1,23 +1,3 @@
-// /src/pages/EC2MonitorPage.tsx
-// import React from 'react';
-// import EC2Monitor from '../features/ec2Monitor/EC2Monitor';
-// import Header from '../features/common/Header';
-// import Footer from '../features/common/Footer';
-
-// const EC2MonitorPage: React.FC = () => {
-//   return (
-//     <div>
-//       <Header />
-//       <main>
-//         <EC2Monitor />
-//       </main>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default EC2MonitorPage;
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -25,11 +5,9 @@ import {
   selectEC2Instances,
   selectEC2Status,
   selectEC2Error,
-} from '../features/ec2Monitor/ec2MonitorSlice';
-import EC2InstanceDetail from '../features/ec2Monitor/EC2InstanceDetail';
-import Header from '../features/common/Header';
-import Footer from '../features/common/Footer';
-import { AppDispatch, RootState } from '../app/store';
+} from '../reducers/ec2MonitorSlice';
+import EC2InstanceDetail from '../components/utilities/EC2InstanceDetail';
+import { AppDispatch, RootState } from '../store';
 
 const EC2MonitorPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -52,7 +30,7 @@ const EC2MonitorPage: React.FC = () => {
   return (
     <div>
       <h1>EC2 Monitor</h1>
-      {instances.map((instance) => (
+      {instances.map((instance: any) => (
         <EC2InstanceDetail key={instance.InstanceId} instance={instance} />
       ))}
     </div>

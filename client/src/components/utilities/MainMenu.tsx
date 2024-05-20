@@ -1,4 +1,3 @@
-// /src/features/common/MainMenu.tsx
 import React from 'react';
 
 const MainMenu: React.FC = () => {
