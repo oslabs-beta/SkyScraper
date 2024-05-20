@@ -1,7 +1,7 @@
 // /src/features/auth/Login.tsx
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from './authSlice';
+import { login } from './authSlice.js';
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
