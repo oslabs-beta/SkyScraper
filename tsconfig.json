@@ -20,6 +20,7 @@
     },
     "lib": ["dom", "dom.iterable", "esnext"] // Library files to be included in the compilation
   },
+
   "include": ["client/src/**/*", "server/src/**/*"], // Include all TypeScript files in the src directory
   // "exclude": ["node_modules", "**/*.spec.ts"] // Exclude node_modules and test files
   "exclude": ["node_modules", "**/*.spec.js"] // Exclude node_modules and test files
