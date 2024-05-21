@@ -6,7 +6,7 @@ import {
   selectEC2Instances,
   selectEC2Status,
   selectEC2Error,
-} from '../reducers/ec2MonitorSlice';
+} from '../reducers/mainSlice';
 import EC2InstanceDetail from '../components/utilities/EC2InstanceDetail';
 
 const EC2MonitorPage: React.FC = () => {
