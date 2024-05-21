@@ -22,6 +22,10 @@ const config = {
         exclude: /node_modules/,
         use: ['babel-loader', 'ts-loader'],
       },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   resolve: {
