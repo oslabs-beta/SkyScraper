@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { ErrorHandler } from './utils/ErrorHandler.js';
 import exampleRoute from './routes/exampleRouter.js';
+import authRoute from './routes/authRouter.js';
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const app = express();
 const PORT = process.env.NODE_ENV === 'development' ? process.env.DEV_PORT : process.env.PROD_PORT;
 
 app.use(express.json());
+app.use('/', authRoute);
 app.use('/', exampleRoute);
 
 // Catch All Handler
