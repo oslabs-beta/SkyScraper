@@ -22,18 +22,14 @@ import {
   Datapoint,
 } from '@aws-sdk/client-cloudwatch';
 
+// import specific interfaces from dedicated types file
+import { SanitizedInstances, Results } from '../types.js';
+
 // AWSController is an object that conntains 2 middleware funcs
 // we imported the middleware types for these: (Request, Response, NextFunction)
 interface AWSController {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
   getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
-}
-
-interface SanitizedInstances {
-  InstanceId: string;
-  InstanceType: string;
-  Name: string;
-  State: string;
 }
 
 const AWSController: AWSController = {
@@ -115,14 +111,7 @@ const AWSController: AWSController = {
       // results: object
       // instanceId: array of objects
       // datapoints: array of objects
-      interface Results {
-        [instanceId: string]: {
-          name: string;
-          metric: string;
-          unit: string;
-          datapoints: { Timestamp: Date; Value: number }[];
-        }[];
-      }
+      
       // create results and setting the type of results variable to Result interface
       const results: Results = {};
 

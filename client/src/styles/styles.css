@@ -7,7 +7,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-
 #title {
   text-align: center;
 }
@@ -29,7 +28,7 @@ body {
   text-decoration: none;
   height: 12em;
   width: 20em;
-  border-radius: 10;
+  border-radius: 10px;
   transition:
     background-color 0.3s ease,
     box-shadow 0.3s ease,
@@ -45,6 +44,6 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
-.link{
+.link {
   text-decoration: none;
 }
