@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
 import {
   fetchEC2Instances,
   selectEC2Instances,
@@ -7,7 +8,6 @@ import {
   selectEC2Error,
 } from '../reducers/ec2MonitorSlice';
 import EC2InstanceDetail from '../components/utilities/EC2InstanceDetail';
-import { AppDispatch, RootState } from '../store';
 
 const EC2MonitorPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
