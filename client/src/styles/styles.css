@@ -2,14 +2,7 @@
 
 /* Global styles */
 body {
-  margin: 0;
+  background-color: lightblue;
+  margin: 50;
   font-family: Arial, sans-serif;
-}
-
-header,
-footer {
-  background-color: #282c34;
-  color: white;
-  padding: 1rem;
-  text-align: center;
 }

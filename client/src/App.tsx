@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import EC2MonitorPage from './pages/EC2MonitorPage';
+import './styles/styles.css';
 
 const App: React.FC = () => {
   return (
