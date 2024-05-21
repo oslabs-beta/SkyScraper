@@ -1,11 +1,13 @@
 // /src/app/rootReducer.ts
 import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
-import ec2MonitorReducer from './ec2MonitorSlice';
+import mainReducer from './mainSlice';
+import EC2StatsReducer from './EC2StatsSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  ec2Monitor: ec2MonitorReducer,
+  main: mainReducer,
+  EC2Stats: EC2StatsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

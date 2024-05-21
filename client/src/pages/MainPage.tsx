@@ -6,9 +6,12 @@ import {
   selectEC2Instances,
   selectEC2Status,
   selectEC2Error,
-} from '../reducers/ec2MonitorSlice';
+} from '../reducers/mainSlice';
 // import MainMenu from '../components/utilities/MainMenu';
 import { AppDispatch, RootState } from '../store';
+// import EC2logo from '/Users/abel/skyscraper/client/src/assets/EC2.png';
+// import { ReactComponent as Logo } from '../../assets/EC2logo.svg'
+import EC2logo from '../assets/EC2logo';
 
 const MainPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,17 +38,18 @@ const MainPage: React.FC = () => {
           {status === 'loading' && <p>Loading...</p>}
           {error && <p>Error: {error}</p>}
           <h2>EC2 Instances</h2>
-          <div id="displayedinstances">
-          {sorted.map((instance: any) => (
-              <Link className='link' to='/ec2-monitor'>
-            <div className='singleInstance' key={instance.InstanceId}>
-              <h3>Name: {instance.Name}</h3>
-              <p>ID: {instance.InstanceId}</p>
-              <p>Type: {instance.InstanceType}</p>
-              <p>Status: {instance.State}</p>
-            </div>
+          <div id='displayedinstances'>
+            {sorted.map((instance: any) => (
+              <Link className='link' to='/ec2-monitor' key={instance.InstanceId}>
+                <div className='singleInstance' key={instance.InstanceId}>
+                  <img src={EC2logo} width='35' height='35'></img>
+                  <h3>Name: {instance.Name}</h3>
+                  <p>ID: {instance.InstanceId}</p>
+                  <p>Type: {instance.InstanceType}</p>
+                  <p>Status: {instance.State}</p>
+                </div>
               </Link>
-          ))}
+            ))}
           </div>
           <h2>Other Services</h2>
           <Link to='/lambda-monitor'>

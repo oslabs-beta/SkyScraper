@@ -9,20 +9,20 @@ interface EC2Instance {
   State: string;
 }
 
-interface EC2MonitorState {
+interface mainState {
   instances: EC2Instance[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
-const initialState: EC2MonitorState = {
+const initialState: mainState = {
   instances: [],
   status: 'idle',
   error: null,
 };
 
-const ec2MonitorSlice = createSlice({
-  name: 'ec2Monitor',
+const mainSlice = createSlice({
+  name: 'main',
   initialState,
   reducers: {
     fetchEC2InstancesStart(state) {
@@ -40,7 +40,7 @@ const ec2MonitorSlice = createSlice({
 });
 
 export const { fetchEC2InstancesStart, fetchEC2InstancesSuccess, fetchEC2InstancesFailure } =
-  ec2MonitorSlice.actions;
+  mainSlice.actions;
 
 export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   dispatch(fetchEC2InstancesStart());
@@ -56,8 +56,8 @@ export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const selectEC2Instances = (state: RootState) => state.ec2Monitor.instances;
-export const selectEC2Status = (state: RootState) => state.ec2Monitor.status;
-export const selectEC2Error = (state: RootState) => state.ec2Monitor.error;
+export const selectEC2Instances = (state: RootState) => state.main.instances;
+export const selectEC2Status = (state: RootState) => state.main.status;
+export const selectEC2Error = (state: RootState) => state.main.error;
 
-export default ec2MonitorSlice.reducer;
+export default mainSlice.reducer;
