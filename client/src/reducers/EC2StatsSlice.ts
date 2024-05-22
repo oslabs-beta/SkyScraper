@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { AppThunk, RootState } from '../store';
 
-interface EC2Instance {
+interface EC2Stats {
   [instanceId: string]: {
     name: string;
     metric: string;
@@ -12,13 +12,13 @@ interface EC2Instance {
 }
 
 interface EC2StatsState {
-  instances: EC2Instance[];
+  stats: EC2Stats;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: EC2StatsState = {
-  instances: [],
+  stats: {},
   status: 'idle',
   error: null,
 };
@@ -30,9 +30,9 @@ const EC2StatsSlice = createSlice({
     fetchEC2StatsStart(state) {
       state.status = 'loading';
     },
-    fetchEC2StatsSuccess(state, action: PayloadAction<EC2Instance[]>) {
+    fetchEC2StatsSuccess(state, action: PayloadAction<EC2Stats>) {
       state.status = 'succeeded';
-      state.instances = action.payload;
+      state.stats = action.payload;
     },
     fetchEC2StatsFailure(state, action: PayloadAction<string>) {
       state.status = 'failed';
@@ -58,7 +58,7 @@ export const fetchEC2Stats = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const selectEC2Stats = (state: RootState) => state.EC2Stats.instances;
+export const selectEC2Stats = (state: RootState) => state.EC2Stats.stats;
 export const selectEC2Status = (state: RootState) => state.EC2Stats.status;
 export const selectEC2Error = (state: RootState) => state.EC2Stats.error;
 

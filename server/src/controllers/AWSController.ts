@@ -111,7 +111,7 @@ const AWSController: AWSController = {
       // results: object
       // instanceId: array of objects
       // datapoints: array of objects
-      
+
       // create results and setting the type of results variable to Result interface
       const results: Results = {};
 
@@ -135,7 +135,7 @@ const AWSController: AWSController = {
             Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
             StartTime: startTime,
             EndTime: endTime,
-            Period: 3600, // Data points in seconds
+            Period: 7200, // Data points in seconds
             Statistics:
               metric === 'StatusCheckFailed' ||
               metric === 'StatusCheckFailed_Instance' ||

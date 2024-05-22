@@ -32,7 +32,7 @@ const MainPage: React.FC = () => {
         {/* <MainMenu /> */}
         <div id='title'>
           <h2>Main Page</h2>
-          <Link to='/ec2-monitor'>
+          <Link to='/ec2'>
             <button>EC2: 10 instances, 2 running</button>
           </Link>
           {status === 'loading' && <p>Loading...</p>}
@@ -40,7 +40,7 @@ const MainPage: React.FC = () => {
           <h2>EC2 Instances</h2>
           <div id='displayedinstances'>
             {sorted.map((instance: any) => (
-              <Link className='link' to='/ec2-monitor' key={instance.InstanceId}>
+              <Link className='link' to='/ec2' key={instance.InstanceId}>
                 <div className='singleInstance' key={instance.InstanceId}>
                   <img src={EC2logo} width='35' height='35'></img>
                   <h3>Name: {instance.Name}</h3>
