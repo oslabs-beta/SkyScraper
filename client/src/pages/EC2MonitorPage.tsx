@@ -30,7 +30,12 @@ const EC2MonitorPage: React.FC = () => {
   return (
     <div>
       <h1>EC2 Monitor</h1>
-      <CustomBarChart stats={statistics} />
+      {Object.keys(statistics).map((instanceId: string) => (
+        <div key={instanceId}>
+          <h2>Instance ID: {instanceId}</h2>
+          <CustomBarChart instanceData={statistics[instanceId]} />
+        </div>
+      ))}
     </div>
   );
 };
