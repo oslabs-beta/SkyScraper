@@ -1,17 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import MainPage from './pages/MainPage';
-import EC2MonitorPage from './pages/EC2MonitorPage';
+import HomePage from './features/home/HomePage';
+import DashboardPage from './features/dashboard/DashboardPage';
+import EC2MonitorPage from './features/ec2Monitor/EC2MonitorPage';
 import './styles/styles.css';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/main' element={<MainPage />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/dashboard' element={<DashboardPage />} />
         <Route path='/ec2' element={<EC2MonitorPage />} />
       </Routes>
     </Router>

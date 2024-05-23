@@ -1,7 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'; // Note the new import path for ReactDOM
 import { Provider } from 'react-redux';
-import store from './store';
+import { Auth0Provider } from '@auth0/auth0-react';
+import authConfig from './features/auth/authconfig.json';
+import store from './app/store';
 import App from './App';
 
 const rootElement = document.getElementById('root');
@@ -10,6 +12,14 @@ if (!rootElement) {
 }
 createRoot(rootElement).render(
   <Provider store={store}>
-    <App />
+    <Auth0Provider
+      domain={authConfig.domain}
+      clientId={authConfig.clientId}
+      authorizationParams={{
+        redirect_uri: authConfig.redirectUri,
+      }}
+    >
+      <App />
+    </Auth0Provider>
   </Provider>,
 );

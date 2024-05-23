@@ -1,12 +1,12 @@
 // /src/app/rootReducer.ts
 import { combineReducers } from '@reduxjs/toolkit';
-import authReducer from './authSlice';
-import mainReducer from './mainSlice';
-import EC2StatsReducer from './EC2StatsSlice';
+import authReducer from '../features/auth/authSlice';
+import dashboardReducer from '../features/dashboard/dashboardSlice';
+import EC2StatsReducer from '../features/ec2Monitor/EC2StatsSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  main: mainReducer,
+  dashboard: dashboardReducer,
   EC2Stats: EC2StatsReducer,
 });
 

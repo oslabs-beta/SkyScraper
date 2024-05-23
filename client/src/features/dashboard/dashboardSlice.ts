@@ -1,14 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { AppThunk, RootState } from '../store';
+import { AppThunk } from '../../app/store';
 
-interface EC2Instance {
-  InstanceId: string;
-  InstanceType: string;
-  Name: string;
-  State: string;
-}
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
+import type { EC2Instance, dashboardState } from '../../app/types';
 
+<<<<<<<< HEAD:client/src/features/dashboard/mainSlice.ts
 interface mainState {
   instances: EC2Instance[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -16,13 +14,21 @@ interface mainState {
 }
 
 const initialState: mainState = {
+========
+const initialState: dashboardState = {
+>>>>>>>> Tripp/BE-Loginv2.0:client/src/features/dashboard/dashboardSlice.ts
   instances: [],
   status: 'idle',
   error: null,
 };
 
+<<<<<<<< HEAD:client/src/features/dashboard/mainSlice.ts
 const mainSlice = createSlice({
   name: 'main',
+========
+const dashboardSlice = createSlice({
+  name: 'dashboard',
+>>>>>>>> Tripp/BE-Loginv2.0:client/src/features/dashboard/dashboardSlice.ts
   initialState,
   reducers: {
     fetchEC2InstancesStart(state) {
@@ -40,7 +46,11 @@ const mainSlice = createSlice({
 });
 
 export const { fetchEC2InstancesStart, fetchEC2InstancesSuccess, fetchEC2InstancesFailure } =
+<<<<<<<< HEAD:client/src/features/dashboard/mainSlice.ts
   mainSlice.actions;
+========
+  dashboardSlice.actions;
+>>>>>>>> Tripp/BE-Loginv2.0:client/src/features/dashboard/dashboardSlice.ts
 
 export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   dispatch(fetchEC2InstancesStart());
@@ -56,8 +66,16 @@ export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   }
 };
 
+<<<<<<<< HEAD:client/src/features/dashboard/mainSlice.ts
 export const selectEC2Instances = (state: RootState) => state.main.instances;
 export const selectEC2Status = (state: RootState) => state.main.status;
 export const selectEC2Error = (state: RootState) => state.main.error;
 
 export default mainSlice.reducer;
+========
+export const selectEC2Instances = (state: RootState) => state.dashboard.instances;
+export const selectEC2Status = (state: RootState) => state.dashboard.status;
+export const selectEC2Error = (state: RootState) => state.dashboard.error;
+
+export default dashboardSlice.reducer;
+>>>>>>>> Tripp/BE-Loginv2.0:client/src/features/dashboard/dashboardSlice.ts

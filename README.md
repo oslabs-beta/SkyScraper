@@ -229,7 +229,7 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 [<img style="height: 1em; width: 1em;" src="SkyScraper/media/github-icon.svg">]() GitHub: [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
 
-## Acknowledgements
+## Acknowledgement
 
 - Parsing Strategy inspired by [React Component Hierarchy](https://www.npmjs.com/package/react-component-hierarchy)
 - Interactive tree view styling adapted from [Pure CSS Tree Menu](https://codepen.io/bisserof/pen/fdtBm)
