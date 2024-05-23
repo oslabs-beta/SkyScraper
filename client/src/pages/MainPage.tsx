@@ -22,8 +22,18 @@ const MainPage: React.FC = () => {
     a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
   );
 
+  const activeInstancesCount = instances.filter((ele) => ele.State === 'running').length;
+
   useEffect(() => {
     dispatch(fetchEC2Instances());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(fetchEC2Instances());
+    }, 4000);
+
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   return (
@@ -32,13 +42,33 @@ const MainPage: React.FC = () => {
         {/* <MainMenu /> */}
         <div id='title'>
           <h2>Main Page</h2>
-          <Link to='/ec2'>
-            <button>EC2: 10 instances, 2 running</button>
-          </Link>
-          {status === 'loading' && <p>Loading...</p>}
+          <div
+            id='instances-running'
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexGrow: 'auto',
+            }}
+          >
+            <p>
+              EC2: {instances.length} instances, {activeInstancesCount} running
+            </p>
+            {status === 'loading' && (
+              <div className='three-body' style={{ marginLeft: '10px' }}>
+                <div className='three-body__dot'></div>
+                <div className='three-body__dot'></div>
+                <div className='three-body__dot'></div>
+              </div>
+            )}
+          </div>
+
           {error && <p>Error: {error}</p>}
           <h2>EC2 Instances</h2>
-          <div id='displayedinstances'>
+          <div id='displayedinstances' style={{
+              display: 'flex',
+            flexWrap: 'wrap',
+            }}>
             {sorted.map((instance: any) => (
               <Link className='link' to='/ec2' key={instance.InstanceId}>
                 <div className='singleInstance' key={instance.InstanceId}>
