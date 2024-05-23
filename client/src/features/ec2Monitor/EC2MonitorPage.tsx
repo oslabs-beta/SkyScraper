@@ -31,7 +31,7 @@ const EC2MonitorPage: React.FC = () => {
       <div>
         <LogoutButton />
         <h1>EC2 Monitor</h1>
-        <Link to='/'>
+        <Link to='/dashboard'>
           <button className='homebutton'>Main Page</button>
         </Link>
         {Object.keys(statistics).map((instanceId: string) => (

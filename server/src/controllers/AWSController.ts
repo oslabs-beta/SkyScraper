@@ -1,5 +1,5 @@
 import ErrorObject from '../utils/ErrorObject.js';
-import { AWSController, SanitizedInstances, Results, Datapoints } from '../utils/types.js';
+import type { AWSController, SanitizedInstances, Results, Datapoints } from '../utils/types';
 import {
   EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
   DescribeInstancesCommand,
@@ -15,18 +15,8 @@ import {
   Datapoint,
 } from '@aws-sdk/client-cloudwatch';
 
-// import specific interfaces from dedicated types file
-import { SanitizedInstances, Results } from '../types.js';
-
 // AWSController is an object that conntains 2 middleware funcs
 // we imported the middleware types for these: (Request, Response, NextFunction)
-<<<<<<< HEAD
-interface AWSController {
-  getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
-  getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
-}
-=======
->>>>>>> Tripp/BE-Loginv2.0
 
 const AWSController: AWSController = {
   getEC2Instances: async (req, res, next) => {
@@ -107,10 +97,6 @@ const AWSController: AWSController = {
       // results: object
       // instanceId: array of objects
       // datapoints: array of objects
-<<<<<<< HEAD
-
-=======
->>>>>>> Tripp/BE-Loginv2.0
       // create results and setting the type of results variable to Result interface
       const results: Results = {};
 
