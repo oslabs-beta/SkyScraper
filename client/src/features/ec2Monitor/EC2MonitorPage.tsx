@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../app/store';
-import {
-  fetchEC2Instances,
-  selectEC2Instances,
-  selectEC2Status,
-  selectEC2Error,
-} from './ec2MonitorSlice';
-import EC2InstanceDetail from './components/utils/EC2InstanceDetail';
+import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import LogoutButton from '../auth/components/LogoutButton';
+import { fetchEC2Stats, selectEC2Stats, selectEC2Status, selectEC2Error } from './EC2StatsSlice';
+import CustomBarChart from './components/graphs/CustomBarChart';
 
 const EC2MonitorPage: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const instances = useSelector((state: RootState) => selectEC2Instances(state));
-  const status = useSelector((state: RootState) => selectEC2Status(state));
-  const error = useSelector((state: RootState) => selectEC2Error(state));
+  const { isAuthenticated } = useAuth0();
+  const dispatch = useAppDispatch();
+  const statistics = useAppSelector((state) => selectEC2Stats(state));
+  const status = useAppSelector((state) => selectEC2Status(state));
+  const error = useAppSelector((state) => selectEC2Error(state));
 
   useEffect(() => {
-    dispatch(fetchEC2Instances());
+    dispatch(fetchEC2Stats());
   }, [dispatch]);
 
   if (status === 'loading') {
@@ -28,12 +27,21 @@ const EC2MonitorPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>EC2 Monitor</h1>
-      {instances.map((instance: any) => (
-        <EC2InstanceDetail key={instance.InstanceId} instance={instance} />
-      ))}
-    </div>
+    isAuthenticated && (
+      <div>
+        <LogoutButton />
+        <h1>EC2 Monitor</h1>
+        <Link to='/'>
+          <button className='homebutton'>Main Page</button>
+        </Link>
+        {Object.keys(statistics).map((instanceId: string) => (
+          <div key={instanceId}>
+            <h2>Instance Name: {statistics[instanceId][0].name}</h2>
+            <CustomBarChart instanceData={statistics[instanceId]} />
+          </div>
+        ))}
+      </div>
+    )
   );
 };
 

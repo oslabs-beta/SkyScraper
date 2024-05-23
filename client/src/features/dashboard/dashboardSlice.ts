@@ -1,28 +1,19 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { AppThunk, RootState } from '../../app/store';
+import { AppThunk } from '../../app/store';
 
-interface EC2Instance {
-  InstanceId: string;
-  InstanceType: string;
-  Name: string;
-  State: string;
-}
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
+import type { EC2Instance, dashboardState } from '../../app/types';
 
-interface EC2MonitorState {
-  instances: EC2Instance[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-}
-
-const initialState: EC2MonitorState = {
+const initialState: dashboardState = {
   instances: [],
   status: 'idle',
   error: null,
 };
 
-const ec2MonitorSlice = createSlice({
-  name: 'ec2Monitor',
+const dashboardSlice = createSlice({
+  name: 'dashboard',
   initialState,
   reducers: {
     fetchEC2InstancesStart(state) {
@@ -40,7 +31,7 @@ const ec2MonitorSlice = createSlice({
 });
 
 export const { fetchEC2InstancesStart, fetchEC2InstancesSuccess, fetchEC2InstancesFailure } =
-  ec2MonitorSlice.actions;
+  dashboardSlice.actions;
 
 export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   dispatch(fetchEC2InstancesStart());
@@ -56,8 +47,8 @@ export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const selectEC2Instances = (state: RootState) => state.ec2Monitor.instances;
-export const selectEC2Status = (state: RootState) => state.ec2Monitor.status;
-export const selectEC2Error = (state: RootState) => state.ec2Monitor.error;
+export const selectEC2Instances = (state: RootState) => state.dashboard.instances;
+export const selectEC2Status = (state: RootState) => state.dashboard.status;
+export const selectEC2Error = (state: RootState) => state.dashboard.error;
 
-export default ec2MonitorSlice.reducer;
+export default dashboardSlice.reducer;

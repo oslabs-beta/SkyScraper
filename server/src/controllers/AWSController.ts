@@ -1,19 +1,12 @@
-// import the middleware Types from express for Typescript to work, used in AWSController interface
-import { Request, Response, NextFunction } from 'express';
-
-// import default ErrorObject type
 import ErrorObject from '../utils/ErrorObject.js';
-
-// migrated to AWS SDK v3 by importing only the needed modules
-// EC2Client is a constructor function that has methods that interact with AWS API
+import { AWSController, SanitizedInstances, Results, Datapoints } from '../utils/types.js';
 import {
-  EC2Client,
+  EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
   DescribeInstancesCommand,
   DescribeInstancesCommandOutput,
   Instance,
   Reservation,
 } from '@aws-sdk/client-ec2';
-
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
@@ -24,17 +17,6 @@ import {
 
 // AWSController is an object that conntains 2 middleware funcs
 // we imported the middleware types for these: (Request, Response, NextFunction)
-interface AWSController {
-  getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
-  getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
-}
-
-interface SanitizedInstances {
-  InstanceId: string;
-  InstanceType: string;
-  Name: string;
-  State: string;
-}
 
 const AWSController: AWSController = {
   getEC2Instances: async (req, res, next) => {
@@ -50,7 +32,7 @@ const AWSController: AWSController = {
 
       // create new command to describe instances, DescibeiIstancesCommand is a class object which contains a contrustor w/ a default value passed in as a n object in the contructor portion
       // invoke describeInstancesCommand and store to command
-      //command object has a middleware it self!!!!!
+      // command object has a middleware it self!!!!!
       const command: DescribeInstancesCommand = new DescribeInstancesCommand({});
 
       // the ec2 client sends a promise and the param is the command
@@ -115,14 +97,6 @@ const AWSController: AWSController = {
       // results: object
       // instanceId: array of objects
       // datapoints: array of objects
-      interface Results {
-        [instanceId: string]: {
-          name: string;
-          metric: string;
-          unit: string;
-          datapoints: { Timestamp: Date; Value: number }[];
-        }[];
-      }
       // create results and setting the type of results variable to Result interface
       const results: Results = {};
 
@@ -178,11 +152,6 @@ const AWSController: AWSController = {
                 data.Datapoints && data.Datapoints.length > 0
                   ? sumAvg + ' ' + data.Datapoints[0].Unit
                   : 'no data';
-
-              interface Datapoints {
-                Timestamp: Date;
-                Value: number;
-              }
 
               const datapoints: Datapoints[] = (data.Datapoints || [])
                 .map((datapoint: Datapoint) => ({
