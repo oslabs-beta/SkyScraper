@@ -6,7 +6,7 @@ import type {
   MetricData,
   CustomBarChartProps,
   TransformedData,
-} from '../../../../app/types';
+} from '../../../app/types';
 
 const transformEC2Stats = (
   instanceData: MetricData[],

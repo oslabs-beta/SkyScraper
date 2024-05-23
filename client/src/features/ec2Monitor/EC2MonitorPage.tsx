@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LogoutButton from '../auth/components/LogoutButton';
 import { fetchEC2Stats, selectEC2Stats, selectEC2Status, selectEC2Error } from './EC2StatsSlice';
-import CustomBarChart from './components/graphs/CustomBarChart';
+import CustomBarChart from './components/CustomBarChart';
 
 const EC2MonitorPage: React.FC = () => {
   const { isAuthenticated } = useAuth0();
