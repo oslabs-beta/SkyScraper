@@ -160,7 +160,7 @@ const AWSController: AWSController = {
                 metric === 'StatusCheckFailed' ||
                 metric === 'StatusCheckFailed_Instance' ||
                 metric === 'StatusCheckFailed_System'
-                  ? 'Sum'
+                  ? 'Failure'
                   : 'Average';
 
               const unit: string =

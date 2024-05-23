@@ -8,6 +8,7 @@ import {
   selectEC2Error,
 } from '../reducers/EC2StatsSlice';
 import CustomBarChart from '../components/graphics/CustomBarChart';
+import { Link } from 'react-router-dom';
 
 const EC2MonitorPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -30,9 +31,13 @@ const EC2MonitorPage: React.FC = () => {
   return (
     <div>
       <h1>EC2 Monitor</h1>
+      <Link to='/'>
+        <button className='homebutton'>Main Page</button>
+      </Link>
       {Object.keys(statistics).map((instanceId: string) => (
         <div key={instanceId}>
-          <h2>Instance ID: {instanceId}</h2>
+          {/* <h2>Instance ID: {instanceId}</h2> */}
+          <h2>Instance Name: {statistics[instanceId][0].name}</h2>
           <CustomBarChart instanceData={statistics[instanceId]} />
         </div>
       ))}
