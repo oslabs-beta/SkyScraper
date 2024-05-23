@@ -6,9 +6,9 @@ import {
   selectEC2Instances,
   selectEC2Status,
   selectEC2Error,
-} from '../reducers/ec2MonitorSlice';
+} from '../ec2Monitor/ec2MonitorSlice';
 // import MainMenu from '../components/utilities/MainMenu';
-import { AppDispatch, RootState } from '../store';
+import { AppDispatch, RootState } from '../../app/store';
 
 const MainPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,17 +35,17 @@ const MainPage: React.FC = () => {
           {status === 'loading' && <p>Loading...</p>}
           {error && <p>Error: {error}</p>}
           <h2>EC2 Instances</h2>
-          <div id="displayedinstances">
-          {sorted.map((instance: any) => (
+          <div id='displayedinstances'>
+            {sorted.map((instance: any) => (
               <Link className='link' to='/ec2-monitor'>
-            <div className='singleInstance' key={instance.InstanceId}>
-              <h3>Name: {instance.Name}</h3>
-              <p>ID: {instance.InstanceId}</p>
-              <p>Type: {instance.InstanceType}</p>
-              <p>Status: {instance.State}</p>
-            </div>
+                <div className='singleInstance' key={instance.InstanceId}>
+                  <h3>Name: {instance.Name}</h3>
+                  <p>ID: {instance.InstanceId}</p>
+                  <p>Type: {instance.InstanceType}</p>
+                  <p>Status: {instance.State}</p>
+                </div>
               </Link>
-          ))}
+            ))}
           </div>
           <h2>Other Services</h2>
           <Link to='/lambda-monitor'>
