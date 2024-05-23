@@ -33,7 +33,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/src/index.html',
+      template: './client/public/index.html',
       filename: 'index.html',
     }),
     new MiniCssExtractPlugin({

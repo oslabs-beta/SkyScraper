@@ -1,4 +1,6 @@
 import React from 'react';
+import LoginButton from '../auth/components/LoginButton';
+
 // import { useDispatch } from 'react-redux';
 // import { useLoginQuery } from '../auth/authAPI';
 // import { setToken } from '../auth/authSlice';
@@ -26,12 +28,12 @@ import React from 'react';
 
 // export default LoginButton;
 
-const LoginPage: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <div>
-      <button></button>
+      <LoginButton />
     </div>
   );
 };
 
-export default LoginPage;
+export default HomePage;

@@ -25,7 +25,7 @@
   "include": [
     "client/src/**/*",
     "server/src/**/*",
-    "webpack.config.ts",
+    "client/webpack.config.ts",
     "client/src/components/auth"
   ], // Include all TypeScript files in the src directory
   "exclude": ["node_modules", "**/*.spec.js"] // Exclude node_modules and test files

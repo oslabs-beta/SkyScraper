@@ -23,21 +23,21 @@ const authSlice = createSlice({
       state.token = null;
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(authApi.endpoints.login.matchPending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.token = payload.message; // Assuming the token is in the message field
-      })
-      .addMatcher(authApi.endpoints.login.matchRejected, (state, { error }) => {
-        state.loading = false;
-        state.error = error.message;
-      });
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addMatcher(authApi.endpoints.login.matchPending, (state) => {
+  //       state.loading = true;
+  //       state.error = null;
+  //     })
+  //     .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
+  //       state.loading = false;
+  //       state.token = payload.message; // Assuming the token is in the message field
+  //     })
+  //     .addMatcher(authApi.endpoints.login.matchRejected, (state, { error }) => {
+  //       state.loading = false;
+  //       state.error = error.message;
+  //     });
+  // },
 });
 
 export const { setToken, clearToken } = authSlice.actions;
