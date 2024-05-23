@@ -26,6 +26,18 @@ const EC2MonitorPage: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  const sortedInstanceIds = Object.keys(statistics).sort((a, b) => {
+    const nameA = statistics[a][0].name.toUpperCase();
+    const nameB = statistics[b][0].name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+
   return (
     isAuthenticated && (
       <div>
@@ -34,7 +46,7 @@ const EC2MonitorPage: React.FC = () => {
         <Link to='/dashboard'>
           <button className='homebutton'>Main Page</button>
         </Link>
-        {Object.keys(statistics).map((instanceId: string) => (
+        {sortedInstanceIds.map((instanceId) => (
           <div key={instanceId}>
             <h2>Instance Name: {statistics[instanceId][0].name}</h2>
             <CustomBarChart instanceData={statistics[instanceId]} />

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import ErrorObject from './ErrorObject.js';
+import ErrorObject from './ErrorObject';
 
 export const ErrorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   const defaultErr = {

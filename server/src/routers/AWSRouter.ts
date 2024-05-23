@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import AWSController from '../controllers/AWSController.js';
+import AWSController from '../controllers/AWSController';
 
 const AWSRouter = express.Router();
 

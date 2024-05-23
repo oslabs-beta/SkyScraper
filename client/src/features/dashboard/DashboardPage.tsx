@@ -42,7 +42,7 @@ const DashboardPage: React.FC = () => {
         <main>
           <LogoutButton />
           <div id='title'>
-            <h2>Main Page</h2>
+            <h1>SkyScraper</h1>
             <div
               id='instances-running'
               style={{

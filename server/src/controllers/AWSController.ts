@@ -1,4 +1,4 @@
-import ErrorObject from '../utils/ErrorObject.js';
+import ErrorObject from '../utils/ErrorObject';
 import type { AWSController, SanitizedInstances, Results, Datapoints } from '../utils/types';
 import {
   EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
@@ -120,7 +120,7 @@ const AWSController: AWSController = {
             Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
             StartTime: startTime,
             EndTime: endTime,
-            Period: 7200, // Data points in seconds
+            Period: 3600, // Data points in seconds
             Statistics:
               metric === 'StatusCheckFailed' ||
               metric === 'StatusCheckFailed_Instance' ||
