@@ -7,7 +7,7 @@ AWSRouter.get(
   '/ec2',
   AWSController.getEC2Instances,
   (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).send(res.locals.instances);
+    return res.status(203).send(res.locals.instances);
   },
 );
 
@@ -16,7 +16,7 @@ AWSRouter.get(
   AWSController.getEC2Instances,
   AWSController.getMetricStatistics,
   (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).send(res.locals.metrics);
+    return res.status(203).send(res.locals.metrics);
   },
 );
 
