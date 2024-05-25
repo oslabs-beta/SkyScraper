@@ -1,5 +1,5 @@
-import ErrorObject from '../utils/ErrorObject.js';
-import { AWSController, SanitizedInstances, Results, Datapoints } from '../utils/types.js';
+import ErrorObject from '../utils/ErrorObject';
+import type { AWSController, SanitizedInstances, Results, Datapoints } from '../utils/types';
 import {
   EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
   DescribeInstancesCommand,
