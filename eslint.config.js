@@ -1,37 +1,3 @@
-// {
-//   "extends": ["plugin:react/recommended", "prettier", "prettier/react"],
-//   "rules": {
-//     "semi": "error",
-//     "no-unused-vars": "warn"
-//   },
-//   "globals": {
-//     "node": "readonly",
-//     "browser": "readonly"
-//   },
-//   "parserOptions": {
-//     "project": "./tsconfig.json",
-//     "tsconfigRootDir": "./",
-//     "ecmaVersion": 2020,
-//     "sourceType": "module",
-//     "settings": {
-//       "react": {
-//         "version": "detect"
-//       }
-//     }
-//   },
-//   "plugins": ["react"],
-//   "overrides": [
-//     {
-//       "files": ["client/**/*.tsx"],
-//       "rules": {
-//         "react/react-in-jsx-scope": "off",
-//         "react/jsx-uses-react": "off"
-//       }
-//     }
-//   ],
-//   "ignorePatterns": ["node_modules", "client/dist/"]
-// }
-
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
@@ -60,7 +26,8 @@ export default [
       'require-atomic-updates': 'error',
       'arrow-body-style': ['error', 'as-needed'],
       eqeqeq: 'error',
-      'no-console': 'warn',
+      semi: 'off',
+      '@typescript-eslint/semi': ['error', 'always'],
       'prefer-const': 'error',
     },
   },
@@ -120,6 +87,6 @@ export default [
     },
   },
   {
-    ignores: ['client/dist', 'server/dist/'],
+    ignores: ['/dist'],
   },
 ];

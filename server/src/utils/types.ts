@@ -11,14 +11,15 @@ export interface SanitizedInstances {
   State: string;
 }
 
-export interface Results {
-  [instanceId: string]: {
+export type Results = Record<
+  string,
+  {
     name: string;
     metric: string;
     unit: string;
     datapoints: { Timestamp: Date; Value: number }[];
-  }[];
-}
+  }[]
+>;
 
 export interface Datapoints {
   Timestamp: Date;

@@ -19,6 +19,7 @@ export const ErrorHandler = (err: Error, req: Request, res: Response, next: Next
       .status(defaultErr.status)
       .json({ date: defaultErr.date, status: defaultErr.status, message: defaultErr.message });
   }
+  next();
 };
 
 export default ErrorHandler;
