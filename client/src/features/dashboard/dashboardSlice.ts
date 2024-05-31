@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { AppThunk } from '../../app/store';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
-import type { EC2Instance, dashboardState } from '../../app/types';
+import type { EC2Instance, DashboardState } from '../../app/types';
 
-const initialState: dashboardState = {
+const initialState: DashboardState = {
   instances: [],
   status: 'idle',
   error: null,
@@ -36,8 +35,12 @@ export const { fetchEC2InstancesStart, fetchEC2InstancesSuccess, fetchEC2Instanc
 export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   dispatch(fetchEC2InstancesStart());
   try {
-    const response = await axios.get('http://localhost:3000/api/ec2');
-    dispatch(fetchEC2InstancesSuccess(response.data));
+    const response: Response = await fetch('http://localhost:3000/api/ec2');
+    if (!response.ok) {
+      throw new Error('An unknown error occurred');
+    }
+    const data: EC2Instance[] = (await response.json()) as EC2Instance[];
+    dispatch(fetchEC2InstancesSuccess(data));
   } catch (error) {
     if (error instanceof Error) {
       dispatch(fetchEC2InstancesFailure(error.toString()));

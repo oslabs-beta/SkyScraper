@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppThunk } from '../../app/store';
-import axios from 'axios';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
@@ -36,8 +35,12 @@ export const { fetchEC2StatsStart, fetchEC2StatsSuccess, fetchEC2StatsFailure } 
 export const fetchEC2Stats = (): AppThunk => async (dispatch) => {
   dispatch(fetchEC2StatsStart());
   try {
-    const response = await axios.get('http://localhost:3000/api/stats');
-    dispatch(fetchEC2StatsSuccess(response.data));
+    const response: Response = await fetch('http://localhost:3000/api/stats');
+    if (!response.ok) {
+      throw new Error('An unknown error occurred');
+    }
+    const data: EC2Stats = (await response.json()) as EC2Stats;
+    dispatch(fetchEC2StatsSuccess(data));
   } catch (error) {
     if (error instanceof Error) {
       dispatch(fetchEC2StatsFailure(error.toString()));
@@ -47,8 +50,8 @@ export const fetchEC2Stats = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const selectEC2Stats = (state: RootState) => state.EC2Stats.stats; // bug here pushed to dev??
-export const selectEC2Status = (state: RootState) => state.EC2Stats.status; // no useSelector ???
+export const selectEC2Stats = (state: RootState) => state.EC2Stats.stats;
+export const selectEC2Status = (state: RootState) => state.EC2Stats.status;
 export const selectEC2Error = (state: RootState) => state.EC2Stats.error;
 
 export default EC2StatsSlice.reducer;
