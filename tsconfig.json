@@ -3,7 +3,7 @@
     "allowJs": true,
     "target": "ES6", //"target": "es6", // Target ECMAScript version
     "noEmit": false, // Added noEmit to complement allowImportingTsExtensions
-    "module": "CommonJS", //"module": "esnext", // Enable ES module syntax
+    "module": "ESNext", //"module": "esnext", // Enable ES module syntax
     "moduleResolution": "node", // Use Node.js module resolution
     "jsx": "react", // Enable JSX for React
     "strict": true, // Enable all strict type-checking options

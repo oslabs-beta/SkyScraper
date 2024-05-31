@@ -1,5 +1,5 @@
-import ErrorObject from '../utils/ErrorObject';
-import type { AWSController, SanitizedInstances, Datapoints, Results } from '../utils/types';
+import ErrorObject from '../utils/ErrorObject.js';
+import type { AWSController, SanitizedInstances, Datapoints, Results } from '../utils/types.js';
 import {
   EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
   DescribeInstancesCommand,
@@ -17,7 +17,6 @@ import {
 
 // AWSController is an object that contains 2 middleware funcs
 // we imported the middleware types for these: (Request, Response, NextFunction)
-
 const AWSController: AWSController = {
   getEC2Instances: (req, res, next) => {
     void (async () => {
@@ -70,18 +69,21 @@ const AWSController: AWSController = {
 
         // store sanitizedInstances into res.locals.instances
         res.locals.instances = sanitizedInstances;
+
         next();
         return;
       } catch (err) {
-        next(
-          // if(err instanceof Error){
-          new ErrorObject(
-            'The Error: ' + err,
-            500,
-            'error in try catch for EC2Instances middleware',
-          ),
-          // }
-        );
+        if (err instanceof Error) {
+          next(
+            new ErrorObject(
+              `The Error: ${err.message}`,
+              500,
+              'Error in try catch for EC2Instances middleware',
+            ),
+          );
+        } else {
+          next(new ErrorObject('the error', 500, 'the error'));
+        }
         return;
       }
     })();
@@ -120,7 +122,7 @@ const AWSController: AWSController = {
         const results: Results = {};
 
         // take res.locals.instances object and store to allInstances
-        const allInstances: SanitizedInstances[] = res.locals.instances;
+        const allInstances: SanitizedInstances[] = res.locals.instances as SanitizedInstances[];
 
         // declare start and end time with Date method for 24 hour period
         const startTime: Date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
@@ -154,10 +156,6 @@ const AWSController: AWSController = {
             const promise: Promise<void> = cloudwatch
               .send(command)
               .then((data: GetMetricStatisticsCommandOutput) => {
-                if (!results[instanceId]) {
-                  results[instanceId] = [];
-                }
-
                 const name: string = instance.Name;
 
                 const sumAvg: string =
@@ -169,12 +167,12 @@ const AWSController: AWSController = {
 
                 const unit: string =
                   data.Datapoints && data.Datapoints.length > 0
-                    ? sumAvg + ' ' + data.Datapoints[0].Unit
+                    ? sumAvg + ' ' + (data.Datapoints[0].Unit ?? '')
                     : 'no data';
 
-                const datapoints: Datapoints[] = (data.Datapoints || [])
+                const datapoints: Datapoints[] = (data.Datapoints ?? [])
                   .map((datapoint: Datapoint) => ({
-                    Timestamp: new Date(datapoint.Timestamp!),
+                    Timestamp: new Date(datapoint.Timestamp ?? new Date()),
                     Value: sumAvg === 'Sum' ? datapoint.Sum ?? 0 : datapoint.Average ?? 0,
                   }))
                   .sort(
@@ -188,21 +186,25 @@ const AWSController: AWSController = {
         }
 
         // send all promises at the same time
-        await Promise.all(promises);
-
-        // store results to res.locals.metrics
-        res.locals.metrics = results;
+        await Promise.all(promises).then(() => {
+          // store results to res.locals.metrics
+          res.locals.metrics = results;
+        });
 
         next();
         return;
       } catch (err) {
-        next(
-          new ErrorObject(
-            'The Error: ' + err,
-            500,
-            'this string is the response message. Failed to retrieve CPU usage metrics',
-          ),
-        );
+        if (err instanceof Error) {
+          next(
+            new ErrorObject(
+              `The Error: ${err.message}`,
+              500,
+              'Error in try catch for getMetricStats middleware',
+            ),
+          );
+        } else {
+          next(new ErrorObject('the error', 500, 'the error'));
+        }
         return;
       }
     })();

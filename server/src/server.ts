@@ -1,12 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { ErrorHandler } from './utils/ErrorHandler';
+import { ErrorHandler } from './utils/ErrorHandler.js';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from 'cors';
+import AWSRouter from './routers/AWSRouter.js';
 
 dotenv.config();
 
-import AWSRouter from './routers/AWSRouter';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -27,7 +30,7 @@ app.use('*', (req, res) => {
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {
-  // console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server is running on port http://localhost:${PORT}`);
 });
 
 export default app;
