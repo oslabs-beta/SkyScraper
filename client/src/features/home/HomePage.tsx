@@ -28,12 +28,10 @@ import LoginButton from '../auth/components/LoginButton';
 
 // export default LoginButton;
 
-const HomePage: React.FC = () => {
-  return (
-    <div>
-      <LoginButton />
-    </div>
-  );
-};
+const HomePage: React.FC = () => (
+  <div>
+    <LoginButton />
+  </div>
+);
 
 export default HomePage;
