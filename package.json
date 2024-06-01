@@ -1,7 +1,7 @@
 {
   "name": "skyscraper",
   "version": "1.0.0",
-  "description": "GUI Dashboard for AWS Infrastructure and Managing Resources and Usage Costs",
+  "description": "GUI Dashboard for AWS Infrastructure and Monitoring Resources and Usage Costs",
   "main": "",
   "type": "module",
   "scripts": {

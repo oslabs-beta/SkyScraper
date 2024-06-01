@@ -1,14 +1,11 @@
-import 'express';
 import { Request, Response, NextFunction } from 'express';
-// declare module 'express' {
-//   export interface Response {
-//     locals: { instances?: SanitizedInstances[]; metrics?: Results };
-//   }
-// }
 
-export interface AWSController {
+export interface ec2Controller {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
-  getMetricStatistics: (req: Request, res: Response, next: NextFunction) => void;
+}
+
+export interface cloudController {
+  getEC2Metrics: (req: Request, res: Response, next: NextFunction) => void;
 }
 
 export interface SanitizedInstances {
@@ -33,8 +30,6 @@ export interface Datapoints {
   Value: number;
 }
 
-export interface CustomResponse extends Response {
-  locals: {
-    instances: SanitizedInstances[];
-  };
+export interface MyLocals {
+  instances: SanitizedInstances[];
 }
