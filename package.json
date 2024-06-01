@@ -6,13 +6,13 @@
   "type": "module",
   "scripts": {
     "clean": "rm -rf ./dist/*",
-    "dev": "webpack serve --config ./client/webpack.config.ts --open",
+    "dev": "webpack serve --config dist/client/webpack.config.js --open",
     "start": "npm run clean && tsc && nodemon dist/server/src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
     "_Comment0": "npm install --save-dev ts-node-dev",
     "_Comment1": "delete axios, cors, babel, eslint, and any other unused dependencies",
-    "_Comment2": "npm run clean && ts-node-dev --respawn --transpileOnly ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "_Comment2": "npm run clean && ts-node-dev --respawn --transpileOnly ./src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/oslabs-beta/SkyScraper#readme",
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
     "@aws-sdk/client-cloudwatch": "^3.576.0",
     "@aws-sdk/client-ec2": "^3.576.0",
     "@reduxjs/toolkit": "^2.2.4",
@@ -71,6 +72,7 @@
     "sass-loader": "^14.2.1",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.11.0",
     "webpack": "^5.91.0",
