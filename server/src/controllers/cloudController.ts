@@ -1,12 +1,5 @@
+import type { cloudController, Datapoints, SanitizedInstances, Results } from '../utils/types.js';
 import ErrorObject from '../utils/ErrorObject.js';
-import type { AWSController, SanitizedInstances, Datapoints, Results } from '../utils/types.js';
-import {
-  EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
-  DescribeInstancesCommand,
-  DescribeInstancesCommandOutput,
-  Instance,
-  Reservation,
-} from '@aws-sdk/client-ec2';
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
@@ -15,81 +8,8 @@ import {
   Datapoint,
 } from '@aws-sdk/client-cloudwatch';
 
-// AWSController is an object that contains 2 middleware funcs
-// we imported the middleware types for these: (Request, Response, NextFunction)
-const AWSController: AWSController = {
-  getEC2Instances: (req, res, next) => {
-    void (async () => {
-      try {
-        // create new ec2 client with credentials included
-        const ec2: EC2Client = new EC2Client({
-          region: process.env.REGION,
-          credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '', // exclamation point default to empty string if .env file error
-          },
-        });
-
-        // create new command to describe instances, DescibeiIstancesCommand is a class object which contains a contrustor w/ a default value passed in as a n object in the contructor portion
-        // invoke describeInstancesCommand and store to command
-        // command object has a middleware itself!!!!!
-        const command: DescribeInstancesCommand = new DescribeInstancesCommand({});
-
-        // the ec2 client sends a promise and the param is the command
-        // the command object then sends an HTTPS request via its own middleware and returns a promise object
-        // when resolved, the data is stored as the return
-
-        const data: DescribeInstancesCommandOutput = await ec2.send(command);
-
-        // checks if data is undefined, returns 404 error 'no reservations found'
-        if (!data.Reservations) {
-          next(new ErrorObject('no reservation found', 500, 'no reservation found'));
-          return;
-        }
-
-        // flatten data
-        const flattedReservation: Instance[] = data.Reservations.map(
-          (r: Reservation) => r.Instances,
-        )
-          .flat()
-          .filter((instance: Instance | undefined) => instance !== undefined) as Instance[];
-
-        // map and sanitize flattedReservation array
-        const sanitizedInstances: SanitizedInstances[] = flattedReservation.map(
-          (instance: Instance): SanitizedInstances => {
-            const nameTag = instance.Tags?.find((tag) => tag.Key === 'Name');
-            return {
-              InstanceId: instance.InstanceId ?? '',
-              InstanceType: instance.InstanceType ?? '',
-              Name: nameTag?.Value ?? '',
-              State: instance.State?.Name ?? '',
-            };
-          },
-        );
-
-        // store sanitizedInstances into res.locals.instances
-        res.locals.instances = sanitizedInstances;
-
-        next();
-        return;
-      } catch (err) {
-        if (err instanceof Error) {
-          next(
-            new ErrorObject(
-              `The Error: ${err.message}`,
-              500,
-              'Error in try catch for EC2Instances middleware',
-            ),
-          );
-        } else {
-          next(new ErrorObject('the error', 500, 'the error'));
-        }
-        return;
-      }
-    })();
-  },
-
-  getMetricStatistics: (req, res, next) => {
+const cloudController: cloudController = {
+  getEC2Metrics: (req, res, next) => {
     void (async () => {
       try {
         // create cloudwatch client
@@ -97,7 +17,7 @@ const AWSController: AWSController = {
           region: process.env.REGION,
           credentials: {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '', // exclamation point default to undefined if .env file error
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
           },
         });
 
@@ -149,27 +69,24 @@ const AWSController: AWSController = {
                   ? ['Sum']
                   : ['Average'],
             };
-            // extract Instance ID
             const instanceId: string = instance.InstanceId;
-
             const command: GetMetricStatisticsCommand = new GetMetricStatisticsCommand(params);
             const promise: Promise<void> = cloudwatch
               .send(command)
               .then((data: GetMetricStatisticsCommandOutput) => {
+                // checks if key exists in results already, if not then assign its value as []
+                if (!Object.hasOwn(results, instanceId)) results[instanceId] = [];
                 const name: string = instance.Name;
-
                 const sumAvg: string =
                   metric === 'StatusCheckFailed' ||
                   metric === 'StatusCheckFailed_Instance' ||
                   metric === 'StatusCheckFailed_System'
                     ? 'Sum'
                     : 'Average';
-
                 const unit: string =
                   data.Datapoints && data.Datapoints.length > 0
                     ? sumAvg + ' ' + (data.Datapoints[0].Unit ?? '')
                     : 'no data';
-
                 const datapoints: Datapoints[] = (data.Datapoints ?? [])
                   .map((datapoint: Datapoint) => ({
                     Timestamp: new Date(datapoint.Timestamp ?? new Date()),
@@ -178,8 +95,12 @@ const AWSController: AWSController = {
                   .sort(
                     (a, b) => new Date(a.Timestamp).getTime() - new Date(b.Timestamp).getTime(),
                   );
-
-                results[instanceId].push({ name, metric, unit, datapoints });
+                results[instanceId].push({
+                  name,
+                  metric,
+                  unit,
+                  datapoints,
+                });
               });
             promises.push(promise);
           }
@@ -188,6 +109,7 @@ const AWSController: AWSController = {
         // send all promises at the same time
         await Promise.all(promises).then(() => {
           // store results to res.locals.metrics
+          console.log('Log results: ', results);
           res.locals.metrics = results;
         });
 
@@ -197,9 +119,9 @@ const AWSController: AWSController = {
         if (err instanceof Error) {
           next(
             new ErrorObject(
-              `The Error: ${err.message}`,
+              `Error in try catch for getMetrics middleware: ${err.message}`,
               500,
-              'Error in try catch for getMetricStats middleware',
+              'Error in try catch for getMetrics middleware',
             ),
           );
         } else {
@@ -211,4 +133,4 @@ const AWSController: AWSController = {
   },
 };
 
-export default AWSController;
+export default cloudController;

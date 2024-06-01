@@ -4,7 +4,7 @@ import { ErrorHandler } from './utils/ErrorHandler.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import AWSRouter from './routers/AWSRouter.js';
+import AWSRouter from './routers/router.js';
 
 dotenv.config();
 
