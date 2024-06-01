@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import Navbar from '../../component/Navbar';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import EC2Logo from '../../assets/EC2Logo';
+import EC2Logo from '../../assets/EC2logo';
 import LogoutButton from '../auth/components/LogoutButton';
 import {
   fetchEC2Instances,
@@ -43,6 +44,7 @@ const DashboardPage: React.FC = () => {
     isAuthenticated && (
       <div>
         <main>
+          <Navbar />
           <LogoutButton />
           <div id='title'>
             <h1>SkyScraper</h1>
@@ -88,7 +90,7 @@ const DashboardPage: React.FC = () => {
                 </Link>
               ))}
             </div>
-            <h2>Other Services</h2>
+            <h2>Other Services:coming soon</h2>
             <Link to='/lambda-monitor'>
               <button>Lambda: 1 instance, none running</button>
             </Link>
