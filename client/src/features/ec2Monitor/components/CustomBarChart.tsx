@@ -59,6 +59,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ instanceData }) => {
               label={{ value: `24H Period`, position: 'insideBottom', dy: 30 }}
             />
             <YAxis label={{ value: unit, angle: -90, position: 'outsideTop', dy: -30, dx: -30 }} />
+
             <Tooltip />
             <Bar dataKey='value' fill='#8884d8' />
           </BarChart>
