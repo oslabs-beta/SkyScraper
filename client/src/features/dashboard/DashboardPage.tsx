@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import EC2Logo from '../../assets/EC2Logo';
+import EC2Logo from '../../assets/EC2logo';
 import LogoutButton from '../auth/components/LogoutButton';
 import {
   fetchEC2Instances,

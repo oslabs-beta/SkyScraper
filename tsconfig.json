@@ -26,9 +26,14 @@
     "client/src/**/*",
     "server/src/**/*",
     "client/webpack.config.ts",
-    "client/src/components/auth"
+    "client/src/components/auth",
+    "client/__tests__/LoginButton.test.tsx",
+    "client/__tests__/EC2MonitorPage.test.tsx",
+    "src",
+    "jest.config.ts",
+    "jest-setup.ts"
   ], // Include all TypeScript files in the src directory
-  "exclude": ["node_modules", "**/*.spec.js"] // Exclude node_modules and test files
+  "exclude": ["node_modules"] // Exclude node_modules and test files
   //-------
   // "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file.
 }
