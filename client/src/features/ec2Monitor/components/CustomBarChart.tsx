@@ -1,12 +1,7 @@
 // components/graphics/CustomBarChart.tsx
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import type {
-  DataPoint,
-  MetricData,
-  CustomBarChartProps,
-  TransformedData,
-} from '../../../app/types';
+import type { MetricData, CustomBarChartProps, TransformedData } from '../../../app/types';
 
 const transformEC2Stats = (
   instanceData: MetricData[],
@@ -63,9 +58,8 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ instanceData }) => {
               dataKey='timestamp'
               label={{ value: `24H Period`, position: 'insideBottom', dy: 30 }}
             />
-            <YAxis
-              label={{ value: `${unit}`, angle: -90, position: 'outsideTop', dy: -30, dx: -30 }}
-            />
+            <YAxis label={{ value: unit, angle: -90, position: 'outsideTop', dy: -30, dx: -30 }} />
+
             <Tooltip />
             <Bar dataKey='value' fill='#8884d8' />
           </BarChart>

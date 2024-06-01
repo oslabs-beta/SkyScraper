@@ -11,6 +11,7 @@ import {
   selectEC2Status,
   selectEC2Error,
 } from './dashboardSlice';
+import { EC2Instance } from '../../app/types';
 
 const DashboardPage: React.FC = () => {
   const { isAuthenticated } = useAuth0();
@@ -33,7 +34,9 @@ const DashboardPage: React.FC = () => {
       dispatch(fetchEC2Instances());
     }, 4000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, [dispatch]);
 
   return (
@@ -73,7 +76,7 @@ const DashboardPage: React.FC = () => {
                 flexWrap: 'wrap',
               }}
             >
-              {sorted.map((instance: any) => (
+              {sorted.map((instance: EC2Instance) => (
                 <Link className='link' to='/ec2' key={instance.InstanceId}>
                   <div className='singleInstance' key={instance.InstanceId}>
                     <img src={EC2Logo} width='35' height='35'></img>
