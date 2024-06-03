@@ -20,6 +20,7 @@ const NavBar: React.FC = () => {
         <Link to='/sqs-monitor'>SQS Monitor</Link> */}
       </div>
       {/* {isAuthenticated && <LogoutButton />} */}
+      {/* adding a comment */}
     </nav>
   );
 };

@@ -5,7 +5,7 @@ const LogoutButton = () => {
   const { logout } = useAuth0();
 
   const iconStyle = {
-    fontSize: '30px', // Adjust the font size to increase the icon size
+    fontSize: '35px', // Adjust the font size to increase the icon size
     // Add any other styles you want to customize the icon
   };
 
