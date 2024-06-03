@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import './LoginPage.css'
 import LoginBackground from'../../../assets/LoginBackground'
 
-const LoginButton = () => {
+const LoginButton: React.FC = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (  <div className="login-button-container">
