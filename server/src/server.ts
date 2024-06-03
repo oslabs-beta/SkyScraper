@@ -4,7 +4,7 @@ import { ErrorHandler } from './utils/ErrorHandler.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import AWSRouter from './routers/router.js';
+import router from './routers/router.js';
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../dist/client')));
 
-app.use('/api', AWSRouter);
+app.use('/api', router);
 
 // Catch All Handler
 app.use('*', (req, res) => {
@@ -30,7 +30,7 @@ app.use('*', (req, res) => {
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:3000`);
+  console.log(`Server is running on port http://localhost:`, PORT);
 });
 
 export default app;

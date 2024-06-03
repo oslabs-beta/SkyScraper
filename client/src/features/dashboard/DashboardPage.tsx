@@ -43,11 +43,12 @@ const DashboardPage: React.FC = () => {
   return (
     isAuthenticated && (
       <div>
-        <main>
+        <div id='navbar'>
           <Navbar />
-          <LogoutButton />
+        </div>
+        <main id='inner-body'>
           <div id='title'>
-            <h1>SkyScraper</h1>
+            {/* <h1>SkyScraper</h1> */}
             <div
               id='instances-running'
               style={{

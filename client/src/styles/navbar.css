@@ -5,7 +5,6 @@
   align-items: center;
   background-color: #1ab9cabe;
   padding: 10px 20px;
-  border-radius: 10px;
   transition:
     background-color 0.3s ease,
     box-shadow 0.3s ease,
@@ -20,10 +19,9 @@
 .nav-items a {
   color: white;
   text-decoration: none;
-  padding: 8px 16px;
+  /* padding: 8px 16px; */
 }
 
 .nav-items a:hover {
   background-color: #4195c5;
-  border-radius: 4px;
 }

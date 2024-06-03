@@ -42,12 +42,7 @@ const EC2MonitorPage: React.FC = () => {
   return (
     isAuthenticated && (
       <div>
-        <Navbar/>
-        <LogoutButton />
-        <h1>EC2 Monitor</h1>
-        <Link to='/dashboard'>
-          <button className='homebutton'>Main Page</button>
-        </Link>
+        <Navbar />
         {sortedInstanceIds.map((instanceId) => (
           <div key={instanceId}>
             <h2>Instance Name: {statistics[instanceId][0].name}</h2>
