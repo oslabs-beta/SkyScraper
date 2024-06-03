@@ -13,12 +13,26 @@ import {
 } from './dashboardSlice';
 import { EC2Instance } from '../../app/types';
 
+/**
+ * DashboardPage component.
+ *
+ * This component represents the dashboard page of the application.
+ * It displays information about EC2 instances and allows navigation to other services.
+ *
+ * @component
+ * @returns {JSX.Element} The JSX representation of the DashboardPage component.
+ */
 const DashboardPage: React.FC = () => {
+  //Authentication status
   const { isAuthenticated } = useAuth0();
+
+  //Redux hooks
   const dispatch = useAppDispatch();
   const instances = useAppSelector((state) => selectEC2Instances(state));
   const status = useAppSelector((state) => selectEC2Status(state));
   const error = useAppSelector((state) => selectEC2Error(state));
+
+  //Sorting instance alphabetically by name
   const sorted = [...instances].sort((a, b) =>
     a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
   );
