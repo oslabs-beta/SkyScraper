@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AuthState } from '../../app/types';
 
 const initialState: AuthState = {
@@ -7,32 +7,18 @@ const initialState: AuthState = {
   error: null,
 };
 
+createAction<string>('auth/setToken');
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setToken: (state, action) => {
+    setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
     clearToken: (state) => {
       state.token = null;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addMatcher(authApi.endpoints.login.matchPending, (state) => {
-  //       state.loading = true;
-  //       state.error = null;
-  //     })
-  //     .addMatcher(authApi.endpoints.login.matchFulfilled, (state, { payload }) => {
-  //       state.loading = false;
-  //       state.token = payload.message; // Assuming the token is in the message field
-  //     })
-  //     .addMatcher(authApi.endpoints.login.matchRejected, (state, { error }) => {
-  //       state.loading = false;
-  //       state.error = error.message;
-  //     });
-  // },
 });
 
 export const { setToken, clearToken } = authSlice.actions;

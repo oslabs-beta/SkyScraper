@@ -1,10 +1,12 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 
-const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
+const LoginButton: React.FC = () => {
+  const navigate = () => {
+    window.location.href =
+      'https://skyscraper.auth.us-east-2.amazoncognito.com/login?client_id=3je02pgra9uoqpjb46ckvsba82&response_type=token&scope=email+openid+phone&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fdashboard';
+  };
 
-  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+  return <button onClick={navigate}>Log In</button>;
 };
 
 export default LoginButton;
