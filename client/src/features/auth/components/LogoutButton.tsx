@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../../app/hooks';
 import { clearToken } from '../authSlice';
 import { Link } from 'react-router-dom';
 
-const LogoutButton = () => {
+const LogoutButton: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const logout = () => {
