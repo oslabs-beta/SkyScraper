@@ -1,0 +1,27 @@
+/* client/src/styles/HomePage.css */
+.login-button-container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: to make the text more readable */
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .HpHeader h1, .HpHeader h2 {
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  
+  .HpHeader {
+    text-align: center;
+    margin-bottom: 20px; 
+  }
+  
+  .LoginButtonWrapper {
+    margin-top: 5px; 
+  }
+  
+  

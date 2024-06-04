@@ -12,16 +12,16 @@ const NavBar: React.FC = () => {
     <nav className='nav-bar'>
       <img src={logo} alt='Logo' className='nav-logo' width='40' height='40' />
       <div className='nav-items'>
+        
         <Link to='/dashboard'>Home</Link>
         <Link to='/ec2'>EC2 Monitor</Link>
         <LogoutButton />
-        {/* <Link to='/lambda-monitor'>Lambda Monitor</Link>
-        <Link to='/sqs-monitor'>SQS Monitor</Link> */}
       </div>
       {/* {isAuthenticated && <LogoutButton />} */}
       {/* adding a comment */}
     </nav>
   );
+  
 };
 
 export default NavBar;

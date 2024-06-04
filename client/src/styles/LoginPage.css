@@ -1,10 +1,10 @@
 .login-button-container {
   background-attachment: fixed;
   background-image: '../../../assets/LoginBackground.ts'; /* Replace 'path/to/your/image.jpg' with the actual path to your image */
-  background-size: contain; /* Adjusts the size of the background image to cover the entire container */
+  background-size: cover; /* Use 'cover' instead of 'contain' to ensure the image covers the entire container */
   background-position: center; /* Centers the background image */
-  width: 80%; /* Ensures the container takes up the full width of its parent */
-  height: 80vh; /* Sets the height of the container to 100% of the viewport height */
+  width: 100vw; /* Set the width to 100% of the viewport width */
+  height: 100vh; /* Set the height to 100% of the viewport height */
   display: flex; /* Allows the button to be centered vertically */
   justify-content: center; /* Centers the button horizontally */
   align-items: center; /* Centers the button vertically */

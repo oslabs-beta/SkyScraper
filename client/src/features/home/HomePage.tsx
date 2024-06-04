@@ -1,37 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginButton from '../auth/components/LoginButton';
+import SkyScrapper from '../../assets/SkyScrapper';
+import '../../styles/HomePage.css'; // Import the CSS file
 
-// import { useDispatch } from 'react-redux';
-// import { useLoginQuery } from '../auth/authAPI';
-// import { setToken } from '../auth/authSlice';
+const HomePage: React.FC = () => {
+  useEffect(() => {
+    // Apply background image to body
+    document.body.style.backgroundImage = `url(${SkyScrapper})`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.height = '100vh';
+    document.body.style.margin = '0';
 
-// const LoginButton: React.FC = () => {
-//   const dispatch = useDispatch();
-//   const { data, error, isLoading, refetch } = useLoginQuery();
+    // Clean up the effect
+    return () => {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundSize = '';
+      document.body.style.backgroundPosition = '';
+      document.body.style.height = '';
+      document.body.style.margin = '';
+    };
+  }, []);
 
-//   const handleLogin = () => {
-//     refetch();
-//   };
-
-//   React.useEffect(() => {
-//     if (data) {
-//       dispatch(setToken(data.message)); // Assuming the token is in the message field
-//     }
-//   }, [data, dispatch]);
-
-//   return (
-//     <button onClick={handleLogin} disabled={isLoading}>
-//       {isLoading ? 'Logging in...' : 'Login'}
-//     </button>
-//   );
-// };
-
-// export default LoginButton;
-
-const HomePage: React.FC = () => (
-  <div>
-    <LoginButton />
-  </div>
-);
+  return (
+    <div className='login-button-container'>
+      <div className='HpHeader'>
+        <h1> Welcome to SkyScraper. Please Log In to your AWS account.</h1>
+        <h2>Get Started. Press Login to Continue</h2>
+      </div>
+      <div className='LoginButtonWrapper'> {/* New wrapper div */}
+        <LoginButton />
+      </div>
+    </div>
+  );
+};
 
 export default HomePage;
+
+
+
