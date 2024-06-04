@@ -1,6 +1,7 @@
 import type { authController, Jwks } from '../utils/types.js';
 import ErrorObject from '../utils/ErrorObject.js';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
+import { fromWebToken } from '@aws-sdk/credential-provider-web-identity';
 import {
   CognitoIdentityClient,
   GetIdCommand,
@@ -20,26 +21,48 @@ const authController: authController = {
           clientId: clientId,
         });
 
-        res.locals.test = 'verifyJWT';
         const token = req.headers.authorization?.split(' ')[1];
-
         if (!token) {
           throw new ErrorObject('No token provided', 401, 'Unauthorized');
         }
 
         const decodedJwt = await verifier.verify(token);
+        res.locals.unsplitJwt = req.headers.authorization;
+        res.locals.jwt = token;
+        res.locals.decodedJwt = decodedJwt;
+        // {
+        //     "sub": "110b75a0-4051-7063-1cdf-d2908161d374",
+        //     "cognito:groups": [
+        //         "us-east-2_DqdXAFb5I_Auth0IdP"
+        //     ],
+        //     "iss": "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I",
+        //     "version": 2,
+        //     "client_id": "3je02pgra9uoqpjb46ckvsba82",
+        //     "token_use": "access",
+        //     "scope": "phone openid email",
+        //     "auth_time": 1717522930,
+        //     "exp": 1717526530,
+        //     "iat": 1717522930,
+        //     "jti": "9865da77-2020-4511-9ea2-d603dbf71f36",
+        //     "username": "auth0idp_github|70916466"
+        // }
 
-        res.locals.test = decodedJwt;
-
-        // const publicKey = await fetchPublicKey();
-        // res.locals.test = publicKey;
-        // res.locals.jwt = req.headers.authorization;
-        // res.locals.test = res.locals.jwt;
-        // res.locals.decodedJwt = jwt.verify(res.locals.jwt as string, publicKey, {
-        // algorithms: ['RS256'],
-        // });
-        // res.locals.test = res.locals.jwt;
-        // res.locals.test = res.locals.decodedJWT;
+        //   {
+        //     "sub": "110b75a0-4051-7063-1cdf-d2908161d374",
+        //     "cognito:groups": [
+        //         "us-east-2_DqdXAFb5I_Auth0IdP"
+        //     ],
+        //     "iss": "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I",
+        //     "version": 2,
+        //     "client_id": "3je02pgra9uoqpjb46ckvsba82",
+        //     "token_use": "access",
+        //     "scope": "phone openid email",
+        //     "auth_time": 1717536861,
+        //     "exp": 1717540461,
+        //     "iat": 1717536861,
+        //     "jti": "d14d342b-f350-4e74-a6ad-2d6fa28aec88",
+        //     "username": "auth0idp_github|70916466"
+        // }
         next();
         return;
       } catch (err) {
@@ -62,18 +85,24 @@ const authController: authController = {
       try {
         const authHeaders: string = req.headers.authorization ?? '';
         if (!authHeaders.startsWith('Bearer ')) return res.status(401).json('Unauthorized');
-        const JTW = authHeaders.split('')[1];
+
+        const idToken = req.headers['id-token'] as string | undefined;
+        if (!idToken) return res.status(401).json('No ID Token');
 
         const cognitoIdentityClient = new CognitoIdentityClient({ region: process.env.REGION });
         const getIdResponse = await cognitoIdentityClient.send(
           new GetIdCommand({
-            AccountId: process.env.ACCOUNT_ID,
-            IdentityPoolId: process.env.IDENTITY_POOL_ID,
+            IdentityPoolId: 'us-east-2:87178101-c07a-4702-bf51-586d0904963e',
+            Logins: {
+              'cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I': idToken,
+            },
           }),
         );
-        res.locals.identityID = getIdResponse.IdentityId;
+        res.locals.IdentityId = getIdResponse.IdentityId;
+        // res.locals.IdentityId = getIdResponse;
 
         next();
+        return;
       } catch (err) {
         if (err instanceof Error) {
           throw new ErrorObject(
@@ -85,7 +114,7 @@ const authController: authController = {
           throw new ErrorObject('the error', 500, 'the error');
         }
       }
-    });
+    })();
   },
   getTemporaryCredentials: (req, res, next) => {
     void (async () => {
@@ -106,23 +135,26 @@ const authController: authController = {
 
         // next();
 
-        // const identityID = res.locals.identityID;
-        // const cognitoIdentityClient = new CognitoIdentityClient({region: process.env.REGION});
-        // const input = {
-        //   identityID: identityID,
-        //   Logins: {
-        //     // The key should match the provider name you used when setting up the identity pool
-        //     // The value is the token you received during authentication
-        //     [`cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I`]: req.user.token,
-        //   }
-        // }
-        //   const command = new GetCredentialsForIdentityCommand(input);
-        //   const { Credentials } = await cognitoIdentityClient.send(command);
-        //   res.locals.credentials = {
-        //     accessKeyId: Credentials.AccessKeyId,
-        //     secretAccessKey: Credentials.SecretAccessKey,
-        //     sessionToken: Credentials.SessionToken,
-        //   };
+        const identityPoolID = res.locals.IdentityId as string;
+        const idToken = req.headers['id-token'] as string | undefined;
+        if (!idToken) return res.status(401).json('No ID Token');
+
+        const cognitoIdentityClient = new CognitoIdentityClient({ region: process.env.REGION });
+        const input = {
+          IdentityId: identityPoolID,
+          Logins: {
+            // The key should match the provider name you used when setting up the identity pool
+            // The value is the id token you received during authentication (NOT the access token)
+            [`cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I`]: idToken,
+          },
+        };
+        const command = new GetCredentialsForIdentityCommand(input);
+        const { Credentials } = await cognitoIdentityClient.send(command);
+        res.locals.credentials = {
+          accessKeyId: Credentials?.AccessKeyId,
+          secretAccessKey: Credentials?.SecretKey,
+          sessionToken: Credentials?.SessionToken,
+        };
         next();
       } catch (err) {
         if (err instanceof Error) {
@@ -135,28 +167,8 @@ const authController: authController = {
           throw new ErrorObject('the error', 500, 'the error');
         }
       }
-    }); // () ???
+    })();
   },
 };
-
-async function fetchPublicKey(): Promise<string> {
-  try {
-    const response = await fetch(
-      'https://cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I/.well-known/jwks.json',
-    );
-    const jwks: Jwks = (await response.json()) as Jwks;
-    return jwks.keys[0].n;
-  } catch (err) {
-    if (err instanceof Error) {
-      throw new ErrorObject(
-        `Error in try catch for fetchPublicKey middleware: ${err.message}`,
-        500,
-        'Error in try catch for fetchPublicKey middleware',
-      );
-    } else {
-      throw new ErrorObject('the error', 500, 'the error');
-    }
-  }
-}
 
 export default authController;

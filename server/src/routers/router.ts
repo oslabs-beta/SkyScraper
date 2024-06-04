@@ -8,8 +8,10 @@ const router = express.Router();
 router.get(
   '/ec2',
   authController.verifyJWT,
-  // ec2Controller.getEC2Instances,
-  (req: Request, res: Response) => res.status(200).send(res.locals.test),
+  authController.getIdentityID,
+  authController.getTemporaryCredentials,
+  ec2Controller.getEC2Instances,
+  (req: Request, res: Response) => res.status(200).send(res.locals.instances),
 );
 
 router.get(

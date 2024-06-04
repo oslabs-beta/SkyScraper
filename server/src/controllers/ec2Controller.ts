@@ -7,6 +7,7 @@ import {
   Instance,
   Reservation,
 } from '@aws-sdk/client-ec2';
+import { fromWebToken } from '@aws-sdk/credential-provider-web-identity';
 
 const ec2Controller: ec2Controller = {
   getEC2Instances: (req, res, next) => {
@@ -15,10 +16,11 @@ const ec2Controller: ec2Controller = {
         // create new ec2 client with credentials included
         const ec2: EC2Client = new EC2Client({
           region: process.env.REGION,
-          credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
-          },
+          // credentials: fromWebToken({
+          //   roleArn: 'arn:aws:iam::654654488672:role/SkyScraperAuthRole0', // Specify the role ARN
+          //   webIdentityToken: res.locals.jwt,
+          // }),
+          credentials: res.locals.credentials,
         });
 
         // create new command to describe instances, DescibeiIstancesCommand is a class object which contains a contrustor w/ a default value passed in as a n object in the contructor portion
