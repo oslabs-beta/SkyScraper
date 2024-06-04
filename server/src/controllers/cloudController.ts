@@ -1,9 +1,13 @@
 import type { cloudController, Datapoints, SanitizedInstances, Results } from '../utils/types.js';
 import ErrorObject from '../utils/ErrorObject.js';
 import {
+  //Service client for accessing CloudWatch
   CloudWatchClient,
+  //Gets statistics for the specified metric
   GetMetricStatisticsCommand,
+  //The input for GetMetricStatisticsCommand.
   GetMetricStatisticsCommandInput,
+  //The output for GetMetricStatisticsCommand.
   GetMetricStatisticsCommandOutput,
   Datapoint,
 } from '@aws-sdk/client-cloudwatch';
@@ -21,7 +25,7 @@ const cloudController: cloudController = {
           },
         });
 
-        // array of metrics we want to gather from AWS
+        // array of metrics need to be  gather from AWS
         const metricsName: string[] = [
           'CPUUtilization',
           'DiskReadBytes',
@@ -33,12 +37,12 @@ const cloudController: cloudController = {
           'StatusCheckFailed_System',
         ];
 
-        // interface for the responsedata result
-        // results is an object, we gave instanceID's key type of string and value type of array and referenced it by the value stored for instanceId, on the next level, we are saying the keys in elements of instanceId has to be name with the type string, metric with the type string, unit with the type string and datapoints which is an array where element is an object with a key that has to be a type of string and another key with a value that must be of type number
-        // results: object
-        // instanceId: array of objects
-        // datapoints: array of objects
-        // create results and setting the type of results variable to Result interface
+        /**  interface for the responsedata result
+         * results is an object we gave instanceID's key type of string and value type of array and referenced it by the value stored for instanceId, on the next level, we are saying the keys in elements of instanceId has to be name with the type string, metric with the type string, unit with the type string and datapoints which is an array where element is an object with a key that has to be a type of string and another key with a value that must be of type number
+         * results: object
+         * instanceId: array of objects
+         * datapoints: array of objects
+         * create results and setting the type of results variable to Result interface */
         const results: Results = {};
 
         // take res.locals.instances object and store to allInstances
@@ -49,7 +53,6 @@ const cloudController: cloudController = {
         const endTime: Date = new Date();
 
         // create a promises array to be sent later with Promise.all
-        // Promise is a build-in object in JS
         const promises: Promise<void>[] = [];
 
         // use for of loops to get metrics for each instance
@@ -70,7 +73,10 @@ const cloudController: cloudController = {
                   : ['Average'],
             };
             const instanceId: string = instance.InstanceId;
+            /**invoke GetMetricStatisticsCommand and pass params as input to get metricstatistics for each instance 
+            and store to command*/
             const command: GetMetricStatisticsCommand = new GetMetricStatisticsCommand(params);
+            // Declare promise to hold the asynchronous call
             const promise: Promise<void> = cloudwatch
               .send(command)
               .then((data: GetMetricStatisticsCommandOutput) => {
@@ -107,6 +113,7 @@ const cloudController: cloudController = {
         }
 
         // send all promises at the same time
+        // Promise.all iterate through all promises and return a single Promise
         await Promise.all(promises).then(() => {
           // store results to res.locals.metrics
           console.log('Log results: ', results);

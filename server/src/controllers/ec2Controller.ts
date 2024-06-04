@@ -1,12 +1,17 @@
 import type { ec2Controller, SanitizedInstances } from '../utils/types.js';
 import ErrorObject from '../utils/ErrorObject.js';
 import {
-  EC2Client, // EC2Client is a constructor function that has methods that interact with AWS API
+  //A constructor function that has methods that interact with AWS API
+  EC2Client, 
+  //Describes the all instances
   DescribeInstancesCommand,
+  //The output of DescribeInstancesCommand.
   DescribeInstancesCommandOutput,
   Instance,
+  //Describes a launch request for one or more instances
   Reservation,
 } from '@aws-sdk/client-ec2';
+
 
 const ec2Controller: ec2Controller = {
   getEC2Instances: (req, res, next) => {
@@ -21,9 +26,8 @@ const ec2Controller: ec2Controller = {
           },
         });
 
-        // create new command to describe instances, DescibeiIstancesCommand is a class object which contains a contrustor w/ a default value passed in as a n object in the contructor portion
+        // create new command to describe instances, DescibeiIstancesCommand is a class object which contains a contrustor w/ a default value passed in as an object in the contructor portion
         // invoke describeInstancesCommand and store to command
-        // command object has a middleware itself!!!!!
         const command: DescribeInstancesCommand = new DescribeInstancesCommand({});
 
         // the ec2 client sends a promise and the param is the command
@@ -38,10 +42,11 @@ const ec2Controller: ec2Controller = {
           return;
         }
 
-        // flatten data
+        // Map Reservation array to contain just instances in each element 
         const flattedReservation: Instance[] = data.Reservations.map(
           (r: Reservation) => r.Instances,
         )
+        // what is flat doing?
           .flat()
           .filter((instance: Instance | undefined) => instance !== undefined) as Instance[];
 
