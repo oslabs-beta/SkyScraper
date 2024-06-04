@@ -3,8 +3,6 @@ import type { AuthState } from '../../app/types';
 
 const initialState: AuthState = {
   token: null,
-  loading: false,
-  error: null,
 };
 
 createAction<string>('auth/setToken');

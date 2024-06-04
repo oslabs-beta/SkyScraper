@@ -1,17 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import EC2Logo from '../../assets/EC2logo';
 import LogoutButton from '../auth/components/LogoutButton';
 import { setToken } from '../auth/authSlice';
-import {
-  fetchEC2Instances,
-  selectEC2Instances,
-  selectEC2Status,
-  selectEC2Error,
-} from './dashboardSlice';
 import { EC2Instance } from '../../app/types';
-
+import { useGetEC2Query } from '../auth/authAPI';
 const DashboardPage: React.FC = () => {
   const dispatch = useAppDispatch();
 
@@ -27,28 +21,38 @@ const DashboardPage: React.FC = () => {
     }
   }, [dispatch]);
 
-  const instances = useAppSelector((state) => selectEC2Instances(state));
-  const status = useAppSelector((state) => selectEC2Status(state));
-  const error = useAppSelector((state) => selectEC2Error(state));
-  const sorted = [...instances].sort((a, b) =>
-    a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
-  );
+  const { data: instances, isLoading, isError, error } = useGetEC2Query(undefined);
 
-  const activeInstancesCount = instances.filter((ele) => ele.State === 'running').length;
+  const sorted: EC2Instance[] = instances
+    ? instances.sort((a: EC2Instance, b: EC2Instance) =>
+        a.Name.toLowerCase().localeCompare(b.Name.toLowerCase()),
+      )
+    : [];
 
-  useEffect(() => {
-    dispatch(fetchEC2Instances());
-  }, [dispatch]);
+  const activeInstancesCount = instances?.filter((ele) => ele.State === 'running').length;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(fetchEC2Instances());
-    }, 4000);
+  // const instances = useAppSelector((state) => selectEC2Instances(state));
+  // const status = useAppSelector((state) => selectEC2Status(state));
+  // const error = useAppSelector((state) => selectEC2Error(state));
+  // const sorted = [...instances].sort((a, b) =>
+  //   a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
+  // );
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [dispatch]);
+  // const activeInstancesCount = instances.filter((ele) => ele.State === 'running').length;
+
+  // useEffect(() => {
+  //   dispatch(fetchEC2Instances());
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     dispatch(fetchEC2Instances());
+  //   }, 4000);
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [dispatch]);
 
   return (
     <div>
@@ -66,9 +70,9 @@ const DashboardPage: React.FC = () => {
             }}
           >
             <p>
-              EC2: {instances.length} instances, {activeInstancesCount} running
+              EC2: {instances?.length} instances, {activeInstancesCount} running
             </p>
-            {status === 'loading' && (
+            {isLoading && (
               <div className='three-body' style={{ marginLeft: '10px' }}>
                 <div className='three-body__dot'></div>
                 <div className='three-body__dot'></div>
@@ -77,7 +81,7 @@ const DashboardPage: React.FC = () => {
             )}
           </div>
 
-          {error && <p>Error: {error}</p>}
+          {isError && <p>Error: {(error as Error).message}</p>}
           <h2>EC2 Instances</h2>
           <div
             id='displayedinstances'

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../app/store';
+import { EC2Instance } from '../../app/types';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -15,11 +16,11 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getEC2: builder.query<{ token: string }, string>({
-      query: () => 'ec2',
+    getEC2: builder.query<EC2Instance[], undefined>({
+      query: (_ignoredParam) => 'ec2',
     }),
-    getStats: builder.query<{ token: string }, string>({
-      query: () => 'stats',
+    getStats: builder.query<undefined, undefined>({
+      query: (_ignoredParam) => 'stats',
     }),
   }),
 });

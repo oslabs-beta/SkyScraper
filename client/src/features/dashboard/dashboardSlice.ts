@@ -50,8 +50,8 @@ export const fetchEC2Instances = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const selectEC2Instances = (state: RootState) => state.dashboard.instances;
-export const selectEC2Status = (state: RootState) => state.dashboard.status;
-export const selectEC2Error = (state: RootState) => state.dashboard.error;
+export const selectEC2Instances = (state: RootState) => state.rootReducer.dashboard.instances;
+export const selectEC2Status = (state: RootState) => state.rootReducer.dashboard.status;
+export const selectEC2Error = (state: RootState) => state.rootReducer.dashboard.error;
 
 export default dashboardSlice.reducer;

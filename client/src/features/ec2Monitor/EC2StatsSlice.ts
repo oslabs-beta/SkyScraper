@@ -50,8 +50,8 @@ export const fetchEC2Stats = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const selectEC2Stats = (state: RootState) => state.EC2Stats.stats;
-export const selectEC2Status = (state: RootState) => state.EC2Stats.status;
-export const selectEC2Error = (state: RootState) => state.EC2Stats.error;
+export const selectEC2Stats = (state: RootState) => state.rootReducer.EC2Stats.stats;
+export const selectEC2Status = (state: RootState) => state.rootReducer.EC2Stats.status;
+export const selectEC2Error = (state: RootState) => state.rootReducer.EC2Stats.error;
 
 export default EC2StatsSlice.reducer;
