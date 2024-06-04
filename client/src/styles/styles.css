@@ -7,8 +7,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-h1,
-h2 {
+h1 {
   text-align: center;
 }
 
@@ -186,11 +185,41 @@ h2 {
 
 .photo {
   position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+/**************/
+/* Dark Knight Theme */
+body.dark-mode {
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text color */
+}
+
+body.dark-mode .singleInstance {
+  background-color: #1f1f1f; /* Darker card background */
+  border-color: #444; /* Border color */
+  color: #e0e0e0; /* Text color */
+}
+
+body.dark-mode .singleInstance:hover {
+  background-color: #333; /* Hover state */
+  color: #e0e0e0; /* Hover text color */
+}
+
+body.dark-mode .homebutton {
+  background-color: #333; /* Dark button background */
+  color: #e0e0e0; /* Light text color */
+}
+
+body.dark-mode .navbar {
+  background-color: #1f1f1f; /* Dark navbar background */
+  color: #e0e0e0; /* Light text color */
+}
+
+/* Additional dark mode styles as needed */
