@@ -14,6 +14,7 @@
 .nav-items {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 .nav-items a {
@@ -24,4 +25,6 @@
 
 .nav-items a:hover {
   background-color: #4195c5;
+  border-radius: 10%;
+
 }

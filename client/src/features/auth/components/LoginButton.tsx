@@ -5,16 +5,23 @@ import LoginBackground from '../../../assets/LoginBackground';
 const LoginButton: React.FC = () => {
   const { loginWithRedirect } = useAuth0();
 
+  const iconStyle: React.CSSProperties = {
+    fontSize: '40px',
+    cursor: 'pointer',
+   
+  };
+
   return (
-    <div className='login-button-container'>
-      <img
+    <div>
+      {/* <img
         src={LoginBackground}
         alt='Login Background'
         className='login-background'
         width='350'
         height='350'
-      />
-      <button onClick={() => loginWithRedirect()}>Log In</button>
+      /> */}
+      
+      <button onClick={() => loginWithRedirect()}><ion-icon name="lock-open-outline" style={iconStyle}></ion-icon></button>
     </div>
   );
 };
