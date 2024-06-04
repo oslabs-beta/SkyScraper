@@ -26,19 +26,23 @@ const DashboardPage: React.FC = () => {
   //Authentication status
   const { isAuthenticated } = useAuth0();
 
-  //Redux hooks
+  // Redux dispatch function
   const dispatch = useAppDispatch();
+  // Selector for EC2 instances
   const instances = useAppSelector((state) => selectEC2Instances(state));
+  // Selector for status of data fetching process for the EC2 instances
   const status = useAppSelector((state) => selectEC2Status(state));
+  // Selector for error message occured for data fetching process
   const error = useAppSelector((state) => selectEC2Error(state));
 
   //Sorting instance alphabetically by name
   const sorted = [...instances].sort((a, b) =>
     a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
   );
-
+  //Count of active EC2 instances
   const activeInstancesCount = instances.filter((ele) => ele.State === 'running').length;
 
+  //Fetching EC2 instances on component mount and every 4 seconds
   useEffect(() => {
     dispatch(fetchEC2Instances());
   }, [dispatch]);
@@ -47,17 +51,19 @@ const DashboardPage: React.FC = () => {
     const interval = setInterval(() => {
       dispatch(fetchEC2Instances());
     }, 4000);
-
     return () => {
       clearInterval(interval);
     };
   }, [dispatch]);
 
   return (
+    //Render only if the user is authenticated
     isAuthenticated && (
       <div>
         <main>
+          {/* Logout button */}
           <LogoutButton />
+          {/* Application title and EC2 instance information */}
           <div id='title'>
             <h1>SkyScraper</h1>
             <div
@@ -81,7 +87,10 @@ const DashboardPage: React.FC = () => {
               )}
             </div>
 
+            {/* Error message */}
             {error && <p>Error: {error}</p>}
+
+            {/* Displaying EC2 instances */}
             <h2>EC2 Instances</h2>
             <div
               id='displayedinstances'
@@ -102,6 +111,8 @@ const DashboardPage: React.FC = () => {
                 </Link>
               ))}
             </div>
+
+            {/* Links to other services */}
             <h2>Other Services</h2>
             <Link to='/lambda-monitor'>
               <button>Lambda: 1 instance, none running</button>
