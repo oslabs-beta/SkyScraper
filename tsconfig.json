@@ -31,7 +31,8 @@
     "client/__tests__/EC2MonitorPage.test.tsx",
     "src",
     "jest.config.ts",
-    "jest-setup.ts"
+    "jest-setup.ts",
+    "src"
   ], // Include all TypeScript files in the src directory
   "exclude": ["node_modules"] // Exclude node_modules and test files
   //-------

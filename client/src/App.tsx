@@ -4,6 +4,8 @@ import HomePage from './features/home/HomePage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import EC2MonitorPage from './features/ec2Monitor/EC2MonitorPage';
 import './styles/styles.css';
+import './styles/navbar.css';
+import './styles/LoginPage.css';
 
 const App: React.FC = () => (
   <Router>

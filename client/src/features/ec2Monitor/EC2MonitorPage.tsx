@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import Navbar from '../../component/Navbar';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LogoutButton from '../auth/components/LogoutButton';
@@ -41,11 +42,7 @@ const EC2MonitorPage: React.FC = () => {
   return (
     isAuthenticated && (
       <div>
-        <LogoutButton />
-        <h1>EC2 Monitor</h1>
-        <Link to='/dashboard'>
-          <button className='homebutton'>Main Page</button>
-        </Link>
+        <Navbar />
         {sortedInstanceIds.map((instanceId) => (
           <div key={instanceId}>
             <h2>Instance Name: {statistics[instanceId][0].name}</h2>

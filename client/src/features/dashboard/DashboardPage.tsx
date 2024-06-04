@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import Navbar from '../../component/Navbar';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import EC2Logo from '../../assets/EC2logo';
@@ -42,10 +43,12 @@ const DashboardPage: React.FC = () => {
   return (
     isAuthenticated && (
       <div>
-        <main>
-          <LogoutButton />
+        <div id='navbar'>
+          <Navbar />
+        </div>
+        <main id='inner-body'>
           <div id='title'>
-            <h1>SkyScraper</h1>
+            {/* <h1>SkyScraper</h1> */}
             <div
               id='instances-running'
               style={{
@@ -88,7 +91,7 @@ const DashboardPage: React.FC = () => {
                 </Link>
               ))}
             </div>
-            <h2>Other Services</h2>
+            <h2>Other Services:coming soon</h2>
             <Link to='/lambda-monitor'>
               <button>Lambda: 1 instance, none running</button>
             </Link>
