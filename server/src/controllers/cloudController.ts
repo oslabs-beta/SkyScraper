@@ -15,10 +15,11 @@ const cloudController: cloudController = {
         // create cloudwatch client
         const cloudwatch: CloudWatchClient = new CloudWatchClient({
           region: process.env.REGION,
-          credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
-          },
+          // credentials: {
+          //   accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
+          //   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
+          // },
+          credentials: res.locals.credentials,
         });
 
         // array of metrics we want to gather from AWS

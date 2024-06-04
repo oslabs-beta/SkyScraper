@@ -16,6 +16,9 @@ router.get(
 
 router.get(
   '/stats',
+  authController.verifyJWT,
+  authController.getIdentityID,
+  authController.getTemporaryCredentials,
   ec2Controller.getEC2Instances,
   cloudController.getEC2Metrics,
   (req: Request, res: Response) => res.status(200).send(res.locals.metrics),
