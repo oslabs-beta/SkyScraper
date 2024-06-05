@@ -26,5 +26,38 @@
 .nav-items a:hover {
   background-color: #4195c5;
   border-radius: 10%;
+}
 
+/**************/
+/* Dark Knight Theme */
+body.dark-mode {
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text color */
+}
+
+body.dark-mode .singleInstance {
+  background-color: #1f1f1f; /* Darker card background */
+  border-color: #444; /* Border color */
+  color: #e0e0e0; /* Text color */
+}
+
+body.dark-mode .singleInstance:hover {
+  background-color: #333; /* Hover state */
+  color: #e0e0e0; /* Hover text color */
+}
+
+body.dark-mode .homebutton {
+  background-color: #333; /* Dark button background */
+  color: #e0e0e0; /* Light text color */
+}
+
+body.dark-mode .navbar {
+  background-color: #1f1f1f; /* Dark navbar background */
+  color: #e0e0e0; /* Light text color */
+}
+
+.nav-bar.dark-mode {
+  background-color: rgb(233, 233, 47);
+  color: black;
+  /* other dark mode styles */
 }

@@ -66,6 +66,7 @@ h1 {
   text-decoration: none;
   cursor: pointer;
 }
+
 .link {
   text-decoration: none;
 }
@@ -194,32 +195,28 @@ h1 {
   background-size: cover;
 }
 
-/**************/
-/* Dark Knight Theme */
+/* Dark mode styles */
 body.dark-mode {
-  background-color: #121212; /* Dark background */
-  color: #e0e0e0; /* Light text color */
+  background-color: #121212; /* Dark background for body */
+  color: rgb(233, 233, 47); /* Light text color */
+}
+
+body.dark-mode .nav-bar {
+  background-color: rgb(233, 233, 47); /* Yellow navbar background */
+  color: black; /* Text color in navbar */
 }
 
 body.dark-mode .singleInstance {
-  background-color: #1f1f1f; /* Darker card background */
-  border-color: #444; /* Border color */
-  color: #e0e0e0; /* Text color */
+  background-color: #333; /* Darker card background */
+  color: rgb(233, 233, 47); /* Light text color */
+  border-color: rgb(233, 233, 47); /* Yellow border color */
 }
 
 body.dark-mode .singleInstance:hover {
-  background-color: #333; /* Hover state */
-  color: #e0e0e0; /* Hover text color */
-}
-
-body.dark-mode .homebutton {
-  background-color: #333; /* Dark button background */
-  color: #e0e0e0; /* Light text color */
-}
-
-body.dark-mode .navbar {
-  background-color: #1f1f1f; /* Dark navbar background */
-  color: #e0e0e0; /* Light text color */
+  color: rgb(233, 233, 47); /* Yellow text color on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  border-color: rgb(233, 233, 47);
 }
 
 /* Additional dark mode styles as needed */

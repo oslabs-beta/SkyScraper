@@ -163,9 +163,7 @@ const DashboardPage: React.FC = () => {
   return (
     isAuthenticated && (
       <div>
-        <div id='navbar'>
-          <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-        </div>
+        <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         <main id='inner-body'>
           <div id='title'>
             <div
@@ -210,13 +208,13 @@ const DashboardPage: React.FC = () => {
                 </Link>
               ))}
             </div>
-            <h2>Other Services:coming soon</h2>
-            <Link to='/lambda-monitor'>
+            <h2>Other Services: coming soon</h2>
+            {/* <Link to='/lambda-monitor'>
               <button>Lambda: 1 instance, none running</button>
-            </Link>
-            <Link to='/sqs-monitor'>
+            </Link> */}
+            {/* <Link to='/sqs-monitor'>
               <button>SQS: 1 instance, none running</button>
-            </Link>
+            </Link> */}
           </div>
         </main>
       </div>
