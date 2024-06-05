@@ -1,15 +1,25 @@
 import React, { useEffect, useRef } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { RootState } from '../../../app/store';
 import { toggleDropdown, closeDropdown } from './dropDownSlice';
+import { clearTokens } from '../authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogoutButton: React.FC = () => {
-  const { logout, isAuthenticated } = useAuth0();
-  const showDropdown = useAppSelector((state: RootState) => state.dropDown.showDropdown);
-  const mode = useAppSelector((state: RootState) => state.theme.mode);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useAppSelector((state) => state.rootReducer.auth.tokens.access_token);
+  const showDropdown = useAppSelector((state) => state.rootReducer.dropDown.showDropdown);
+  const mode = useAppSelector((state) => state.rootReducer.theme.mode);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const logout = () => {
+    dispatch(clearTokens());
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    navigate('/');
+    window.history.pushState(null, '', window.location.href);
+    window.history.go(0);
+  };
 
   const iconStyle: React.CSSProperties = {
     fontSize: '35px',
@@ -59,12 +69,11 @@ const LogoutButton: React.FC = () => {
       <div style={dropdownStyle}>
         <ul style={{ listStyleType: 'none', margin: 0, padding: '10px' }}>
           <li style={{ padding: '5px 0' }}>
-            <button
-              className='log-button'
-              onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-            >
-              Logout
-            </button>
+            <Link to='/' className='no-underline'>
+              <button className='log-button' onClick={logout}>
+                Logout
+              </button>
+            </Link>
           </li>
         </ul>
       </div>

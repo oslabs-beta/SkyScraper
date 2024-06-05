@@ -34,10 +34,10 @@ const transformEC2Stats = (
   return transformedData;
 };
 
-const CustomBarChart: React.FC<CustomBarChartProps> = ({ instanceData }) => {
+const Charts: React.FC<CustomBarChartProps> = ({ instanceData }) => {
   const [selectedMetric, setSelectedMetric] = useState<string>('');
   const [chartType, setChartType] = useState<string>('bar');
-  const mode = useAppSelector((state) => state.theme.mode);
+  const mode = useAppSelector((state) => state.rootReducer.theme.mode);
 
   const handleMetricChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedMetric(event.target.value);
@@ -103,10 +103,10 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ instanceData }) => {
           )}
         </ResponsiveContainer>
       ) : (
-        <p>No data available for the selected metric.</p>
+        <p>No data available for the selected metric</p>
       )}
     </div>
   );
 };
 
-export default CustomBarChart;
+export default Charts;

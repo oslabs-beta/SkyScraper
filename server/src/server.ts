@@ -30,7 +30,7 @@ app.use('*', (req, res) => {
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:`, PORT);
+  console.log(`Listening on port ${PORT}`);
 });
 
 export default app;

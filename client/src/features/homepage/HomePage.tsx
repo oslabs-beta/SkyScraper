@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import LoginButton from '../auth/components/LoginButton';
-import SkyScrapper from '../../assets/SkyScraperLogo';
-import '../../styles/HomePage.css';
+import SkyScraper from '../../assets/SkyScraperLogo';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${SkyScrapper})`;
+    document.body.style.backgroundImage = `url(${SkyScraper})`;
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundPosition = 'center';
     document.body.style.height = '100vh';

@@ -4,13 +4,14 @@ import { useAppSelector } from './app/hooks';
 import HomePage from './features/homepage/HomePage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import EC2MonitorPage from './features/ec2Monitor/EC2MonitorPage';
-import Navbar from './features/navbar/Navbar';
+import NavBar from './features/navbar/NavBar';
 import './styles/styles.css';
 import './styles/navbar.css';
 import './styles/LoginPage.css';
+import './styles/HomePage.css';
 
 const App: React.FC = () => {
-  const mode = useAppSelector((state) => state.theme.mode);
+  const mode = useAppSelector((state) => state.rootReducer.theme.mode);
 
   useEffect(() => {
     document.body.className = mode === 'light' ? 'light-mode' : 'dark-mode';
@@ -18,7 +19,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Navbar />
+      <NavBar />
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/dashboard' element={<DashboardPage />} />

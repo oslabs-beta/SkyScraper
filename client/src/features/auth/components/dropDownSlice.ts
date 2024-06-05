@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-interface DropdownState {
-  showDropdown: boolean;
-}
+import { DropdownState } from '../../../app/types';
 
 const initialState: DropdownState = {
   showDropdown: false,
@@ -22,4 +19,5 @@ const dropDownSlice = createSlice({
 });
 
 export const { toggleDropdown, closeDropdown } = dropDownSlice.actions;
+
 export default dropDownSlice.reducer;

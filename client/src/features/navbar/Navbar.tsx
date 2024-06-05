@@ -1,19 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import LogoutButton from '../../features/auth/components/LogoutButton';
-import logo from '../../assets/LogoSquare';
+import { toggleTheme } from '../themes/themeSlice';
+import LogoutButton from '../auth/components/LogoutButton';
+import logo from '../../assets/SkyScraperLogo';
 import moon from '../../assets/Moon';
-import { toggleMode } from '../themes/themeSlice';
 
 const NavBar: React.FC = () => {
-  const { isAuthenticated } = useAuth0();
+  const isAuthenticated = useAppSelector((state) => state.rootReducer.auth.tokens.access_token);
   const dispatch = useAppDispatch();
-  const mode = useAppSelector((state) => state.theme.mode);
+  const mode = useAppSelector((state) => state.rootReducer.theme.mode);
 
   const handleClick = () => {
-    dispatch(toggleMode());
+    dispatch(toggleTheme());
   };
 
   const navBarStyle: React.CSSProperties = {
