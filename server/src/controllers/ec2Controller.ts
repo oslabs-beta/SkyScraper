@@ -7,7 +7,6 @@ import {
   Instance,
   Reservation,
 } from '@aws-sdk/client-ec2';
-import { fromWebToken } from '@aws-sdk/credential-provider-web-identity';
 
 const ec2Controller: ec2Controller = {
   getEC2Instances: (req, res, next) => {

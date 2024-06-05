@@ -1,7 +1,6 @@
-import type { authController, Jwks } from '../utils/types.js';
+import type { authController } from '../utils/types.js';
 import ErrorObject from '../utils/ErrorObject.js';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
-import { fromWebToken } from '@aws-sdk/credential-provider-web-identity';
 import {
   CognitoIdentityClient,
   GetIdCommand,
@@ -12,6 +11,7 @@ const authController: authController = {
   verifyJWT: (req, res, next) => {
     void (async () => {
       try {
+        console.log(req.headers);
         const userPoolID = 'us-east-2_DqdXAFb5I';
         const tokenUse = 'access';
         const clientId = '3je02pgra9uoqpjb46ckvsba82';
@@ -22,47 +22,15 @@ const authController: authController = {
         });
 
         const token = req.headers.authorization?.split(' ')[1];
+
         if (!token) {
-          throw new ErrorObject('No token provided', 401, 'Unauthorized');
+          throw new ErrorObject('No token provided', 401, 'No token provided');
         }
 
-        const decodedJwt = await verifier.verify(token);
-        res.locals.unsplitJwt = req.headers.authorization;
-        res.locals.jwt = token;
-        res.locals.decodedJwt = decodedJwt;
-        // {
-        //     "sub": "110b75a0-4051-7063-1cdf-d2908161d374",
-        //     "cognito:groups": [
-        //         "us-east-2_DqdXAFb5I_Auth0IdP"
-        //     ],
-        //     "iss": "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I",
-        //     "version": 2,
-        //     "client_id": "3je02pgra9uoqpjb46ckvsba82",
-        //     "token_use": "access",
-        //     "scope": "phone openid email",
-        //     "auth_time": 1717522930,
-        //     "exp": 1717526530,
-        //     "iat": 1717522930,
-        //     "jti": "9865da77-2020-4511-9ea2-d603dbf71f36",
-        //     "username": "auth0idp_github|70916466"
-        // }
+        const payload = await verifier.verify(token);
 
-        //   {
-        //     "sub": "110b75a0-4051-7063-1cdf-d2908161d374",
-        //     "cognito:groups": [
-        //         "us-east-2_DqdXAFb5I_Auth0IdP"
-        //     ],
-        //     "iss": "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I",
-        //     "version": 2,
-        //     "client_id": "3je02pgra9uoqpjb46ckvsba82",
-        //     "token_use": "access",
-        //     "scope": "phone openid email",
-        //     "auth_time": 1717536861,
-        //     "exp": 1717540461,
-        //     "iat": 1717536861,
-        //     "jti": "d14d342b-f350-4e74-a6ad-2d6fa28aec88",
-        //     "username": "auth0idp_github|70916466"
-        // }
+        req.user = payload;
+
         next();
         return;
       } catch (err) {
@@ -84,7 +52,7 @@ const authController: authController = {
     void (async () => {
       try {
         const authHeaders: string = req.headers.authorization ?? '';
-        if (!authHeaders.startsWith('Bearer ')) return res.status(401).json('Unauthorized');
+        if (!authHeaders.startsWith('Bearer ')) return res.status(401).json('No Access Token');
 
         const idToken = req.headers['id-token'] as string | undefined;
         if (!idToken) return res.status(401).json('No ID Token');
@@ -99,7 +67,6 @@ const authController: authController = {
           }),
         );
         res.locals.IdentityId = getIdResponse.IdentityId;
-        // res.locals.IdentityId = getIdResponse;
 
         next();
         return;
@@ -119,22 +86,6 @@ const authController: authController = {
   getTemporaryCredentials: (req, res, next) => {
     void (async () => {
       try {
-        // const stsClient = new STSClient({ region: 'us-east-2' });
-        // const roleArn = 'arn:aws:iam::654654488672:role/SkyScraperSAMLv1';
-        // const command = new AssumeRoleCommand({
-        //   RoleArn: roleArn,
-        //   RoleSessionName: 'SkyScraperSAMLv1 session',
-        // });
-        // const { Credentials } = await stsClient.send(command);
-
-        // res.locals.credentials = {
-        //   accessKeyID: Credentials?.AccessKeyId,
-        //   secretAccessKey: Credentials?.SecretAccessKey,
-        //   sessionToken: Credentials?.SessionToken,
-        // };
-
-        // next();
-
         const identityPoolID = res.locals.IdentityId as string;
         const idToken = req.headers['id-token'] as string | undefined;
         if (!idToken) return res.status(401).json('No ID Token');
@@ -150,12 +101,19 @@ const authController: authController = {
         };
         const command = new GetCredentialsForIdentityCommand(input);
         const { Credentials } = await cognitoIdentityClient.send(command);
+
+        if (!Credentials) {
+          throw new Error('No credentials returned from Cognito');
+        }
+
         res.locals.credentials = {
           accessKeyId: Credentials?.AccessKeyId,
           secretAccessKey: Credentials?.SecretKey,
           sessionToken: Credentials?.SessionToken,
         };
+
         next();
+        return;
       } catch (err) {
         if (err instanceof Error) {
           throw new ErrorObject(

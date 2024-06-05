@@ -1,4 +1,3 @@
-// components/graphics/CustomBarChart.tsx
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import type { MetricData, CustomBarChartProps, TransformedData } from '../../../app/types';

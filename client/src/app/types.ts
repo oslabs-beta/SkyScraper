@@ -11,7 +11,10 @@ export interface EC2StatsState {
 }
 
 export interface AuthState {
-  token: string | null;
+  tokens: {
+    access_token: string | null;
+    id_token: string | null;
+  };
 }
 
 export interface DataPoint {

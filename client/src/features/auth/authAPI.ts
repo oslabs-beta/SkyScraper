@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../../app/store';
-import { EC2Instance } from '../../app/types';
+import { EC2Instance, EC2Stats } from '../../app/types';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -8,9 +8,16 @@ export const authApi = createApi({
     baseUrl: 'http://localhost:3000/api/',
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
-      const token: string | null = state.rootReducer.auth.token;
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+      const { access_token, id_token } = state.rootReducer.auth.tokens;
+      console.log('state: ', state.rootReducer.auth);
+      console.log('access_token: ', access_token);
+      console.log('id_token: ', id_token);
+      console.log('time: ', new Date());
+      if (access_token) {
+        headers.set('Authorization', `Bearer ${access_token}`);
+      }
+      if (id_token) {
+        headers.set('id-token', id_token);
       }
       return headers;
     },
@@ -19,7 +26,7 @@ export const authApi = createApi({
     getEC2: builder.query<EC2Instance[], undefined>({
       query: (_ignoredParam) => 'ec2',
     }),
-    getStats: builder.query<undefined, undefined>({
+    getStats: builder.query<EC2Stats, undefined>({
       query: (_ignoredParam) => 'stats',
     }),
   }),

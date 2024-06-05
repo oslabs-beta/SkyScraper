@@ -1,59 +1,48 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useGetStatsQuery } from '../auth/authAPI';
 import LogoutButton from '../auth/components/LogoutButton';
-import { fetchEC2Stats, selectEC2Stats, selectEC2Status, selectEC2Error } from './EC2StatsSlice';
 import CustomBarChart from './components/CustomBarChart';
 
 const EC2MonitorPage: React.FC = () => {
-  const { isAuthenticated } = useAuth0();
-  const dispatch = useAppDispatch();
-  const statistics = useAppSelector((state) => selectEC2Stats(state));
-  const status = useAppSelector((state) => selectEC2Status(state));
-  const error = useAppSelector((state) => selectEC2Error(state));
+  const {
+    data: statistics = {},
+    isLoading,
+    isError,
+    error,
+  } = useGetStatsQuery(undefined, {
+    pollingInterval: 4000,
+    skipPollingIfUnfocused: true,
+  });
 
-  useEffect(() => {
-    dispatch(fetchEC2Stats());
-  }, [dispatch]);
-
-  if (status === 'loading') {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (isError) {
+    return <div>Error: {(error as Error).message}</div>;
   }
 
   const sortedInstanceIds = Object.keys(statistics).sort((a, b) => {
-    const nameA = statistics[a][0].name.toUpperCase();
-    const nameB = statistics[b][0].name.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
+    const nameA = (statistics[a][0]?.name ?? '').toUpperCase();
+    const nameB = (statistics[b][0]?.name ?? '').toUpperCase();
+    return nameA.localeCompare(nameB);
   });
 
   return (
-    isAuthenticated && (
-      <div>
-        <LogoutButton />
-        <h1>EC2 Monitor</h1>
-        <Link to='/dashboard'>
-          <button className='homebutton'>Main Page</button>
-        </Link>
-        {sortedInstanceIds.map((instanceId) => (
-          <div key={instanceId}>
-            <h2>Instance Name: {statistics[instanceId][0].name}</h2>
-            <CustomBarChart instanceData={statistics[instanceId]} />
-          </div>
-        ))}
-      </div>
-    )
+    <div>
+      <LogoutButton />
+      <h1>EC2 Monitor</h1>
+      <Link to='/dashboard'>
+        <button className='homebutton'>Main Page</button>
+      </Link>
+      {sortedInstanceIds.map((instanceId) => (
+        <div key={instanceId}>
+          <h2>Instance Name: {statistics[instanceId][0].name}</h2>
+          <CustomBarChart instanceData={statistics[instanceId]} />
+        </div>
+      ))}
+    </div>
   );
 };
 

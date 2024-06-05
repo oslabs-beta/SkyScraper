@@ -1,13 +1,13 @@
 import React from 'react';
 import { useAppDispatch } from '../../../app/hooks';
-import { clearToken } from '../authSlice';
+import { clearTokens } from '../authSlice';
 import { Link } from 'react-router-dom';
 
 const LogoutButton: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const logout = () => {
-    dispatch(clearToken());
+    dispatch(clearTokens());
   };
   return (
     <Link to='/'>

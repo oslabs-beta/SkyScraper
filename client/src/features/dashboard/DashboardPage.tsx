@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import EC2Logo from '../../assets/EC2logo';
 import LogoutButton from '../auth/components/LogoutButton';
-import { setToken } from '../auth/authSlice';
+import { setTokens } from '../auth/authSlice';
 import { EC2Instance } from '../../app/types';
 import { useGetEC2Query } from '../auth/authAPI';
+
 const DashboardPage: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  const { access_token, id_token } = useAppSelector((state) => state.rootReducer.auth.tokens);
   /**
    * @description This effect runs once on component mount.
    * It extracts the access token from the URL hash parameter and dispatches it to update the application token state.
@@ -16,44 +17,31 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.hash.substring(1));
     const accessToken = urlParams.get('access_token');
-    if (accessToken) {
-      dispatch(setToken(accessToken));
-    }
+    const idToken = urlParams.get('id_token');
+    dispatch(setTokens({ tokens: { access_token: accessToken, id_token: idToken } }));
+    console.log('accessToken post dispatch appSelector: ', accessToken);
+    console.log('idToken post dispatch appSelector: ', idToken);
+    console.log('access_token post dispatch appSelector: ', access_token);
+    console.log('id_token post dispatch appSelector: ', id_token);
   }, [dispatch]);
 
-  const { data: instances, isLoading, isError, error } = useGetEC2Query(undefined);
+  const {
+    data: instances,
+    isLoading,
+    isError,
+    error,
+  } = useGetEC2Query(undefined, {
+    pollingInterval: 4000,
+    skipPollingIfUnfocused: true,
+  });
 
   const sorted: EC2Instance[] = instances
-    ? instances.sort((a: EC2Instance, b: EC2Instance) =>
-        a.Name.toLowerCase().localeCompare(b.Name.toLowerCase()),
+    ? [...instances].sort((a: EC2Instance, b: EC2Instance) =>
+        a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
       )
     : [];
 
   const activeInstancesCount = instances?.filter((ele) => ele.State === 'running').length;
-
-  // const instances = useAppSelector((state) => selectEC2Instances(state));
-  // const status = useAppSelector((state) => selectEC2Status(state));
-  // const error = useAppSelector((state) => selectEC2Error(state));
-  // const sorted = [...instances].sort((a, b) =>
-  //   a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
-  // );
-
-  // const activeInstancesCount = instances.filter((ele) => ele.State === 'running').length;
-
-  // useEffect(() => {
-  //   dispatch(fetchEC2Instances());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     dispatch(fetchEC2Instances());
-  //   }, 4000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [dispatch]);
-
   return (
     <div>
       <main>
