@@ -75,7 +75,7 @@ const DashboardPage: React.FC = () => {
                   <div className='singleInstance' key={instance.InstanceId}>
                     <img src={EC2Logo} width='35' height='35'></img>
                     <h3>Name: {instance.Name}</h3>
-                    <p>ID: {instance.InstanceId}</p>
+                    {/* <p>ID: {instance.InstanceId}</p> */}
                     <p>Type: {instance.InstanceType}</p>
                     <p>Status: {instance.State}</p>
                   </div>

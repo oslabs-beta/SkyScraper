@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LogoutButton from '../../features/auth/components/LogoutButton';
 import logo from '../../assets/LogoSquare';
-import batLogo from '../../assets/bat';
+import moon from '../../assets/Moon';
 import { toggleMode } from '../themes/themeSlice';
 
 const NavBar: React.FC = () => {
@@ -51,6 +51,7 @@ const NavBar: React.FC = () => {
 
   const modeStyle: React.CSSProperties = {
     marginLeft: '20px',
+    marginRight: '10px',
     cursor: 'pointer',
     border: 'none',
     outline: 'none',
@@ -72,15 +73,12 @@ const NavBar: React.FC = () => {
       )}
       <div style={navItemsStyle}>
         {isAuthenticated && (
-          // <button style={modeStyle} onClick={handleClick}>
-          //   {mode === 'light' ? 'Mode: Light' : 'Mode: Dark'}
-          // </button>
           <img
             style={modeStyle}
-            src={batLogo}
+            src={moon}
             alt='Logo'
-            width='40'
-            height='40'
+            width='25'
+            height='25'
             onClick={handleClick}
           />
         )}
