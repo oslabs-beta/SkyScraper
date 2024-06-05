@@ -86,13 +86,13 @@ const authController: authController = {
   getTemporaryCredentials: (req, res, next) => {
     void (async () => {
       try {
-        const identityPoolID = res.locals.IdentityId as string;
+        const IdentityId = res.locals.IdentityId as string;
         const idToken = req.headers['id-token'] as string | undefined;
         if (!idToken) return res.status(401).json('No ID Token');
 
         const cognitoIdentityClient = new CognitoIdentityClient({ region: process.env.REGION });
         const input = {
-          IdentityId: identityPoolID,
+          IdentityId: IdentityId,
           Logins: {
             // The key should match the provider name you used when setting up the identity pool
             // The value is the id token you received during authentication (NOT the access token)
