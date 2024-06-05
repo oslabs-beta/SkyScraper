@@ -1,40 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { RootState } from '../../../app/store';
+import { toggleDropdown, closeDropdown } from './dropDownSlice';
 
 const LogoutButton: React.FC = () => {
-  const { logout } = useAuth0();
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const { logout, isAuthenticated } = useAuth0();
+  const showDropdown = useAppSelector((state: RootState) => state.dropDown.showDropdown);
+  const mode = useAppSelector((state: RootState) => state.theme.mode); // Access theme mode
+  const dispatch = useAppDispatch();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const iconStyle: React.CSSProperties = {
     fontSize: '35px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    color: '#000',
   };
-  const buttonStyle: React.CSSProperties ={
-    border: 'none',
-    outline: 'none',
-    backgroundColor: 'transparent' 
-  }
 
   const dropdownStyle: React.CSSProperties = {
     display: showDropdown ? 'block' : 'none',
     position: 'absolute',
-    top: '45px', // Adjust as needed
-    right: '0px', // Adjust as needed
-    backgroundColor: 'lightblue',
+    top: '45px',
+    right: '0px',
+    backgroundColor: mode === 'light' ? 'lightblue' : '#333', // Conditionally set background color
     border: '1px solid #ccc',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
     borderRadius: '4px',
-    zIndex: 1000
+    zIndex: 1000,
+    color: mode === 'light' ? '#000' : '#fff', // Conditionally set text color
   };
 
   const handleIconClick = () => {
-    setShowDropdown(!showDropdown);
+    dispatch(toggleDropdown());
   };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setShowDropdown(false);
+      dispatch(closeDropdown());
     }
   };
 
@@ -45,6 +47,10 @@ const LogoutButton: React.FC = () => {
     };
   }, []);
 
+  if (!isAuthenticated) {
+    return null; // Do not render anything if not authenticated
+  }
+
   return (
     <div style={{ position: 'relative' }} ref={dropdownRef}>
       <div onClick={handleIconClick}>
@@ -53,9 +59,10 @@ const LogoutButton: React.FC = () => {
       <div style={dropdownStyle}>
         <ul style={{ listStyleType: 'none', margin: 0, padding: '10px' }}>
           <li style={{ padding: '5px 0' }}>
-            <button style={buttonStyle}> Profile 
-            </button>
-            <button style={buttonStyle} onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+            <button
+              className='logout-button'
+              onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+            >
               Logout
             </button>
           </li>

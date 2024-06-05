@@ -61,7 +61,7 @@ const cloudController: cloudController = {
               Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
               StartTime: startTime,
               EndTime: endTime,
-              Period: 3600, // Data points in seconds
+              Period: 360, // Data points in seconds // need to return back to 3600
               Statistics:
                 metric === 'StatusCheckFailed' ||
                 metric === 'StatusCheckFailed_Instance' ||
@@ -109,7 +109,7 @@ const cloudController: cloudController = {
         // send all promises at the same time
         await Promise.all(promises).then(() => {
           // store results to res.locals.metrics
-          console.log('Log results: ', results);
+          // console.log('Log results: ', results);
           res.locals.metrics = results;
         });
 

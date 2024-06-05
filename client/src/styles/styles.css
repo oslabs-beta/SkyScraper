@@ -4,15 +4,39 @@
 body {
   background-color: lightblue;
   margin: 0px;
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
+  font-family: 'Overpass Mono', monospace;
 }
+/*
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 300 to 700
+*/
+
+/* .overpass-mono-<uniquifier {
+  font-family: "Overpass Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+} */
+
+/* .light-mode {
+  background-color: #fff;
+  color: #000;
+} */
+
+/* .dark-mode {
+  background-color: #333;
+  color: blue;
+} */
 
 h1 {
   text-align: center;
+  color: #121212;
 }
 
-#inner-body {
-  margin: 60px;
+.inner-body {
+  margin-top: 80px;
+  margin-left: 30px;
 }
 
 #navbar {
@@ -198,25 +222,81 @@ h1 {
 /* Dark mode styles */
 body.dark-mode {
   background-color: #121212; /* Dark background for body */
-  color: rgb(233, 233, 47); /* Light text color */
+  color: '5d46e2'; /* Light text color */
 }
 
 body.dark-mode .nav-bar {
-  background-color: rgb(233, 233, 47); /* Yellow navbar background */
-  color: black; /* Text color in navbar */
+  background-color: #121212; /* Yellow navbar background */
+  color: white; /* Text color in navbar */
 }
 
 body.dark-mode .singleInstance {
-  background-color: #333; /* Darker card background */
-  color: rgb(233, 233, 47); /* Light text color */
-  border-color: rgb(233, 233, 47); /* Yellow border color */
+  background-color: rgb(80, 77, 77); /* Darker card background */
+  color: white; /* Light text color */
+  border-color: #ffd700;
 }
 
 body.dark-mode .singleInstance:hover {
-  color: rgb(233, 233, 47); /* Yellow text color on hover */
+  background-color: rgba(113, 113, 113, 0.692); /* Darker card background */
+  color: #ffd700; /* Yellow text color on hover */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  border-color: rgb(233, 233, 47);
+  border-color: #ffd700; /* Yellow border color */
 }
 
-/* Additional dark mode styles as needed */
+body.dark-mode .three-body {
+  --uib-size: 17px;
+  --uib-speed: 0.2s;
+  --uib-color: #ffd700;
+  position: relative;
+  display: inline-block;
+  height: var(--uib-size);
+  width: var(--uib-size);
+  animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+}
+
+#get-started {
+  background: #a370f0;
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  /* padding-left: 1.2em; */
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #714da6;
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  /* padding-right: 3.3em; */
+  cursor: pointer;
+}
+
+#get-started:hover {
+  /* background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 2.2em;
+  width: 2.2em; */
+  /* border-radius: 0.7em;  */
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+  /* right: 0.3em; */
+  /* transition: all 1s; */
+}
+
+#get-started .icon {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #7b52b9;
+}
+
+#get-started:active {
+  transform: scale(0.95);
+}

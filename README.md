@@ -6,7 +6,7 @@ README Public Template (https://github.com/othneildrew/Best-README-Template)
 
 <p align="center">
   <a href="https://github.com/oslabs-beta/SkyScraper">
-    <!-- <img src="SkyScraper/media/SkyScraper-logo.png" alt="Logo" height="120"> -->
+    <img src="client/src/assets/SkyScrapper.ts" alt="Logo" height="120">
   </a>
 
   <h3 align="center">SkyScraper</h3>
@@ -225,7 +225,7 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 ## Contact
 
-[<img style="height: 1em; width: 1em;" src="SkyScraper/media/twitter-logo.svg">]() Twitter: [@TeamSkyScraper](https://x.com/teamSkyScraper) | Email: SkyScraperApp@gmail.com
+[<img style="height: 1em; width: 1em;" src="SkyScraper/media/twitter-logo.svg">]() X: [@TeamSkyScraper](https://x.com/SkyScraperApp) | Email: SkyScraperApp@gmail.com
 
 [<img style="height: 1em; width: 1em;" src="SkyScraper/media/github-icon.svg">]() GitHub: [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
 

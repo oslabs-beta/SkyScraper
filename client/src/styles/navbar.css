@@ -9,6 +9,11 @@
     background-color 0.3s ease,
     box-shadow 0.3s ease,
     opacity 0.3s ease;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 .nav-items {
@@ -35,11 +40,6 @@ body.dark-mode {
   color: #e0e0e0; /* Light text color */
 }
 
-body.dark-mode .singleInstance {
-  background-color: #1f1f1f; /* Darker card background */
-  border-color: #444; /* Border color */
-  color: #e0e0e0; /* Text color */
-}
 
 body.dark-mode .singleInstance:hover {
   background-color: #333; /* Hover state */

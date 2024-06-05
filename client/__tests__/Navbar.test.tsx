@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Navbar from '../src/component/Navbar';
+import Navbar from '../src/features/navbar/Navbar';
+import '@testing-library/jest-dom';
 
 describe('NavBar', () => {
   it('renders navigation links and logo', () => {
