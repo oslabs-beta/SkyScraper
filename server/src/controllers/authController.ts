@@ -11,14 +11,11 @@ const authController: authController = {
   verifyJWT: (req, res, next) => {
     void (async () => {
       try {
-        console.log(req.headers);
-        const userPoolID = 'us-east-2_DqdXAFb5I';
         const tokenUse = 'access';
-        const clientId = '3je02pgra9uoqpjb46ckvsba82';
         const verifier = CognitoJwtVerifier.create({
-          userPoolId: userPoolID,
+          userPoolId: process.env.USER_POOL_ID ?? '',
           tokenUse: tokenUse,
-          clientId: clientId,
+          clientId: process.env.CLIENT_ID ?? '',
         });
 
         const token = req.headers.authorization?.split(' ')[1];
@@ -60,9 +57,10 @@ const authController: authController = {
         const cognitoIdentityClient = new CognitoIdentityClient({ region: process.env.REGION });
         const getIdResponse = await cognitoIdentityClient.send(
           new GetIdCommand({
-            IdentityPoolId: 'us-east-2:87178101-c07a-4702-bf51-586d0904963e',
+            IdentityPoolId: process.env.IDENTITY_POOL_ID,
             Logins: {
-              'cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I': idToken,
+              [`cognito-idp.${process.env.REGION ?? ''}.amazonaws.com/${process.env.USER_POOL_ID ?? ''}`]:
+                idToken,
             },
           }),
         );
@@ -96,7 +94,8 @@ const authController: authController = {
           Logins: {
             // The key should match the provider name you used when setting up the identity pool
             // The value is the id token you received during authentication (NOT the access token)
-            [`cognito-idp.us-east-2.amazonaws.com/us-east-2_DqdXAFb5I`]: idToken,
+            [`cognito-idp.${process.env.REGION ?? ''}.amazonaws.com/${process.env.USER_POOL_ID ?? ''}`]:
+              idToken,
           },
         };
         const command = new GetCredentialsForIdentityCommand(input);
