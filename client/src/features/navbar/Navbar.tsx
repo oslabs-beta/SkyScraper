@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import LogoutButton from '../../features/auth/components/LogoutButton';
 import logo from '../../assets/LogoSquare';
+import batLogo from '../../assets/bat';
 import { toggleMode } from '../themes/themeSlice';
 
 const NavBar: React.FC = () => {
@@ -19,7 +20,7 @@ const NavBar: React.FC = () => {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: mode === 'dark' ? '#FFD700' : '#1ab9cabe', // Change to yellow in dark mode
+    backgroundColor: mode === 'dark' ? '#FFD700' : '#1ab9cabe',
     padding: '10px 20px',
     position: 'fixed',
     top: 0,
@@ -33,13 +34,14 @@ const NavBar: React.FC = () => {
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
-    color: '#000', // Keep text color black for better contrast on yellow
+    color: '#000',
   };
 
   const navTitleStyle: React.CSSProperties = {
     margin: 0,
     marginLeft: '10px',
     fontSize: '1.5rem',
+    paddingTop: '5px',
   };
 
   const navItemsStyle: React.CSSProperties = {
@@ -47,12 +49,12 @@ const NavBar: React.FC = () => {
     alignItems: 'center',
   };
 
-  const buttonStyle: React.CSSProperties = {
+  const modeStyle: React.CSSProperties = {
     marginLeft: '20px',
     cursor: 'pointer',
     border: 'none',
     outline: 'none',
-    backgroundColor: 'transparent',
+    filter: mode === 'dark' ? 'invert(0%)' : 'invert(100%)',
   };
 
   return (
@@ -70,9 +72,17 @@ const NavBar: React.FC = () => {
       )}
       <div style={navItemsStyle}>
         {isAuthenticated && (
-          <button style={buttonStyle} onClick={handleClick}>
-            {mode === 'light' ? 'Light' : 'Dark'}
-          </button>
+          // <button style={modeStyle} onClick={handleClick}>
+          //   {mode === 'light' ? 'Mode: Light' : 'Mode: Dark'}
+          // </button>
+          <img
+            style={modeStyle}
+            src={batLogo}
+            alt='Logo'
+            width='40'
+            height='40'
+            onClick={handleClick}
+          />
         )}
         {isAuthenticated && <LogoutButton />}
       </div>

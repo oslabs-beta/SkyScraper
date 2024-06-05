@@ -7,7 +7,7 @@ import { toggleDropdown, closeDropdown } from './dropDownSlice';
 const LogoutButton: React.FC = () => {
   const { logout, isAuthenticated } = useAuth0();
   const showDropdown = useAppSelector((state: RootState) => state.dropDown.showDropdown);
-  const mode = useAppSelector((state: RootState) => state.theme.mode); // Access theme mode
+  const mode = useAppSelector((state: RootState) => state.theme.mode);
   const dispatch = useAppDispatch();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -22,12 +22,12 @@ const LogoutButton: React.FC = () => {
     position: 'absolute',
     top: '45px',
     right: '0px',
-    backgroundColor: mode === 'light' ? 'lightblue' : '#333', // Conditionally set background color
-    border: '1px solid #ccc',
+    backgroundColor: mode === 'light' ? 'lightblue' : '#121212',
+    // border: '1px solid #ccc',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
     borderRadius: '4px',
     zIndex: 1000,
-    color: mode === 'light' ? '#000' : '#fff', // Conditionally set text color
+    color: mode === 'light' ? '#000' : '#fff',
   };
 
   const handleIconClick = () => {
@@ -48,7 +48,7 @@ const LogoutButton: React.FC = () => {
   }, []);
 
   if (!isAuthenticated) {
-    return null; // Do not render anything if not authenticated
+    return null;
   }
 
   return (
@@ -60,7 +60,7 @@ const LogoutButton: React.FC = () => {
         <ul style={{ listStyleType: 'none', margin: 0, padding: '10px' }}>
           <li style={{ padding: '5px 0' }}>
             <button
-              className='logout-button'
+              className='log-button'
               onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
             >
               Logout

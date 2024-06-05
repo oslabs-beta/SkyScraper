@@ -7,7 +7,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const config = {
-  // mode: process.env.NODE_ENV || 'development',
   mode: 'development',
   entry: './client/src/index.tsx',
   output: {
@@ -52,7 +51,7 @@ const config = {
     historyApiFallback: true,
     proxy: [
       {
-        '/api': 'http://localhost:3000', // Adjust the port if your backend server runs on a different port
+        '/api': 'http://localhost:3000',
       },
     ],
     static: {

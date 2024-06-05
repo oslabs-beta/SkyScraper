@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import LoginButton from '../auth/components/LoginButton';
-import SkyScrapper from '../../assets/SkyScrapper';
-import Navbar from '../navbar/Navbar';
-import '../../styles/HomePage.css'; // Import the CSS file
+import SkyScrapper from '../../assets/SkyScraperLogo';
+import '../../styles/HomePage.css';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
-    // Apply background image to body
     document.body.style.backgroundImage = `url(${SkyScrapper})`;
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundPosition = 'center';
@@ -16,7 +14,6 @@ const HomePage: React.FC = () => {
     document.body.style.padding = '0';
     document.body.style.overflow = 'hidden';
 
-    // Clean up the effect
     return () => {
       document.body.style.backgroundImage = '';
       document.body.style.backgroundSize = '';
@@ -34,11 +31,9 @@ const HomePage: React.FC = () => {
       <div className='login-button-container'>
         <div className='HpHeader'>
           <h1> Welcome to SkyScraper</h1>
-          {/* <h2>Get Started. Press Login to Continue</h2> */}
         </div>
         <div className='LoginButtonWrapper'>
           {' '}
-          {/* New wrapper div */}
           <LoginButton />
         </div>
       </div>
@@ -47,47 +42,3 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
-
-// import React, { useEffect } from 'react';
-// import LoginButton from '../auth/components/LoginButton';
-// import SkyScrapper from '../../assets/SkyScrapper';
-// import '../../styles/HomePage.css'; // Import the CSS file
-
-// const HomePage: React.FC = () => {
-//   useEffect(() => {
-//     // Apply background image to body
-//     document.body.style.backgroundImage = `url(${SkyScrapper})`;
-//     document.body.style.backgroundSize = 'cover';
-//     document.body.style.backgroundPosition = 'center';
-//     document.body.style.height = '100vh';
-//     document.body.style.width = '100vw';
-//     document.body.style.margin = '0';
-//     document.body.style.padding = '0';
-//     document.body.style.overflow = 'hidden';
-
-//     // Clean up the effect
-//     return () => {
-//       document.body.style.backgroundImage = '';
-//       document.body.style.backgroundSize = '';
-//       document.body.style.backgroundPosition = '';
-//       document.body.style.height = '';
-//       document.body.style.margin = '';
-//     };
-//   }, []);
-
-//   return (
-//     <div className='login-button-container'>
-//       <div className='HpHeader'>
-//         <h1> Welcome to SkyScraper. Please click the unlock icon to Log In to get started.</h1>
-//         {/* <h2>Get Started. Press Login to Continue</h2> */}
-//       </div>
-//       <div className='LoginButtonWrapper'>
-//         {' '}
-//         {/* New wrapper div */}
-//         <LoginButton />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default HomePage;

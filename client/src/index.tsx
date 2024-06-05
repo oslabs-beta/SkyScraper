@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client'; // Note the new import path for ReactDOM
 import { Provider } from 'react-redux';
 import { Auth0Provider } from '@auth0/auth0-react';
