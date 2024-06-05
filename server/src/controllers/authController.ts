@@ -24,9 +24,7 @@ const authController: authController = {
           throw new ErrorObject('No token provided', 401, 'No token provided');
         }
 
-        const payload = await verifier.verify(token);
-
-        req.user = payload;
+        await verifier.verify(token);
 
         next();
         return;
