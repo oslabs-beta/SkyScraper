@@ -61,7 +61,7 @@ const cloudController: cloudController = {
               Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
               StartTime: startTime,
               EndTime: endTime,
-              Period: 360, // Data points in seconds // need to return back to 3600
+              Period: 3600, // Data points in seconds // need to return back to 3600
               Statistics:
                 metric === 'StatusCheckFailed' ||
                 metric === 'StatusCheckFailed_Instance' ||
