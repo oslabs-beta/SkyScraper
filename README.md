@@ -6,20 +6,20 @@ README Public Template (https://github.com/othneildrew/Best-README-Template)
 
 <p align="center">
   <a href="https://github.com/oslabs-beta/SkyScraper">
-    <img src="client/src/assets/SkyScrapper.ts" alt="Logo" height="120">
+    <img src="./client/src/assets/CircleLogo.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">SkyScraper</h3>
 
   <p align="center">
-    An AWS visualizer dashboard for EC2 instances and other services.
-    <!-- <br />
-    <a href="https://github.com/oslabs-beta/SkyScraper"><strong>Explore the docs »</strong></a>
+    Visualizer dashboard for AWS EC2 instances
     <br />
+    <!-- <a href="https://github.com/oslabs-beta/SkyScraper"><strong>Explore the docs »</strong></a>
     <br />
+    <br /> -->
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Report Bug</a>
     ·
-    <a href="https://github.com/oslabs-beta/SkyScraper/issues">Request Feature</a> -->
+    <a href="https://github.com/oslabs-beta/SkyScraper/issues">Request Feature</a>
   </p>
     <!-- BADGES -->
   <p align="center">
@@ -75,51 +75,57 @@ README Public Template (https://github.com/othneildrew/Best-README-Template)
 
 <br/>
 <p align="center">
-  <img width="900" src="SkyScraper/media/quizwall_demo.gif">
+  <img width="900" src="./client/src/assets/CircleLogo.png">
 </p>
 <br/>
 
-SkyScraper is a visualizer dashboard that display AWS services. Starting with EC2, AWS users can visualize their EC2 Instances alongside their metrics in graph and chart format
+SkyScraper is a visualizer dashboard that displays performance metrics of AWS services. Starting with EC2, AWS users can visualize their EC2 Instances alongside their metrics in graph and chart format
 
 With SkyScraper, you can optimize your spending by using the visuals to make informed decisions on which services you keep active and which need to be paused.
 
 ### Built With
 
-- [<img style="height: 1em;" src="SkyScraper/media/react-brands.svg">](https://reactjs.org/) [React](https://reactjs.org/)
-- [<img style="height: 1em;" src="SkyScraper/media/vscode.svg">](https://code.visualstudio.com/api) [AWS CloudWatch API](https://aws.com/api)
-- [<img style="height: 1em;" src="SkyScraper/media/mochajs-icon.svg">](https://mochajs.org/) [AWS EC2 PI](https://aws.org/)
-- [<img style="height: 1em;" src="SkyScraper/media/chai_icon.svg">](https://www.chaijs.com/) [Redux Toolkit](https://www.chaijs.com/)
-- [<img style="height: 1em;" src="SkyScraper/media/babel-logo-minimal.svg">](https://babeljs.io/docs/en/babel-parser) [TypeScript](https://babeljs.io/docs/en/babel-parser)
-- [<img style="height: 1em;" src="SkyScraper/media/webpack.svg">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
-- [<img style="height: 1em;" src="SkyScraper/media/github-actions.svg">](https://github.com/features/actions) [GitHub Actions](https://github.com/features/actions)
+- [<img style="height: 1em;" src="./client/src/assets/images/React.png">](https://reactjs.org/) [React](https://reactjs.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/Redux.png">](https://redux-toolkit.js.org/) [Redux Toolkit](https://redux-toolkit.js.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/TS.png">](https://www.typescriptlang.org/) [TypeScript](https://www.typescriptlang.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/CloudWatch.png">](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html) [AWS CloudWatch API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
+- [<img style="height: 1em;" src="./client/src/assets/images/EC2.png">](https://mochajs.org/) [AWS EC2 API](https://aws.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/WebPack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/Jest.png">](https://jestjs.io) [Jest](https://jestjs.io)
+- [<img style="height: 1em;" src="./client/src/assets/images/ChartJs.png">](https://www.chartjs.org/) [ChartJS](https://www.chartjs.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/GitHubActions.png">](https://github.com/features/actions) [GitHub Actions](https://github.com/features/actions)
 
 ## Installation
 
 Installing from npm:
 
 1. npm install skyscraper
-2. npm run dev
-3. Ta da
+2. npm start
+3. npm run dev
 
+## Getting Started
+
+1. Please sign up with Amazon EC2 if you do not have an account.
+2. Launch an instance if you hvae not already
+3. If you have an AMzo EC2 account and launched one or more instances, you can securely sign into our app using the the email associated with your Amazon account.
 <!-- To install SkyScraper for development, please see the contributing section below. -->
 
 ## Usage
 
-1. Login with region, access key, and secret access key
-2. Click EC2 button
-3. View each EC2 instance and their metrics
+1. Click Get Started
+2. Log in
+3. Once securely logged in, you will see an overview of the name and status of your instance. You can click on any instance displayed and it will navigate you to another page where you can view more statistics about each instance.
+4. Once at the statistics page, you can click drop down menu for each instance listed and view individual statistics.
 
-Icon Legend in SkyScraper Tree View:
+<!-- Icon Legend in SkyScraper Tree View:
 
 - [<img style="height: 1em;" src="SkyScraper/media/circle-info-solid.svg">]() available props (hover)
 - [<img style="height: 1em;" src="SkyScraper/media/circle-arrow-right-solid.svg">]() open file (click)
 - [<img style="height: 1em;" src="SkyScraper/media/store-solid.svg" >]() Redux store connection
 - <span>Navbar</span>: error in file (matches the error color of your theme)
-- <b>Navbar</b>: currently open file
+- <b>Navbar</b>: currently open file -->
 
-SkyScraper can currently display React apps made with TSX/JSX and ES6 import syntax.
-
-SkyScraper will detect React components invoked using JSX tag syntax and React-Router component syntax, where React is imported in a file:
+SkyScraper can currently display Metrics for EC2 Instances.
 
 <!-- ```JSX
     // Navbar will be detected as a child of the current file
@@ -225,16 +231,15 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 ## Contact
 
-[<img style="height: 1em; width: 1em;" src="SkyScraper/media/twitter-logo.svg">]() X: [@TeamSkyScraper](https://x.com/SkyScraperApp) | Email: SkyScraperApp@gmail.com
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/XWhite.png">]() : [@SkyScraperApp](https://x.com/SkyScraperApp) | Email: AppSkyScraper@gmail.com
 
-[<img style="height: 1em; width: 1em;" src="SkyScraper/media/github-icon.svg">]() GitHub: [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">]() GitHub: [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
 
 ## Acknowledgement
 
-- Parsing Strategy inspired by [React Component Hierarchy](https://www.npmjs.com/package/react-component-hierarchy)
-- Interactive tree view styling adapted from [Pure CSS Tree Menu](https://codepen.io/bisserof/pen/fdtBm)
-- Icons from [Font Awesome](https://fontawesome.com)
-- Tooltips with [Tippy](https://www.npmjs.com/package/@tippy.js/react)
+<!-- - Tooltips with [Tippy](https://www.npmjs.com/package/@tippy.js/react) -->
+
 - [Best README Template](https://github.com/othneildrew/Best-README-Template)
-- SkyScraper Logo from [Freepik](https://www.freepik.com/vectors/tree)
-- Readme badges from [shields.io](https://shields.io/)
+  <!-- - Parsing Strategy inspired by [React Component Hierarchy](https://www.npmjs.com/package/react-component-hierarchy) -->
+  <!-- - Readme badges from [shields.io](https://shields.io/) -->
+  <!-- - Icons from [Font Awesome](https://fontawesome.com) -->
