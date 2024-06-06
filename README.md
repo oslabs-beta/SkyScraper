@@ -1,9 +1,6 @@
 <!-- SkyScraper README -->
 <!-- PROJECT LOGO -->
 
-README Public Template (https://github.com/othneildrew/Best-README-Template)
-<br />
-
 <p align="center">
   <a href="https://github.com/oslabs-beta/SkyScraper">
     <img src="./client/src/assets/CircleLogo.png" alt="Logo" height="120">
@@ -233,7 +230,7 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/XWhite.png">]() : [@SkyScraperApp](https://x.com/SkyScraperApp) | Email: AppSkyScraper@gmail.com
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">]() GitHub: [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">]() : [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
 
 ## Acknowledgement
 
