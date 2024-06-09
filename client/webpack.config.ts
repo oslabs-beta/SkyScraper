@@ -1,6 +1,7 @@
 import path from 'node:path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,15 +39,6 @@ const config = {
   resolve: {
     extensions: ['.jsx', '.js', '.ts', '.tsx'],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './client/public/index.html',
-      filename: 'index.html',
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'bundle.css',
-    }),
-  ],
   devServer: {
     historyApiFallback: true,
     proxy: [
@@ -55,12 +47,24 @@ const config = {
       },
     ],
     static: {
-      directory: path.join(__dirname, '../dist/client'),
+      directory: path.join(__dirname, '../dist/'),
     },
     compress: true,
     port: 8080,
     open: true,
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './client/public/index.html',
+      filename: 'index.html',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'client/public', to: '../dist/client/public' }],
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'bundle.css',
+    }),
+  ],
 };
 
 export default config;

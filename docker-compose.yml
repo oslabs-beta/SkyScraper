@@ -1,0 +1,26 @@
+version: '3'
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - USER_POOL_ID='us-east-2_53sjBSg4Y'
+      - IDENTITY_POOL_ID='us-east-2:ef0095f5-b5d4-4ed4-a40a-262f8022e37d'
+      - CLIENT_ID='6hjtfh1ddmn4afj4c29ddijj32'
+      - REGION='us-east-2'
+      - NODE_ENV='development'
+      - DEV_PORT=3000
+      - PROD_PORT=3000

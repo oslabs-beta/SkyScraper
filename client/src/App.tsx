@@ -4,7 +4,7 @@ import { useAppSelector } from './app/hooks';
 import HomePage from './features/homepage/HomePage';
 import DashboardPage from './features/dashboard/DashboardPage';
 import EC2MonitorPage from './features/ec2Monitor/EC2MonitorPage';
-import NavBar from './features/navbar/NavBar';
+import NavBar from './features/navbar/Navbar';
 import './styles/styles.css';
 import './styles/navbar.css';
 import './styles/LoginPage.css';

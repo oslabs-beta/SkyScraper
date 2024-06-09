@@ -31,7 +31,10 @@
     "src",
     "jest.config.ts",
     "jest-setup.ts",
-    "src"
+    "src",
+    "server/src/**/*.ts",
+    // "client/src/**/*.ts",
+    // "client/src/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }
