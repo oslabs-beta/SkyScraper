@@ -3,7 +3,6 @@ import { useGetStatsQuery } from '../auth/authAPI';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CustomBarChart from './components/Charts';
 import { setTokens } from '../auth/authSlice';
-import { toggleTheme } from '../themes/themeSlice';
 
 const EC2MonitorPage: React.FC = () => {
   const dispatch = useAppDispatch();

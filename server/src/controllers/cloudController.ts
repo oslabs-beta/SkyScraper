@@ -106,7 +106,6 @@ const cloudController: cloudController = {
         // send all promises at the same time
         await Promise.all(promises).then(() => {
           // store results to res.locals.metrics
-          // console.log('Log results: ', results);
           res.locals.metrics = results;
         });
 

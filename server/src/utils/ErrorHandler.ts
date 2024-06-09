@@ -9,7 +9,6 @@ export const ErrorHandler = (err: Error, req: Request, res: Response, next: Next
     message: { err: 'An error occured' },
   };
   if (err instanceof ErrorObject) {
-    console.log(`${defaultErr.date}: ${err.log}`);
     res
       .status(err.status)
       .json({ date: defaultErr.date, status: err.status, message: err.message, stack: err.stack });

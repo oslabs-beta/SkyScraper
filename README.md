@@ -90,7 +90,8 @@ With SkyScraper, you can optimize your spending by using the visuals to make inf
 - [<img style="height: 1em;" src="./client/src/assets/images/WebPack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
 - [<img style="height: 1em;" src="./client/src/assets/images/Jest.png">](https://jestjs.io) [Jest](https://jestjs.io)
 - [<img style="height: 1em;" src="./client/src/assets/images/ChartJs.png">](https://www.chartjs.org/) [ChartJS](https://www.chartjs.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/GitHubActions.png">](https://github.com/features/actions) [GitHub Actions](https://github.com/features/actions)
+- [<img style="height: 1em;" src="./client/src/assets/images/GitHubActions.png">](https://nodejs.org/api/all.html) [Node.js](https://nodejs.org/api/all.html)
+- [<img style="height: 1em;" src="./client/src/assets/images/GitHubActions.png">](https://expressjs.com/) [Express.js](https://expressjs.com/)
 
 ## Installation
 
