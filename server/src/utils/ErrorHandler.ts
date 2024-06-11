@@ -4,7 +4,7 @@ import ErrorObject from './ErrorObject.js';
 export const ErrorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   const defaultErr = {
     date: new Date().toLocaleString(),
-    log: 'Express error handler caught unknown middleware error',
+    log: `Express error handler caught unknown middleware error. ${err.message} `,
     status: 500,
     message: { err: 'An error occured' },
   };

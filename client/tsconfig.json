@@ -9,6 +9,7 @@
     "strict": true, // Enable all strict type-checking options
     "esModuleInterop": true, // Enables default imports from modules with no default export
     "outDir": "./dist",
+    "rootDir": "./src",
     "skipLibCheck": true, // Skip type checking of declaration files
     "resolveJsonModule": true,
     "baseUrl": "./", // Base directory to resolve non-relative module names
@@ -16,25 +17,10 @@
       // "*": ["node_modules/*", "/server/src/*"] // Path mapping for custom type definitions
       "*": ["node_modules/*", "src/*"]
     },
+    "typeRoots": ["./src/app/types", "./node_modules/@types"],
     "lib": ["dom", "dom.iterable", "esnext"], // Library files to be included in the compilation
-    "forceConsistentCasingInFileNames": true // Disallow inconsistently-cased references to the same file
-    // "jsx": "react-jsx", // Enable JSX for React
-    // "allowImportingTsExtensions": true, // Or a specific ECMAScript version that supports ES Modules
-    // "baseUrl": ".", // Base directory to resolve non-relative module names
+    "forceConsistentCasingInFileNames": true // Disallow
   },
-  "include": [
-    "client/src/**/*",
-    "server/src/**/*",
-    "client/webpack.config.ts",
-    "client/src/components/auth",
-    "client/__tests__/LoginButton.test.tsx",
-    "src",
-    "jest.config.ts",
-    "jest-setup.ts",
-    "src",
-    "server/src/**/*.ts",
-    // "client/src/**/*.ts",
-    // "client/src/**/*.tsx"
-  ],
+  "include": ["src/**/*", "types/custom.d.ts"],
   "exclude": ["node_modules"]
 }
