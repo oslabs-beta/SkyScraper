@@ -30,7 +30,6 @@ const cloudController: cloudController = {
           'StatusCheckFailed_System',
         ];
 
-        // interface for the responsedata result
         // results is an object, we gave instanceID's key type of string and value type of array and referenced it by the value stored for instanceId, on the next level, we are saying the keys in elements of instanceId has to be name with the type string, metric with the type string, unit with the type string and datapoints which is an array where element is an object with a key that has to be a type of string and another key with a value that must be of type number
         // results: object
         // instanceId: array of objects
@@ -115,9 +114,9 @@ const cloudController: cloudController = {
         if (err instanceof Error) {
           next(
             new ErrorObject(
-              `Error in try catch for getMetrics middleware: ${err.message}`,
+              `Error in getMetrics middleware: ${err.message}`,
               500,
-              'Error in try catch for getMetrics middleware',
+              'Error in getMetrics middleware',
             ),
           );
         } else {

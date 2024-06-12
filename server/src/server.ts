@@ -1,12 +1,10 @@
 import express from 'express';
-import dotenv from 'dotenv';
+import dotenv from 'dotenv/config';
 import { ErrorHandler } from './utils/ErrorHandler.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import router from './routers/router.js';
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

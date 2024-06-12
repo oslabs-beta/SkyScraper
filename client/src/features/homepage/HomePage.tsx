@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import LoginButton from '../auth/components/LoginButton';
-import SkyScraper from '../../assets/SkyScraperLogo';
+import SkyScraper from '../../assets/LoginBackground';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -9,8 +9,8 @@ const HomePage: React.FC = () => {
     document.body.style.backgroundPosition = 'center';
     document.body.style.height = '100vh';
     document.body.style.width = '100vw';
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
+    document.body.style.margin = '100';
+    document.body.style.padding = '1000';
     document.body.style.overflow = 'hidden';
 
     return () => {

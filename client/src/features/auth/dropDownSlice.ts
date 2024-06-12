@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { DropdownState } from '../../../app/types';
+import { DropdownState } from '../../app/types';
 
 const initialState: DropdownState = {
   showDropdown: false,

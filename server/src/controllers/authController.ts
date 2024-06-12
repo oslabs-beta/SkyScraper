@@ -32,9 +32,9 @@ const authController: authController = {
         if (err instanceof Error) {
           next(
             new ErrorObject(
-              `Error in try catch for verifyJWT middleware: ${err.message}`,
+              `Error in verifyJWT middleware: ${err.message}`,
               500,
-              'Error in try catch for verifyJWT middleware',
+              'Error in verifyJWT middleware',
             ),
           );
         } else {
@@ -69,9 +69,9 @@ const authController: authController = {
       } catch (err) {
         if (err instanceof Error) {
           throw new ErrorObject(
-            `Error in try catch for getIdentityID middleware: ${err.message}`,
+            `Error in getIdentityID middleware: ${err.message}`,
             500,
-            'Error in try catch for getIdentityID middleware',
+            'Error in getIdentityID middleware',
           );
         } else {
           throw new ErrorObject('the error', 500, 'the error');
@@ -114,9 +114,9 @@ const authController: authController = {
       } catch (err) {
         if (err instanceof Error) {
           throw new ErrorObject(
-            `Error in try catch for getTemporaryCredentials middleware: ${err.message}`,
+            `Error in getTemporaryCredentials middleware: ${err.message}`,
             500,
-            'Error in try catch for getTemporaryCredentials middleware',
+            'Error in getTemporaryCredentials middleware',
           );
         } else {
           throw new ErrorObject('the error', 500, 'the error');

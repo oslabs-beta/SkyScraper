@@ -31,6 +31,10 @@ body {
   text-align: center;
 }
 
+.isError {
+  margin-top: 50px;
+  padding: 20px;
+}
 .singleInstance {
   border: solid;
   background-color: #b2a8ea;

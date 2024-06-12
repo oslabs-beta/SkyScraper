@@ -69,7 +69,7 @@ const ec2Controller: ec2Controller = {
             new ErrorObject(
               `The Error: ${err.message}`,
               500,
-              'Error in try catch for EC2Instances middleware',
+              'Error in EC2Instances middleware',
             ),
           );
         } else {

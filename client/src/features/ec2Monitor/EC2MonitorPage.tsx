@@ -44,7 +44,7 @@ const EC2MonitorPage: React.FC = () => {
   });
 
   if (isError) {
-    return <div>Error: {(error as Error).message}</div>;
+    return <div className='isError'>Error {(error as Error).message}</div>;
   }
 
   const sortedInstanceIds = Object.keys(statistics).sort((a, b) => {

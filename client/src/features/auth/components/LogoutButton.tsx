@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { toggleDropdown, closeDropdown } from './dropDownSlice';
+import { toggleDropdown, closeDropdown } from '../dropDownSlice';
 import { clearTokens } from '../authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
