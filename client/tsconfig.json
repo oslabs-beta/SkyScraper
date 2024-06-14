@@ -14,7 +14,6 @@
     "resolveJsonModule": true,
     "baseUrl": "./", // Base directory to resolve non-relative module names
     "paths": {
-      // "*": ["node_modules/*", "/server/src/*"] // Path mapping for custom type definitions
       "*": ["node_modules/*", "src/*"]
     },
     "typeRoots": ["./src/app/types", "./node_modules/@types"],

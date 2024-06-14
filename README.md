@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://github.com/oslabs-beta/SkyScraper">
-    <img src="./client/src/assets/CircleLogo.png" alt="Logo" height="120">
+    <img src="./client/src/assets/images/CircleLogo.png" alt="Logo" height="120">
   </a>
 
   <h3 align="center">SkyScraper</h3>
@@ -72,7 +72,7 @@
 
 <br/>
 <p align="center">
-  <img width="900" src="./client/src/assets/CircleLogo.png">
+  <img width="900" src="./client/src/assets/images/FlatLogo.png">
 </p>
 <br/>
 
@@ -82,128 +82,76 @@ With SkyScraper, you can optimize your spending by using the visuals to make inf
 
 ### Built With
 
+- [<img style="height: 1em;" src="./client/src/assets/images/TS.png">](https://www.typescriptlang.org/) [TypeScript](https://www.typescriptlang.org/)
 - [<img style="height: 1em;" src="./client/src/assets/images/React.png">](https://reactjs.org/) [React](https://reactjs.org/)
 - [<img style="height: 1em;" src="./client/src/assets/images/Redux.png">](https://redux-toolkit.js.org/) [Redux Toolkit](https://redux-toolkit.js.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/TS.png">](https://www.typescriptlang.org/) [TypeScript](https://www.typescriptlang.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/CloudWatch.png">](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html) [AWS CloudWatch API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
-- [<img style="height: 1em;" src="./client/src/assets/images/EC2.png">](https://mochajs.org/) [AWS EC2 API](https://aws.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/WebPack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/Jest.png">](https://jestjs.io) [Jest](https://jestjs.io)
+- [<img style="height: 1em;" src="./client/src/assets/images/Node.js.png">](https://nodejs.org/en) [Node.js](https://nodejs.org/en)
+- [<img style="height: 1em;" src="./client/src/assets/images/Express.png">](https://expressjs.com/) [Express](https://expressjs.com/)
 - [<img style="height: 1em;" src="./client/src/assets/images/ChartJs.png">](https://www.chartjs.org/) [ChartJS](https://www.chartjs.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/GitHubActions.png">](https://nodejs.org/api/all.html) [Node.js](https://nodejs.org/api/all.html)
-- [<img style="height: 1em;" src="./client/src/assets/images/GitHubActions.png">](https://expressjs.com/) [Express.js](https://expressjs.com/)
+- [<img style="height: 1em;" src="./client/src/assets/images/WebPack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+- [<img style="height: 1em;" src="./client/src/assets/images/EC2.png">](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html) [AWS EC2 API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
+- [<img style="height: 1em;" src="./client/src/assets/images/CloudWatch.png">](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html) [AWS CloudWatch API](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html)
 
 ## Installation
 
-Installing from npm:
+Installing from Github:
 
-1. npm install skyscraper
-2. npm start
-3. npm run dev
+1. git clone https://github.com/oslabs-beta/SkyScraper.git
+1. open the SkyScraper repo locally in your code editor
+1. create a .env file in root directory using the template as a reference
+1. npm install
+1. npm run go
+1. view app on your localhost
 
 ## Getting Started
 
-1. Please sign up with Amazon EC2 if you do not have an account.
-2. Launch an instance if you hvae not already
-3. If you have an AMzo EC2 account and launched one or more instances, you can securely sign into our app using the the email associated with your Amazon account.
-<!-- To install SkyScraper for development, please see the contributing section below. -->
+1. Please sign up with Amazon EC2 if you do not have an account
+2. Launch an instance if you have not already
+3. If you have an Amazon EC2 account and launched one or more instances, you can securely sign into our app using Auth0
 
 ## Usage
 
 1. Click Get Started
-2. Log in
-3. Once securely logged in, you will see an overview of the name and status of your instance. You can click on any instance displayed and it will navigate you to another page where you can view more statistics about each instance.
-4. Once at the statistics page, you can click drop down menu for each instance listed and view individual statistics.
+1. Log in with Auth0
+1. Once securely logged in, you will see an overview of the name and status of your instance. You can click on any instance displayed and it will navigate you to another page where you can view more statistics about each instance.
+1. Once at the statistics page, you can click drop down menu for each instance listed and view individual statistics.
 
 <!-- Icon Legend in SkyScraper Tree View:
 
 - [<img style="height: 1em;" src="SkyScraper/media/circle-info-solid.svg">]() available props (hover)
 - [<img style="height: 1em;" src="SkyScraper/media/circle-arrow-right-solid.svg">]() open file (click)
 - [<img style="height: 1em;" src="SkyScraper/media/store-solid.svg" >]() Redux store connection
-- <span>Navbar</span>: error in file (matches the error color of your theme)
-- <b>Navbar</b>: currently open file -->
 
-SkyScraper can currently display Metrics for EC2 Instances.
+SkyScraper can currently display metrics for EC2 Instances.
 
+### Contributor Usage
+
+1. Download/clone the project from [Github](https://github.com/oslabs-beta/SkyScraper/)
+2. Work on it
+3. Make a PR and contribute your changes
 <!-- ```JSX
-    // Navbar will be detected as a child of the current file
     <Navbar />
 
     // As above
     <Navbar></Navbar>
 
-    // Route and Navbar will be detected as child components of the current file
-    <Route component={Navbar} />
-
-    // Route and App will be detected as child components of the current file
-    <Route children={App} />
-``` -->
+````-->
 
 <!-- SkyScraper will detect the names of inline props for JSX components it identifies:
 
 ```JSX
-    // props 'userId' and 'userName' will be listed for Navbar in SkyScraper
     <Navbar userId={...} userName={...} />
-```
+````
 
 SkyScraper can identify components connected to the Redux store, when 'connect' is imported from 'react-redux', and the component is the export default of the file:
 
-```JSX
+````JSX
     // App.jsx
     import React from 'react';
     import { connect } from 'react-redux';
 
     const mapStateToProps = ...
-    const mapDispatchToProps = ...
-
-    const App = (props) => {
-      return <h1>This is the App</h1>
-    }
-
-    // SkyScraper will detect App as connected to the Redux store
-    export default connect(mapStateToProps, mapDispatchToProps)(App);
 ``` -->
-
-<!-- ### Note
-
-SkyScraper prioritizes file dependencies over component dependencies. Consider the following JSX contained in the file App.jsx:
-
-```JSX
-    //App.jsx
-    import React from 'react';
-    import Home from './Home';
-    import Navbar from './Navbar';
-
-    class App extends Component {
-
-      render (
-        return {
-          <Home>
-            <Navbar />
-          </Home>
-        })
-    }
-``` -->
-
-<!-- SkyScraper will display Home and Navbar as siblings, both children of App: -->
-
-<!-- <br />
-  <img src="SkyScraper/media/readme-example.png"> -->
-
-<!-- ### Contributor Usage
-
-1. Download/clone the project from [Github](https://github.com/oslabs-beta/SkyScraper/)
-2. Work on it
-3. Make a PR and contribute your changes -->
-
-<!-- Note: `Ctrl+R` (or `Cmd+R` on Mac) will refresh the extension development host
-
-## Extension Settings
-
-This extension contributes the following settings:
-
-- `SkyScraper.view.reactRouter`: enable/disable React Router component nodes
-- `SkyScraper.view.thirdParty`: enable/disable all third party component nodes -->
 
 ## Contributing
 
@@ -233,7 +181,7 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">]() : [https://github.com/oslabs-beta/SkyScraper/](https://github.com/oslabs-beta/SkyScraper/)
 
-## Acknowledgement
+## Acknowledgements
 
 <!-- - Tooltips with [Tippy](https://www.npmjs.com/package/@tippy.js/react) -->
 

@@ -6,8 +6,8 @@
 .dropdown {
   display: none;
   position: absolute;
-  top: 45px; 
-  right: 0; 
+  top: 45px;
+  right: 0;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

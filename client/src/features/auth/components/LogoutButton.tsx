@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { toggleDropdown, closeDropdown } from '../dropDownSlice';
 import { clearTokens } from '../authSlice';
-import { Link, useNavigate } from 'react-router-dom';
 
 const LogoutButton: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +33,6 @@ const LogoutButton: React.FC = () => {
     top: '45px',
     right: '0px',
     backgroundColor: mode === 'light' ? 'lightblue' : '#121212',
-    // border: '1px solid #ccc',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
     borderRadius: '4px',
     zIndex: 1000,

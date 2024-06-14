@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useGetStatsQuery } from '../auth/authAPI';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import CustomBarChart from './components/Charts';
 import { setTokens } from '../auth/authSlice';
+import CustomBarChart from './components/Charts';
 
 const EC2MonitorPage: React.FC = () => {
   const dispatch = useAppDispatch();

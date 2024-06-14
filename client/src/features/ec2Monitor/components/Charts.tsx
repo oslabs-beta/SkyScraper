@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '../../../app/hooks';
 import {
   BarChart,
   Bar,
@@ -10,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { useAppSelector } from '../../../app/hooks';
 import type { MetricData, CustomBarChartProps, TransformedData } from '../../../app/types';
 
 const transformEC2Stats = (

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
+import authController from '../controllers/authController.js';
 import ec2Controller from '../controllers/ec2Controller.js';
 import cloudController from '../controllers/cloudController.js';
-import authController from '../controllers/authController.js';
 
 const router = express.Router();
 

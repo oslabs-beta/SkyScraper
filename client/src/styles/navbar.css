@@ -1,3 +1,24 @@
+/* Dark Knight Theme */
+body.dark-mode {
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text color */
+}
+
+body.dark-mode .singleInstance:hover {
+  background-color: #333; /* Hover state */
+  color: #e0e0e0; /* Hover text color */
+}
+
+body.dark-mode .homebutton {
+  background-color: #333; /* Dark button background */
+  color: #e0e0e0; /* Light text color */
+}
+
+body.dark-mode .navbar {
+  background-color: #1f1f1f; /* Dark navbar background */
+  color: #e0e0e0; /* Light text color */
+}
+
 .nav-bar {
   display: flex;
   justify-content: space-between;
@@ -31,29 +52,7 @@
   border-radius: 10%;
 }
 
-/* Dark Knight Theme */
-body.dark-mode {
-  background-color: #121212; /* Dark background */
-  color: #e0e0e0; /* Light text color */
-}
-
-body.dark-mode .singleInstance:hover {
-  background-color: #333; /* Hover state */
-  color: #e0e0e0; /* Hover text color */
-}
-
-body.dark-mode .homebutton {
-  background-color: #333; /* Dark button background */
-  color: #e0e0e0; /* Light text color */
-}
-
-body.dark-mode .navbar {
-  background-color: #1f1f1f; /* Dark navbar background */
-  color: #e0e0e0; /* Light text color */
-}
-
 .nav-bar.dark-mode {
   background-color: rgb(233, 233, 47);
   color: black;
-  /* other dark mode styles */
 }

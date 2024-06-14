@@ -1,7 +1,7 @@
 {
   "name": "skyscraper",
   "version": "1.0.0",
-  "description": "GUI Dashboard for AWS Infrastructure and Monitoring Resources and Usage Costs",
+  "description": "Visualizer Dashboard for AWS EC2 Instances",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -79,7 +79,6 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
-    "file-loader": "^6.2.0",
     "globals": "^15.2.0",
     "html-webpack-plugin": "^5.6.0",
     "jest": "^29.7.0",

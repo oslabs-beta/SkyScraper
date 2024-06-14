@@ -31,10 +31,6 @@ const config = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.(svg|png)$/,
-        use: 'file-loader',
-      },
     ],
   },
   resolve: {

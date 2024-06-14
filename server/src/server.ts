@@ -1,17 +1,17 @@
 import express from 'express';
-import dotenv from 'dotenv/config';
-import { ErrorHandler } from './utils/ErrorHandler.js';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import cors from 'cors';
+import 'dotenv/config';
 import router from './routers/router.js';
+import { fileURLToPath } from 'url';
+import { ErrorHandler } from './utils/ErrorHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-const PORT = 8080;
+const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : 8080;
 
 app.use(cors());
 app.use(express.json());
