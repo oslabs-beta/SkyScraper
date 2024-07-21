@@ -1,0 +1,37 @@
+.icon {
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.dropdown.show {
+  display: block;
+}
+
+.dropdown ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px;
+}
+
+.dropdown li {
+  padding: 5px 0;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
