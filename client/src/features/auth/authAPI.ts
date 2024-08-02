@@ -5,7 +5,7 @@ import { EC2Instance, EC2Stats } from '../../app/types';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://skyscraper-api.com/api/',
+    baseUrl: 'http://localhost:8080/api/',
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
       const { access_token, id_token } = state.rootReducer.auth.tokens;
