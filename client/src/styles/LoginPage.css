@@ -1,0 +1,11 @@
+.login-button-container {
+  background-attachment: fixed;
+  background-image: '../../../assets/LoginBackground.ts';
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

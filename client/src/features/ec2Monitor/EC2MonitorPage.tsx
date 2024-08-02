@@ -1,51 +1,61 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-
+import { useGetStatsQuery } from '../auth/authAPI';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import LogoutButton from '../auth/components/LogoutButton';
-import { fetchEC2Stats, selectEC2Stats, selectEC2Status, selectEC2Error } from './EC2StatsSlice';
-import CustomBarChart from './components/CustomBarChart';
+import { setTokens } from '../auth/authSlice';
+import CustomBarChart from './components/Charts';
 
 const EC2MonitorPage: React.FC = () => {
-  const { isAuthenticated } = useAuth0();
   const dispatch = useAppDispatch();
-  const statistics = useAppSelector((state) => selectEC2Stats(state));
-  const status = useAppSelector((state) => selectEC2Status(state));
-  const error = useAppSelector((state) => selectEC2Error(state));
+  const isAuthenticated = useAppSelector((state) => state.rootReducer.auth.tokens.access_token);
+  const theme = useAppSelector((state) => state.rootReducer.theme.mode);
 
   useEffect(() => {
-    dispatch(fetchEC2Stats());
+    const urlParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = urlParams.get('access_token');
+    const idToken = urlParams.get('id_token');
+
+    if (accessToken && idToken) {
+      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('id_token', idToken);
+      dispatch(setTokens({ tokens: { access_token: accessToken, id_token: idToken } }));
+    } else {
+      const storedAccessToken = localStorage.getItem('access_token');
+      const storedIdToken = localStorage.getItem('id_token');
+
+      if (storedAccessToken && storedIdToken) {
+        dispatch(
+          setTokens({ tokens: { access_token: storedAccessToken, id_token: storedIdToken } }),
+        );
+      }
+    }
   }, [dispatch]);
 
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
+  const {
+    data: statistics = {},
+    isError,
+    error,
+  } = useGetStatsQuery(undefined, {
+    pollingInterval: 2500,
+    skipPollingIfUnfocused: true,
+  });
+
+  if (isError) {
+    return <div className='isError'>Error {(error as Error).message}</div>;
   }
 
   const sortedInstanceIds = Object.keys(statistics).sort((a, b) => {
-    const nameA = statistics[a][0].name.toUpperCase();
-    const nameB = statistics[b][0].name.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
+    const nameA = (statistics[a][0]?.name ?? '').toUpperCase();
+    const nameB = (statistics[b][0]?.name ?? '').toUpperCase();
+    return nameA.localeCompare(nameB);
   });
 
   return (
     isAuthenticated && (
-      <div>
-        <LogoutButton />
-        <h1>EC2 Monitor</h1>
-        <Link to='/dashboard'>
-          <button className='homebutton'>Main Page</button>
-        </Link>
+      <div className='inner-body'>
         {sortedInstanceIds.map((instanceId) => (
           <div key={instanceId}>
             <h2>Instance Name: {statistics[instanceId][0].name}</h2>

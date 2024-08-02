@@ -1,51 +1,59 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import EC2Logo from '../../assets/EC2Logo';
-import LogoutButton from '../auth/components/LogoutButton';
-import {
-  fetchEC2Instances,
-  selectEC2Instances,
-  selectEC2Status,
-  selectEC2Error,
-} from './dashboardSlice';
 import { EC2Instance } from '../../app/types';
+import { useGetEC2Query } from '../auth/authAPI';
+import { setTokens } from '../auth/authSlice';
+import EC2Logo from '../../assets/EC2logo';
 
 const DashboardPage: React.FC = () => {
-  const { isAuthenticated } = useAuth0();
   const dispatch = useAppDispatch();
-  const instances = useAppSelector((state) => selectEC2Instances(state));
-  const status = useAppSelector((state) => selectEC2Status(state));
-  const error = useAppSelector((state) => selectEC2Error(state));
-  const sorted = [...instances].sort((a, b) =>
-    a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
-  );
-
-  const activeInstancesCount = instances.filter((ele) => ele.State === 'running').length;
+  const isAuthenticated = useAppSelector((state) => state.rootReducer.auth.tokens.access_token);
 
   useEffect(() => {
-    dispatch(fetchEC2Instances());
+    const urlParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = urlParams.get('access_token');
+    const idToken = urlParams.get('id_token');
+
+    if (accessToken && idToken) {
+      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('id_token', idToken);
+      dispatch(setTokens({ tokens: { access_token: accessToken, id_token: idToken } }));
+    } else {
+      const storedAccessToken = localStorage.getItem('access_token');
+      const storedIdToken = localStorage.getItem('id_token');
+
+      if (storedAccessToken && storedIdToken) {
+        dispatch(
+          setTokens({ tokens: { access_token: storedAccessToken, id_token: storedIdToken } }),
+        );
+      }
+    }
   }, [dispatch]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(fetchEC2Instances());
-    }, 4000);
+  const {
+    data: instances,
+    isLoading,
+    isError,
+    error,
+  } = useGetEC2Query(undefined, {
+    pollingInterval: 2500,
+    skipPollingIfUnfocused: true,
+  });
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [dispatch]);
+  const sorted: EC2Instance[] = instances
+    ? [...instances].sort((a: EC2Instance, b: EC2Instance) =>
+        a.Name.toLocaleLowerCase().localeCompare(b.Name.toLocaleLowerCase()),
+      )
+    : [];
 
+  const activeInstancesCount = instances?.filter((ele) => ele.State === 'running').length;
   return (
     isAuthenticated && (
       <div>
-        <main>
-          <LogoutButton />
+        <main className='inner-body'>
           <div id='title'>
-            <h1>SkyScraper</h1>
+            <h2>EC2 Instances</h2>
             <div
               id='instances-running'
               style={{
@@ -56,9 +64,9 @@ const DashboardPage: React.FC = () => {
               }}
             >
               <p>
-                EC2: {instances.length} instances, {activeInstancesCount} running
+                {instances?.length} Instances: {activeInstancesCount} Running
               </p>
-              {status === 'loading' && (
+              {isLoading && (
                 <div className='three-body' style={{ marginLeft: '10px' }}>
                   <div className='three-body__dot'></div>
                   <div className='three-body__dot'></div>
@@ -66,9 +74,7 @@ const DashboardPage: React.FC = () => {
                 </div>
               )}
             </div>
-
-            {error && <p>Error: {error}</p>}
-            <h2>EC2 Instances</h2>
+            {isError && <p>Error: {(error as Error).message}</p>}
             <div
               id='displayedinstances'
               style={{
@@ -81,20 +87,13 @@ const DashboardPage: React.FC = () => {
                   <div className='singleInstance' key={instance.InstanceId}>
                     <img src={EC2Logo} width='35' height='35'></img>
                     <h3>Name: {instance.Name}</h3>
-                    <p>ID: {instance.InstanceId}</p>
                     <p>Type: {instance.InstanceType}</p>
                     <p>Status: {instance.State}</p>
                   </div>
                 </Link>
               ))}
             </div>
-            <h2>Other Services</h2>
-            <Link to='/lambda-monitor'>
-              <button>Lambda: 1 instance, none running</button>
-            </Link>
-            <Link to='/sqs-monitor'>
-              <button>SQS: 1 instance, none running</button>
-            </Link>
+            <h2>Other Services: coming soon</h2>
           </div>
         </main>
       </div>

@@ -11,6 +11,7 @@ export default [
   ...tseslint.configs.stylisticTypeChecked,
   {
     languageOptions: {
+      parser: '@typescript-eslint/parser',
       parserOptions: {
         project: true,
         tsconfigRootDir: import.meta.dirname,
@@ -60,6 +61,10 @@ export default [
     languageOptions: {
       ...reactRecommended.languageOptions,
       parserOptions: {
+        // parser: '@typescript-eslint/parser',
+        // parserOptions: {
+        //   project: './tsconfig.json',
+        // },
         ecmaFeatures: {
           jsx: true,
         },

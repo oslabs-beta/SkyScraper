@@ -1,5 +1,3 @@
-import type { cloudController, Datapoints, SanitizedInstances, Results } from '../utils/types.js';
-import ErrorObject from '../utils/ErrorObject.js';
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
@@ -7,21 +5,19 @@ import {
   GetMetricStatisticsCommandOutput,
   Datapoint,
 } from '@aws-sdk/client-cloudwatch';
+import type { cloudController, Datapoints, SanitizedInstances, Results } from '../utils/types.js';
+import ErrorObject from '../utils/ErrorObject.js';
 
 const cloudController: cloudController = {
   getEC2Metrics: (req, res, next) => {
     void (async () => {
       try {
-        // create cloudwatch client
         const cloudwatch: CloudWatchClient = new CloudWatchClient({
           region: process.env.REGION,
-          credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
-          },
+          credentials: res.locals.credentials,
         });
 
-        // array of metrics we want to gather from AWS
+        // array of metrics to fetch from AWS
         const metricsName: string[] = [
           'CPUUtilization',
           'DiskReadBytes',
@@ -33,12 +29,6 @@ const cloudController: cloudController = {
           'StatusCheckFailed_System',
         ];
 
-        // interface for the responsedata result
-        // results is an object, we gave instanceID's key type of string and value type of array and referenced it by the value stored for instanceId, on the next level, we are saying the keys in elements of instanceId has to be name with the type string, metric with the type string, unit with the type string and datapoints which is an array where element is an object with a key that has to be a type of string and another key with a value that must be of type number
-        // results: object
-        // instanceId: array of objects
-        // datapoints: array of objects
-        // create results and setting the type of results variable to Result interface
         const results: Results = {};
 
         // take res.locals.instances object and store to allInstances
@@ -48,8 +38,7 @@ const cloudController: cloudController = {
         const startTime: Date = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
         const endTime: Date = new Date();
 
-        // create a promises array to be sent later with Promise.all
-        // Promise is a build-in object in JS
+        // create a promises array to be sent with Promise.all
         const promises: Promise<void>[] = [];
 
         // use for of loops to get metrics for each instance
@@ -61,7 +50,7 @@ const cloudController: cloudController = {
               Dimensions: [{ Name: 'InstanceId', Value: instance.InstanceId }],
               StartTime: startTime,
               EndTime: endTime,
-              Period: 3600, // Data points in seconds
+              Period: 3600, // Data points in seconds // need to return back to 3600
               Statistics:
                 metric === 'StatusCheckFailed' ||
                 metric === 'StatusCheckFailed_Instance' ||
@@ -108,8 +97,6 @@ const cloudController: cloudController = {
 
         // send all promises at the same time
         await Promise.all(promises).then(() => {
-          // store results to res.locals.metrics
-          console.log('Log results: ', results);
           res.locals.metrics = results;
         });
 
@@ -119,9 +106,9 @@ const cloudController: cloudController = {
         if (err instanceof Error) {
           next(
             new ErrorObject(
-              `Error in try catch for getMetrics middleware: ${err.message}`,
+              `Error in getMetrics middleware: ${err.message}`,
               500,
-              'Error in try catch for getMetrics middleware',
+              'Error in getMetrics middleware',
             ),
           );
         } else {

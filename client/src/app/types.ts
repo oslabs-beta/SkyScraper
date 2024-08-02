@@ -1,19 +1,10 @@
-export interface DashboardState {
-  instances: EC2Instance[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-}
-
-export interface EC2StatsState {
-  stats: EC2Stats;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-}
+export type EC2Stats = Record<string, MetricData[]>;
 
 export interface AuthState {
-  token: string | null;
-  loading: boolean;
-  error: string | null;
+  tokens: {
+    access_token: string | null;
+    id_token: string | null;
+  };
 }
 
 export interface DataPoint {
@@ -27,8 +18,6 @@ export interface MetricData {
   unit: string;
   datapoints: DataPoint[];
 }
-
-export type EC2Stats = Record<string, MetricData[]>;
 
 export interface EC2Instance {
   InstanceId: string;
@@ -46,4 +35,12 @@ export interface TransformedData {
   timestamp: string;
   value: number;
   unit: string;
+}
+
+export interface DropdownState {
+  showDropdown: boolean;
+}
+
+export interface ThemeState {
+  mode: string;
 }

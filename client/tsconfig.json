@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES6", // "target": "es6", // Target ECMAScript version
+    "noEmit": false, // Added noEmit to complement allowImportingTsExtensions
+    "module": "ESNext", // "module": "esnext", // Enable ES module syntax
+    "moduleResolution": "node", // Use Node.js module resolution
+    "jsx": "react-jsx", // Enable JSX for React
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables default imports from modules with no default export
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "resolveJsonModule": true,
+    "baseUrl": "./", // Base directory to resolve non-relative module names
+    "paths": {
+      "*": ["node_modules/*", "src/*"]
+    },
+    "typeRoots": ["./src/app/types", "./node_modules/@types"],
+    "lib": ["dom", "dom.iterable", "esnext"], // Library files to be included in the compilation
+    "forceConsistentCasingInFileNames": true // Disallow
+  },
+  "include": ["src/**/*", "types/custom.d.ts"],
+  "exclude": ["node_modules"]
+}

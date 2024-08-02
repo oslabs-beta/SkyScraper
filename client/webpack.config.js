@@ -1,14 +1,15 @@
 import path from 'node:path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import _ from 'lodash';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const config = {
-  // mode: process.env.NODE_ENV || 'development',
-  mode: 'development',
+  mode: 'production',
   entry: './client/src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -18,7 +19,7 @@ const config = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /__tests__/],
         use: ['babel-loader'],
       },
       {
@@ -30,14 +31,14 @@ const config = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.(svg|png)$/,
-        use: 'file-loader',
-      },
     ],
   },
   resolve: {
     extensions: ['.jsx', '.js', '.ts', '.tsx'],
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -49,18 +50,21 @@ const config = {
     }),
   ],
   devServer: {
+    compress: true,
+    port: 3000,
     historyApiFallback: true,
-    proxy: [
+    static: [
       {
-        '/api': 'http://localhost:3000', // Adjust the port if your backend server runs on a different port
+        directory: path.resolve('dist'),
+        publicPath: '/',
       },
     ],
-    static: {
-      directory: path.join(__dirname, '../dist/client'),
-    },
-    compress: true,
-    port: 8080,
-    open: true,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:8080',
+      },
+    ],
   },
 };
 

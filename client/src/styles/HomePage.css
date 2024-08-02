@@ -1,0 +1,33 @@
+body.dark-mode .login-button-container {
+  text-align: center;
+  background-image: '../../../assets/LoginBackground.ts';
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-button-container {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+}
+
+.HpHeader h1,
+.HpHeader h2 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.HpHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.LoginButtonWrapper {
+  margin-top: 5px;
+}

@@ -4,6 +4,12 @@ export interface ec2Controller {
   getEC2Instances: (req: Request, res: Response, next: NextFunction) => void;
 }
 
+export interface authController {
+  verifyJWT: (req: Request, res: Response, next: NextFunction) => void;
+  getIdentityID: (req: Request, res: Response, next: NextFunction) => void;
+  getTemporaryCredentials: (req: Request, res: Response, next: NextFunction) => void;
+}
+
 export interface cloudController {
   getEC2Metrics: (req: Request, res: Response, next: NextFunction) => void;
 }
@@ -28,8 +34,4 @@ export type Results = Record<
 export interface Datapoints {
   Timestamp: Date;
   Value: number;
-}
-
-export interface MyLocals {
-  instances: SanitizedInstances[];
 }
