@@ -1,3 +1,5 @@
+export type EC2Stats = Record<string, MetricData[]>;
+
 export interface AuthState {
   tokens: {
     access_token: string | null;
@@ -16,8 +18,6 @@ export interface MetricData {
   unit: string;
   datapoints: DataPoint[];
 }
-
-export type EC2Stats = Record<string, MetricData[]>;
 
 export interface EC2Instance {
   InstanceId: string;

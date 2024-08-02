@@ -28,7 +28,7 @@ app.use('*', (req, res) => {
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Server Online and listening on PORT ${PORT}`);
 });
 
 export default app;
