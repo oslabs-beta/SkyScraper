@@ -1,8 +1,8 @@
-<a id="readme-top"></a>
-
 <!-- SkyScraper README -->
 
 <!-- PROJECT LOGO -->
+
+<a id="readme-top"></a>
 
 <p align="center">
   <a href="https://github.com/oslabs-beta/SkyScraper">
@@ -14,12 +14,9 @@
   <p align="center">
     Visualizer Dashboard for AWS EC2 Instances
     <br />
-    <!-- <a href="https://github.com/oslabs-beta/SkyScraper"><strong>Explore the docs »</strong></a>
-    <br />
-    <br /> -->
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Report Bug</a>
-    ·
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Request Feature</a>
+
   </p>
     <!-- BADGES -->
   <p align="center">
@@ -97,12 +94,11 @@ Designed with a focus on clarity and aesthetics, SkyScraper features custom them
 
 Installing from Github:
 
-1. Clone the repo
+1. Clone and open the Repo in your Code Editor
    ```sh
    git clone https://github.com/oslabs-beta/SkyScraper.git
    ```
-1. Open the repo in your Code Editor
-1. Create a .env file in root directory from the provided template and enter values from AWS
+1. Create a .env file in the root directory from the provided template and input values from an AWS account
 1. Install dependencies
    ```sh
    npm install
@@ -111,7 +107,7 @@ Installing from Github:
    ```sh
    npm run go
    ```
-1. Navigate to localhost:8080 in your browser to view the application
+1. Navigate to http://localhost:8080 in your browser to view the application
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,9 +116,9 @@ Installing from Github:
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**!
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+Don't forget to give the project a **star**! Thanks again!
 
-1. Fork the Project
+1. Fork the Repo
 2. Create your Feature Branch
 
    ```sh
@@ -153,15 +149,15 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 ## Creators
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/abelr20) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/abel-ratanaphan/) Abel
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/abelr20) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/abel-ratanaphan/) Abel Ratanaphan
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/b-the-coder) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/bin-emma-he/) Bin
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/b-the-coder) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/bin-emma-he/) Bin He
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/ChristieLaf) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/christie-laferriere/) Christie
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/ChristieLaf) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/christie-laferriere/) Christie Laferriere
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/TrippMurphy) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/trippmurphy/) Tripp
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/TrippMurphy) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/trippmurphy/) Tripp Murphy
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/Nikolaa92) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/nikola-andelkovic/) Nikola
+[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/Nikolaa92) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/nikola-andelkovic/) Nikola Andelkovic
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
