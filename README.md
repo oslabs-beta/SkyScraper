@@ -15,6 +15,7 @@
     Visualizer Dashboard for AWS EC2 Instances
     <br />
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Report Bug</a>
+    ·
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Request Feature</a>
 
   </p>
