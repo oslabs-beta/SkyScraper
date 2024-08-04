@@ -1,0 +1,7 @@
+{
+  "domain": "{DOMAIN}",
+  "clientId": "{CLIENT_ID}",
+  "audience": "{AUDIENCE}",
+  "appOrigin": "{http://localhost:0000}",
+  "apiOrigin": "{http://localhost:0001}"
+}

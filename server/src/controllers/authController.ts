@@ -8,43 +8,6 @@ import { CognitoJwtVerifier } from 'aws-jwt-verify';
 import ErrorObject from '../utils/ErrorObject.js';
 
 const authController: authController = {
-  verifyJWT: (req, res, next) => {
-    void (async () => {
-      try {
-        const tokenUse = 'access';
-
-        const verifier = CognitoJwtVerifier.create({
-          userPoolId: process.env.USER_POOL_ID ?? '',
-          tokenUse: tokenUse,
-          clientId: process.env.CLIENT_ID ?? '',
-        });
-
-        const token = req.headers.authorization?.split(' ')[1];
-
-        if (!token) {
-          throw new ErrorObject('No token provided', 401, 'No token provided');
-        }
-
-        await verifier.verify(token);
-
-        next();
-        return;
-      } catch (err) {
-        if (err instanceof Error) {
-          next(
-            new ErrorObject(
-              `Error in verifyJWT middleware: ${err.message}`,
-              500,
-              'Error in verifyJWT middleware',
-            ),
-          );
-        } else {
-          next(new ErrorObject('the error', 500, 'the error'));
-        }
-      }
-    })();
-  },
-
   getIdentityID: (req, res, next) => {
     void (async () => {
       try {
