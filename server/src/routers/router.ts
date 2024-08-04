@@ -5,9 +5,10 @@ import cloudController from '../controllers/cloudController.js';
 
 const router = express.Router();
 
+router.use();
+
 router.get(
   '/ec2',
-  authController.verifyJWT,
   authController.getIdentityID,
   authController.getTemporaryCredentials,
   ec2Controller.getEC2Instances,
@@ -16,7 +17,6 @@ router.get(
 
 router.get(
   '/stats',
-  authController.verifyJWT,
   authController.getIdentityID,
   authController.getTemporaryCredentials,
   ec2Controller.getEC2Instances,

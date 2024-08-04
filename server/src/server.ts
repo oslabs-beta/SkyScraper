@@ -1,7 +1,11 @@
 import express from 'express';
 import path from 'path';
+
 import cors from 'cors';
+import helmet from 'helmet';
+import { auth } from 'express-oauth2-jwt-bearer';
 import 'dotenv/config';
+
 import router from './routers/router.js';
 import { fileURLToPath } from 'url';
 import { ErrorHandler } from './utils/ErrorHandler.js';
@@ -13,7 +17,17 @@ const app = express();
 
 const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : 8080;
 
+// express security measures
 app.use(cors());
+app.use(helmet());
+app.use(
+  auth({
+    audience: process.env.AUDIENCE,
+    issuerBaseURL: `https://${process.env.DOMAIN}/`,
+    tokenSigningAlg: 'RS256',
+  }),
+);
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
