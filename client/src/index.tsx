@@ -12,12 +12,14 @@ if (!rootElement) {
   throw new Error('Failed to find the root element');
 }
 
+// other properties available, see https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html
+// notable extra properties include token timeouts, onRedirectCallback, and authorizationParams: {scope}
 const Auth0ProviderConfig = {
   domain: auth0Config.domain,
   clientId: auth0Config.clientId,
   authorizationParams: {
     redirect_uri: window.location.origin,
-    ...(auth0Config.audience ? { audience: auth0Config.audience } : null),
+    audience: auth0Config.audience,
   },
 };
 
@@ -28,3 +30,5 @@ createRoot(rootElement).render(
     </Auth0Provider>
   </Provider>,
 );
+
+// optional service worker here for faster load times and offline functionality
