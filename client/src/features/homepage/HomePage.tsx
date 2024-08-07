@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
     document.body.style.height = '100vh';
     document.body.style.width = '100vw';
     document.body.style.margin = '100';
-    document.body.style.padding = '1000';
+    document.body.style.padding = '100'; // temporary fix for styling issue (prev 1000)
     document.body.style.overflow = 'hidden';
 
     return () => {
