@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
     <div>
       <div className='login-button-container'>
         <div className='HpHeader'>
-          <h1> Welcome to SkyScraper</h1>
+          <h1> Welcome to SkyScraper </h1>
           <h2> Github Actions CI/CD </h2>
         </div>
         <div className='LoginButtonWrapper'>
