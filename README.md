@@ -73,7 +73,7 @@ Designed with a focus on clarity and aesthetics, SkyScraper features custom them
 - [<img style="height: 1em;" src="images/Nodejs.png">](https://nodejs.org/en) [Node.js](https://nodejs.org/en)
 - [<img style="height: 1em;" src="images/Express.png">](https://expressjs.com/) [Express](https://expressjs.com/)
 - [<img style="height: 1em;" src="images/Chartjs.png">](https://www.chartjs.org/) [Chart.js](https://www.chartjs.org/)
-- [<img style="height: 1em;" src="images/WebPack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+- [<img style="height: 1em;" src="images/Webpack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
 - [<img style="height: 1em;" src="images/Auth0.png">](https://auth0.com/) [Auth0](https://auth0.com/)
 - [<img style="height: 1em;" src="images/Cognito.png">](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/Welcome.html) [AWS Cognito API](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/Welcome.html)
 - [<img style="height: 1em;" src="images/CloudWatch.png">](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html) [AWS CloudWatch API](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html)
