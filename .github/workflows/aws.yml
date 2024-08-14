@@ -30,7 +30,7 @@ env:
   ECR_REPOSITORY: app # Set this to your Amazon ECR repository name
   ECS_SERVICE: SkyDevOps # Set this to your Amazon ECS service name
   ECS_CLUSTER: Sky # Set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: ecs-task-def.json # Set this to the path to your Amazon ECS task definition: file, e.g. .aws/task-definition.json
+  ECS_TASK_DEFINITION: ecs-task-def.json # Set this to the path to your Amazon ECS task definition: e.g. task-definition.json
   CONTAINER_NAME:
     app # Set this to the name of the container in the
     # containerDefinitions section of your task definition
@@ -51,7 +51,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Upgrade npm to the latest version
+      - name: Update npm
         run: npm install -g npm@latest
 
       - name: Configure AWS credentials

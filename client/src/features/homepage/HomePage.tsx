@@ -30,6 +30,7 @@ const HomePage: React.FC = () => {
       <div className='login-button-container'>
         <div className='HpHeader'>
           <h1> Welcome to SkyScraper</h1>
+          <h2> Github Actions CI/CD Successful</h2>
         </div>
         <div className='LoginButtonWrapper'>
           {' '}
