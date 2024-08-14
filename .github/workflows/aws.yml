@@ -25,6 +25,10 @@ on:
   push:
     branches: ['Abel/Deploy'] # Update to push to 'main' when complete
 
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }} # Use GitHub secret for AWS region
   ECR_REPOSITORY: app # Set this to your Amazon ECR repository name
