@@ -1,5 +1,5 @@
 # FROM node:20
-FROM 992382810552.dkr.ecr.us-east-1.amazonaws.com/app:latest
+FROM public.ecr.aws/docker/library/node:20-alpine
 
 # Set the working directory
 WORKDIR /usr/src/app
