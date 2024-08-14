@@ -1,4 +1,3 @@
-# FROM node:20
 FROM public.ecr.aws/docker/library/node:20-alpine
 
 # Set the working directory

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { EC2Instance } from '../../app/types';
 import { useGetEC2Query } from '../auth/authAPI';
 import { setTokens } from '../auth/authSlice';
-import EC2Logo from '../../assets/EC2logo';
+import EC2Logo from '../../assets/EC2';
 
 const DashboardPage: React.FC = () => {
   const dispatch = useAppDispatch();
