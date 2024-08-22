@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Deploy to AWS ECS
 
 on:
   push:
@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AWS_REGION: ${{ secrets.AWS_REGION }} # Use GitHub secret for AWS region
+  AWS_REGION: ${{ secrets.AWS_REGION }} # Use GitHub secrets for AWS region
   ECR_REPOSITORY: app # Set this to your Amazon ECR repository name
   ECS_SERVICE: SkyDevOps # Set this to your Amazon ECS service name
   ECS_CLUSTER: Sky # Set this to your Amazon ECS cluster name
@@ -41,29 +41,23 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push image to AWS ECR
+      - name: Build and push new Docker image to AWS ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
+          # Enable error handling
+          set -e
+          set -o pipefail
           # Use Docker Buildx to build the image for x86_64
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Fetch Latest Task Definition ARN
-        id: fetch-task-def-arn
+      - name: Deploy to Amazon ECS
         run: |
-          # Fetch the latest task definition for the service
-          TASK_DEFINITION_ARN=$(aws ecs describe-services \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }} \
-            --query 'services[0].taskDefinition' \
-            --output text)
-
-          echo "TASK_DEFINITION_ARN=$TASK_DEFINITION_ARN" >> $GITHUB_ENV
-
-      - name: Deploy to AWS ECS
-        run: |
-          # Use the latest task definition revision for the deployment
-          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --task-definition ${{ env.TASK_DEFINITION_ARN }} --force-new-deployment
+          # Enable error handling
+          set -e
+          set -o pipefail
+          # Update the ECS service
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
