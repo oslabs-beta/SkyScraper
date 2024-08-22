@@ -61,7 +61,7 @@ jobs:
           set -e
           set -o pipefail
 
-          # Update the ECS service to use the latest task definition revision and capture output
+          # Update the ECS service and capture output
           UPDATE_OUTPUT=$(aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \
             --service ${{ env.ECS_SERVICE }} \
