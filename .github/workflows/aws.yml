@@ -64,13 +64,9 @@ jobs:
           # Update the ECS service and capture output
           UPDATE_OUTPUT=$(aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \
-            --service ${{ env.ECS_SERVICE }} \
-            --force-new-deployment)
+            --service ${{ env.ECS_SERVICE }})
 
           # Wait until the service has stabilized
           aws ecs wait services-stable \
             --cluster ${{ env.ECS_CLUSTER }} \
             --services ${{ env.ECS_SERVICE }}
-
-          # Echo the output for debugging purposes
-          echo "$UPDATE_OUTPUT"
