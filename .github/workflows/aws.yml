@@ -120,9 +120,3 @@ jobs:
             --service ${{ env.ECS_SERVICE }} \
             --task-definition $TASK_DEFINITION_ARN \
             --force-new-deployment \
-            --deployment-configuration minimumHealthyPercent=0,maximumPercent=100
-
-          # Wait until the service has stabilized
-          aws ecs wait services-stable \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }}
