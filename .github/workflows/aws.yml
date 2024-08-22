@@ -38,11 +38,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
+      - name: Login to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push new Docker image to Amazon ECR
+      - name: Build and push new Docker image to AWS ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -56,7 +56,7 @@ jobs:
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Register ECS task definition
+      - name: Register ECS Task definition
         id: register-task-def
         run: |
           # Enable error handling
@@ -64,24 +64,21 @@ jobs:
           set -o pipefail
 
           # Register the task definition with ECS and capture the revision number
-          TASK_DEFINITION_ARN=$(aws ecs register-task-definition --cli-input-json file://$ECS_TASK_DEFINITION --query 'taskDefinition.taskDefinitionArn' --output text)
+          TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://$ECS_TASK_DEFINITION \
+            --query 'taskDefinition.taskDefinitionArn' --output text)
 
           echo "TASK_DEFINITION_ARN=$TASK_DEFINITION_ARN" >> $GITHUB_ENV
 
-      - name: Deploy to Amazon ECS
+      - name: Deploy to AWS ECS
         run: |
           # Enable error handling
           set -e
           set -o pipefail
 
-          # Use the latest task definition ARN
+          # Update the ECS service to use the latest task definition revision
           aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \
             --service ${{ env.ECS_SERVICE }} \
             --task-definition ${{ env.TASK_DEFINITION_ARN }} \
             --force-new-deployment
-
-          # Wait until the service has stabilized
-          aws ecs wait services-stable \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }}
