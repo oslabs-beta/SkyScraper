@@ -17,7 +17,7 @@ const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : 808
 app.use(cors());
 app.use(express.json());
 
-app.use(favicon(path.join(__dirname, '../../client/public/favicon.ico')));
+app.use(favicon(path.join(__dirname, '../../client/dist/favicon.ico')));
 
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 

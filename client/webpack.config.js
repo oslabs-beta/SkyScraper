@@ -44,6 +44,7 @@ const config = {
     new HtmlWebpackPlugin({
       template: './client/public/index.html',
       filename: 'index.html',
+      favicon: './client/public/favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: 'bundle.css',
