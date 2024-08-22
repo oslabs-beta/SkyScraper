@@ -64,8 +64,8 @@ jobs:
           set -o pipefail
 
           # Register the task definition with ECS and capture the revision number
-          TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
-            --cli-input-json file://$ECS_TASK_DEFINITION \
+          TASK_DEFINITION_ARN=$(aws ecs register-task-definition 
+            --cli-input-json file://$ECS_TASK_DEFINITION 
             --query 'taskDefinition.taskDefinitionArn' --output text)
 
           echo "TASK_DEFINITION_ARN=$TASK_DEFINITION_ARN" >> $GITHUB_ENV
@@ -77,8 +77,11 @@ jobs:
           set -o pipefail
 
           # Update the ECS service to use the latest task definition revision
-          aws ecs update-service \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --service ${{ env.ECS_SERVICE }} \
-            --task-definition ${{ env.TASK_DEFINITION_ARN }} \
-            --force-new-deployment
+          aws ecs update-service 
+            --cluster ${{ env.ECS_CLUSTER }} 
+            --service ${{ env.ECS_SERVICE }} 
+            --task-definition ${{ env.TASK_DEFINITION_ARN }} 
+            --force-new-deployment 
+            --deployment-configuration minimumHealthyPercent=0,maximumPercent=100
+            --cluster ${{ env.ECS_CLUSTER }} 
+            --services ${{ env.ECS_SERVICE }}
