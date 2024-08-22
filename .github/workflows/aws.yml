@@ -76,12 +76,17 @@ jobs:
           set -e
           set -o pipefail
 
-          # Update the ECS service to use the latest task definition revision
-          aws ecs update-service \
+          # Update the ECS service to use the latest task definition revision and capture output
+          UPDATE_OUTPUT=$(aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \
             --service ${{ env.ECS_SERVICE }} \
             --task-definition ${{ env.TASK_DEFINITION_ARN }} \
-            --force-new-deployment
+            --force-new-deployment)
+
+          # Wait until the service has stabilized
+          aws ecs wait services-stable \
             --cluster ${{ env.ECS_CLUSTER }} \
-            --service ${{ env.ECS_SERVICE }} \
-            echo "$UPDATE_OUTPUT"
+            --services ${{ env.ECS_SERVICE }}
+
+          # Echo the output for debugging purposes
+          echo "$UPDATE_OUTPUT"
