@@ -7,13 +7,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install -g npm@latest && npm install
+RUN npm install -g npm@latest
+RUN npm install
 
 # Copy the rest of the application code
 COPY ./client ./client
 COPY ./server ./server
 
-# Build the client and server
+# Build the server and client
 RUN npm run build:server
 RUN npm run build:prd
 

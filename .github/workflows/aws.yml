@@ -50,6 +50,7 @@ jobs:
           # Enable error handling
           set -e
           set -o pipefail
+
           # Use Docker Buildx to build the image for x86_64
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -59,5 +60,11 @@ jobs:
           # Enable error handling
           set -e
           set -o pipefail
+
           # Update the ECS service
           aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
+
+          # Wait until the service has stabilized (new tasks running, old tasks stopped)
+          aws ecs wait services-stable --cluster ${{ env.ECS_CLUSTER }} --services ${{ env.ECS_SERVICE }}
+
+          echo "Deployment successful and service is stable."
