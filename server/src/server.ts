@@ -32,7 +32,7 @@ app.use('*', (req, res) => {
 app.use(ErrorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server Online and listening on PORT ${PORT}`);
+  console.log(`Server: Listening on PORT ${PORT}`);
 });
 
 export default app;
