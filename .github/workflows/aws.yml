@@ -56,39 +56,7 @@ jobs:
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Check for task definition changes
-        id: check-task-def
-        run: |
-          # Enable error handling
-          set -e
-          set -o pipefail
-
-          # Try to describe the latest task definition
-          LATEST_TASK_DEF=$(aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_SERVICE }} || true)
-
-          if [ -z "$LATEST_TASK_DEF" ]; then
-            echo "No existing task definition found, registering new one."
-            echo "SKIP_REGISTRATION=false" >> $GITHUB_ENV
-          else
-            # Strip out fields that change with every revision or are not part of the input JSON
-            STRIPPED_LATEST_TASK_DEF=$(echo "$LATEST_TASK_DEF" | jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .registeredAt, .registeredBy)')
-
-            # Load the current task definition from the file
-            FILE_TASK_DEF=$(jq 'del(.family, .executionRoleArn, .revision, .status)' $ECS_TASK_DEFINITION)
-
-            # Compare the current task definition with the latest one
-            if [ "$STRIPPED_LATEST_TASK_DEF" = "$FILE_TASK_DEF" ]; then
-              echo "No changes to task definition, skipping registration."
-              echo "SKIP_REGISTRATION=true" >> $GITHUB_ENV
-            else
-              echo "Changes detected in task definition, registering new revision."
-              echo "SKIP_REGISTRATION=false" >> $GITHUB_ENV
-            fi
-          fi
-
       - name: Register ECS task definition
-        if: env.SKIP_REGISTRATION != 'true'
         id: register-task-def
         run: |
           # Enable error handling
@@ -106,17 +74,14 @@ jobs:
           set -e
           set -o pipefail
 
-          # Use the latest task definition ARN or skip if registration was not necessary
-          if [ -z "${{ env.TASK_DEFINITION_ARN }}" ]; then
-            TASK_DEFINITION_ARN=$(aws ecs describe-services \
-              --cluster ${{ env.ECS_CLUSTER }} \
-              --services ${{ env.ECS_SERVICE }} \
-              --query 'services[0].taskDefinition' --output text)
-          fi
-
-          # Update the ECS service to use the latest task definition revision
+          # Use the latest task definition ARN
           aws ecs update-service \
             --cluster ${{ env.ECS_CLUSTER }} \
             --service ${{ env.ECS_SERVICE }} \
-            --task-definition $TASK_DEFINITION_ARN \
-            --force-new-deployment \
+            --task-definition ${{ env.TASK_DEFINITION_ARN }} \
+            --force-new-deployment
+
+          # Wait until the service has stabilized
+          aws ecs wait services-stable \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE }}
