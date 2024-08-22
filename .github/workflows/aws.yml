@@ -55,7 +55,7 @@ jobs:
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-          echo "Docker image $ECR_REPOSITORY:$IMAGE_TAG has been built and pushed to $ECR_REGISTRY."
+          echo "Docker image $ECR_REPOSITORY:$IMAGE_TAG has been built and pushed to $ECR_REGISTRY"
 
       - name: Deploy to Amazon ECS
         run: |
@@ -66,7 +66,25 @@ jobs:
           # Update the ECS service
           aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
 
-          # Wait until the service has stabilized (new tasks running, old tasks stopped)
-          aws ecs wait services-stable --cluster ${{ env.ECS_CLUSTER }} --services ${{ env.ECS_SERVICE }}
+          # Define the website URL and the desired status code
+          WEBSITE_URL="https://yourwebsite.com"
+          EXPECTED_STATUS_CODE=200
 
-          echo "Deployment successful and service is stable."
+          # Loop until the website returns the expected status code
+          while true; do
+              # Send a HEAD request to the website and capture the HTTP status code
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $WEBSITE_URL)
+              
+              # Check if the status code matches the expected status code
+              if [ "$HTTP_STATUS" -eq "$EXPECTED_STATUS_CODE" ]; then
+                  echo "Website is back up with status code $HTTP_STATUS."
+                  break
+              else
+                  echo "Website is still down. Current status code: $HTTP_STATUS."
+              fi
+              
+              # Wait for a few seconds before the next check
+              sleep 5
+          done
+
+          echo "Deployment successful"
