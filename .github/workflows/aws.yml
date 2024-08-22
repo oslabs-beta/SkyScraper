@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AWS_REGION: ${{ secrets.AWS_REGION }} # Use GitHub secrets for AWS region
+  AWS_REGION: ${{ secrets.AWS_REGION }} # Use GitHub secret for AWS region
   ECR_REPOSITORY: app # Set this to your Amazon ECR repository name
   ECS_SERVICE: SkyDevOps # Set this to your Amazon ECS service name
   ECS_CLUSTER: Sky # Set this to your Amazon ECS cluster name
@@ -37,36 +37,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to AWS ECR
+      - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push new Docker image to AWS ECR
+      - name: Build and push image to AWS ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          # Enable error handling
-          set -e
-          set -o pipefail
-
-          # Use Docker Buildx to build the image for x86_64
-          docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          # Use Docker Buildx to build the image for ARM64
+          docker buildx build --platform linux/arm64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Deploy to AWS ECS
         run: |
-          # Enable error handling
-          set -e
-          set -o pipefail
-
-          # Update the ECS service and capture output
-          UPDATE_OUTPUT=$(aws ecs update-service \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --service ${{ env.ECS_SERVICE }})
-
-          # Wait until the service has stabilized
-          aws ecs wait services-stable \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --services ${{ env.ECS_SERVICE }}
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
