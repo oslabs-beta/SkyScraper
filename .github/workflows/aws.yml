@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Deploy to Amazon ECS
 
 on:
   push:
@@ -31,18 +31,18 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to AWS ECR
+      - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and Push New Docker Image to Amazon ECR
+      - name: Build and push new Docker image to Amazon ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -63,24 +63,28 @@ jobs:
           set -e
           set -o pipefail
 
-          # Fetch the latest task definition
+          # Try to describe the latest task definition
           LATEST_TASK_DEF=$(aws ecs describe-task-definition \
-            --task-definition ${{ env.ECS_SERVICE }} \
-            --query 'taskDefinition')
+            --task-definition ${{ env.ECS_SERVICE }} || true)
 
-          # Strip out fields that change with every revision or are not part of the input JSON
-          STRIPPED_LATEST_TASK_DEF=$(echo "$LATEST_TASK_DEF" | jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .registeredAt, .registeredBy)')
-
-          # Load the current task definition from the file
-          FILE_TASK_DEF=$(jq 'del(.family, .executionRoleArn, .revision, .status)' $ECS_TASK_DEFINITION)
-
-          # Compare the current task definition with the latest one
-          if [ "$STRIPPED_LATEST_TASK_DEF" = "$FILE_TASK_DEF" ]; then
-            echo "No changes to task definition, skipping registration."
-            echo "SKIP_REGISTRATION=true" >> $GITHUB_ENV
-          else
-            echo "Changes detected in task definition, registering new revision."
+          if [ -z "$LATEST_TASK_DEF" ]; then
+            echo "No existing task definition found, registering new one."
             echo "SKIP_REGISTRATION=false" >> $GITHUB_ENV
+          else
+            # Strip out fields that change with every revision or are not part of the input JSON
+            STRIPPED_LATEST_TASK_DEF=$(echo "$LATEST_TASK_DEF" | jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .registeredAt, .registeredBy)')
+
+            # Load the current task definition from the file
+            FILE_TASK_DEF=$(jq 'del(.family, .executionRoleArn, .revision, .status)' $ECS_TASK_DEFINITION)
+
+            # Compare the current task definition with the latest one
+            if [ "$STRIPPED_LATEST_TASK_DEF" = "$FILE_TASK_DEF" ]; then
+              echo "No changes to task definition, skipping registration."
+              echo "SKIP_REGISTRATION=true" >> $GITHUB_ENV
+            else
+              echo "Changes detected in task definition, registering new revision."
+              echo "SKIP_REGISTRATION=false" >> $GITHUB_ENV
+            fi
           fi
 
       - name: Register ECS task definition
@@ -96,7 +100,7 @@ jobs:
 
           echo "TASK_DEFINITION_ARN=$TASK_DEFINITION_ARN" >> $GITHUB_ENV
 
-      - name: Deploy to AWS ECS
+      - name: Deploy to Amazon ECS
         run: |
           # Enable error handling
           set -e
