@@ -5,6 +5,7 @@ import 'dotenv/config';
 import router from './routers/router.js';
 import { fileURLToPath } from 'url';
 import { ErrorHandler } from './utils/ErrorHandler.js';
+import favicon from 'serve-favicon';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +16,9 @@ const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : 808
 
 app.use(cors());
 app.use(express.json());
+
+app.use(favicon(path.join(__dirname, '../../client/dist/favicon.ico')));
+
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.use('/api', router);
