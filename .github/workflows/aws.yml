@@ -48,7 +48,7 @@ jobs:
           IMAGE_TAG: latest
         run: |
           # Use Docker Buildx to build the image for ARM64
-          docker buildx build --platform linux/arm64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Deploy to AWS ECS
