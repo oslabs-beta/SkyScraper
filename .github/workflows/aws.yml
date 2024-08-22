@@ -59,15 +59,11 @@ jobs:
 
       - name: Deploy to Amazon ECS
         run: |
-          # Enable error handling
-          set -e
-          set -o pipefail
-
           # Update the ECS service
           aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
 
           # Define the website URL and the desired status code
-          WEBSITE_URL="https://yourwebsite.com"
+          WEBSITE_URL="https://skyscraper-api.com"
           EXPECTED_STATUS_CODE=200
 
           # Loop until the website returns the expected status code
@@ -77,10 +73,10 @@ jobs:
               
               # Check if the status code matches the expected status code
               if [ "$HTTP_STATUS" -eq "$EXPECTED_STATUS_CODE" ]; then
-                  echo "Website is back up with status code $HTTP_STATUS."
+                  echo "Website is back up with status code $HTTP_STATUS"
                   break
               else
-                  echo "Website is still down. Current status code: $HTTP_STATUS."
+                  echo "Website is still down. Current status code: $HTTP_STATUS"
               fi
               
               # Wait for a few seconds before the next check
