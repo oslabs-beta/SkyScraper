@@ -57,14 +57,18 @@ jobs:
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Register ECS Task Definition
+        id: register-task-def
         run: |
           # Enable error handling
           set -e
           set -o pipefail
 
-          # Register the task definition with ECS
-          aws ecs register-task-definition \
-            --cli-input-json file://$ECS_TASK_DEFINITION
+          # Register the task definition with ECS and capture the revision number
+          TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://$ECS_TASK_DEFINITION \
+            --query 'taskDefinition.taskDefinitionArn' --output text)
+
+          echo "TASK_DEFINITION_ARN=$TASK_DEFINITION_ARN" >> $GITHUB_ENV
 
       - name: Deploy to Amazon ECS
         run: |
@@ -72,5 +76,9 @@ jobs:
           set -e
           set -o pipefail
 
-          # Update the ECS service
-          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
+          # Update the ECS service to use the latest task definition revision
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_SERVICE }} \
+            --task-definition ${{ env.TASK_DEFINITION_ARN }} \
+            --force-new-deployment
