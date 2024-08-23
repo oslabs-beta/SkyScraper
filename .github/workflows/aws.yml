@@ -67,6 +67,7 @@ jobs:
           EXPECTED_STATUS_CODE=200
 
           # Loop until the website returns the expected status code
+          sleep 10
           while true; do
               # Send a HEAD request to the website and capture the HTTP status code
               HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $WEBSITE_URL)
