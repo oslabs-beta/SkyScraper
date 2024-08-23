@@ -9,7 +9,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AWS_REGION: ${{ secrets.AWS_REGION }} # Use GitHub secrets for AWS region
   ECR_REPOSITORY: app # Set this to your Amazon ECR repository name
   ECS_SERVICE: SkyDevOps # Set this to your Amazon ECS service name
   ECS_CLUSTER: Sky # Set this to your Amazon ECS cluster name
@@ -47,10 +46,6 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
-          # Enable error handling
-          set -e
-          set -o pipefail
-
           # Use Docker Buildx to build the image for x86_64
           docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
 
