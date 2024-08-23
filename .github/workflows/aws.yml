@@ -76,8 +76,8 @@ jobs:
                   echo "Website down. Current status code: $HTTP_STATUS"
               fi
               
-              # Wait 10 seconds before the next check
-              sleep 10
+              # Wait 20 seconds before the next check
+              sleep 20
           done
           echo "Website online"
           echo "Deployment successful"
