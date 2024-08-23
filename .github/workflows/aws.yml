@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy to AWS ECS
     runs-on: ubuntu-latest
     environment: production
 
@@ -57,7 +57,7 @@ jobs:
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
           echo "Docker image $ECR_REPOSITORY:$IMAGE_TAG has been built and pushed to $ECR_REGISTRY"
 
-      - name: Deploy to Amazon ECS
+      - name: Deploy to AWS ECS
         run: |
           # Update the ECS service
           aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
@@ -67,6 +67,7 @@ jobs:
           EXPECTED_STATUS_CODE=200
 
           # Loop until the website returns the expected status code
+          # Wait 30 seconds before sending request
           sleep 30
           while true; do
               # Send a HEAD request to the website and capture the HTTP status code
@@ -77,11 +78,11 @@ jobs:
                   echo "Website is back up with status code $HTTP_STATUS"
                   break
               else
-                  echo "Website is still down. Current status code: $HTTP_STATUS"
+                  echo "Website down. Current status code: $HTTP_STATUS"
               fi
               
-              # Wait for a few seconds before the next check
-              sleep 5
+              # Wait 10 seconds before the next check
+              sleep 10
           done
-
+          echo "Website online"
           echo "Deployment successful"
