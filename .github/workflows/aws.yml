@@ -2,7 +2,7 @@ name: Deploy to AWS ECS
 
 on:
   push:
-    branches: ['Abel/Deploy'] # Update to push to 'main' when complete
+    branches: ['main'] # Triggers on push to main
 
 concurrency:
   group: deploy-${{ github.ref }}
