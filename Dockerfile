@@ -1,4 +1,4 @@
-FROM node:20
+FROM public.ecr.aws/docker/library/node:20-alpine
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -7,13 +7,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
+RUN npm install -g npm@latest
 RUN npm install
 
 # Copy the rest of the application code
 COPY ./client ./client
 COPY ./server ./server
 
-# Build the client and server
+# Build the server and client
 RUN npm run build:server
 RUN npm run build:prd
 

@@ -1,0 +1,83 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches: ['main'] # Triggers on push to main
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ECR_REPOSITORY: app # Set this to your Amazon ECR repository name
+  ECS_SERVICE: SkyDevOps # Set this to your Amazon ECS service name
+  ECS_CLUSTER: Sky # Set this to your Amazon ECS cluster name
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to AWS ECS
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push new Docker image to AWS ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: latest
+        run: |
+          # Use Docker Buildx to build the image for x86_64
+          docker buildx build --platform linux/amd64 --push -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "Docker image $ECR_REPOSITORY:$IMAGE_TAG has been built and pushed to $ECR_REGISTRY"
+
+      - name: Deploy to AWS ECS
+        run: |
+          # Update the ECS service
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
+
+          # Define the website URL and the desired status code
+          WEBSITE_URL="https://skyscraper-api.com"
+          EXPECTED_STATUS_CODE=200
+
+          # Loop until the website returns the expected status code
+          # Wait 30 seconds before sending request
+          sleep 30
+          while true; do
+              # Send a HEAD request to the website and capture the HTTP status code
+              HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $WEBSITE_URL)
+              
+              # Check if the status code matches the expected status code
+              if [ "$HTTP_STATUS" -eq "$EXPECTED_STATUS_CODE" ]; then
+                  echo "Website is back up with status code $HTTP_STATUS"
+                  break
+              else
+                  echo "Website down. Current status code: $HTTP_STATUS"
+              fi
+              
+              # Wait 20 seconds before the next check
+              sleep 20
+          done
+          echo "Website online"
+          echo "Deployment successful"

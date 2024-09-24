@@ -6,7 +6,7 @@ import DashboardPage from './features/dashboard/DashboardPage';
 import EC2MonitorPage from './features/ec2Monitor/EC2MonitorPage';
 import NavBar from './features/navbar/Navbar';
 import './styles/styles.css';
-import './styles/Navbar.css';
+import './styles/Nav.css';
 import './styles/LoginPage.css';
 import './styles/HomePage.css';
 

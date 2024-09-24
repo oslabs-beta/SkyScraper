@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/oslabs-beta/SkyScraper">
-    <img src="./client/src/assets/images/CircleLogo.png" alt="Logo" height="100">
+    <img src="images/CircleLogo.png" alt="Logo" height="100">
   </a>
 
   <h3 align="center">SkyScraper</h3>
@@ -15,7 +15,7 @@
     Visualizer Dashboard for AWS EC2 Instances
     <br />
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Report Bug</a>
-    ·
+    |
     <a href="https://github.com/oslabs-beta/SkyScraper/issues">Request Feature</a>
 
   </p>
@@ -56,7 +56,7 @@
 
 <br/>
 <p align="center">
-  <img width="900" src="./client/src/assets/images/FlatLogo.png">
+  <img width="900" src="images/FlatLogo.png">
 </p>
 
 SkyScraper is an innovative visualizer dashboard that transforms the way developers interact with AWS performance data, starting with EC2. By offering a streamlined, intuitive interface, SkyScraper optimizes the retrieval, organization, and visualization of performance metrics, enabling users to manage their AWS environments effectively.
@@ -67,17 +67,17 @@ Designed with a focus on clarity and aesthetics, SkyScraper features custom them
 
 ### Built With
 
-- [<img style="height: 1em;" src="./client/src/assets/images/TS.png">](https://www.typescriptlang.org/) [TypeScript](https://www.typescriptlang.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/React.png">](https://reactjs.org/) [React](https://reactjs.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/Redux.png">](https://redux-toolkit.js.org/) [Redux](https://redux-toolkit.js.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/Nodejs.png">](https://nodejs.org/en) [Node.js](https://nodejs.org/en)
-- [<img style="height: 1em;" src="./client/src/assets/images/Express.png">](https://expressjs.com/) [Express](https://expressjs.com/)
-- [<img style="height: 1em;" src="./client/src/assets/images/Chartjs.png">](https://www.chartjs.org/) [Chart.js](https://www.chartjs.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/WebPack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
-- [<img style="height: 1em;" src="./client/src/assets/images/Auth0.png">](https://auth0.com/) [Auth0](https://auth0.com/)
-- [<img style="height: 1em;" src="./client/src/assets/images/Cognito.png">](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/Welcome.html) [AWS Cognito API](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/Welcome.html)
-- [<img style="height: 1em;" src="./client/src/assets/images/CloudWatch.png">](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html) [AWS CloudWatch API](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html)
-- [<img style="height: 1em;" src="./client/src/assets/images/EC2.png">](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html) [AWS EC2 API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
+- [<img style="height: 1em;" src="images/TS.png">](https://www.typescriptlang.org/) [TypeScript](https://www.typescriptlang.org/)
+- [<img style="height: 1em;" src="images/React.png">](https://reactjs.org/) [React](https://reactjs.org/)
+- [<img style="height: 1em;" src="images/Redux.png">](https://redux-toolkit.js.org/) [Redux](https://redux-toolkit.js.org/)
+- [<img style="height: 1em;" src="images/Nodejs.png">](https://nodejs.org/en) [Node.js](https://nodejs.org/en)
+- [<img style="height: 1em;" src="images/Express.png">](https://expressjs.com/) [Express](https://expressjs.com/)
+- [<img style="height: 1em;" src="images/Chartjs.png">](https://www.chartjs.org/) [Chart.js](https://www.chartjs.org/)
+- [<img style="height: 1em;" src="images/Webpack.png">](https://webpack.js.org/) [Webpack](https://webpack.js.org/)
+- [<img style="height: 1em;" src="images/Auth0.png">](https://auth0.com/) [Auth0](https://auth0.com/)
+- [<img style="height: 1em;" src="images/Cognito.png">](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/Welcome.html) [AWS Cognito API](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/Welcome.html)
+- [<img style="height: 1em;" src="images/CloudWatch.png">](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html) [AWS CloudWatch API](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/Welcome.html)
+- [<img style="height: 1em;" src="images/EC2.png">](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html) [AWS EC2 API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -150,25 +150,25 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/oslabs-bet
 
 ## Creators
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/abelr20) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/abel-ratanaphan/) Abel Ratanaphan
+[<img style="height: 1em; width: 1em;" src="images/GitHubWhite.png">](https://github.com/abelr20) [<img style="height: 1em; width: 1em;" src="images/LinkedIn.png">](https://www.linkedin.com/in/abel-ratanaphan/) Abel Ratanaphan
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/b-the-coder) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/bin-emma-he/) Bin He
+[<img style="height: 1em; width: 1em;" src="images/GitHubWhite.png">](https://github.com/b-the-coder) [<img style="height: 1em; width: 1em;" src="images/LinkedIn.png">](https://www.linkedin.com/in/bin-emma-he/) Bin He
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/ChristieLaf) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/christie-laferriere/) Christie Laferriere
+[<img style="height: 1em; width: 1em;" src="images/GitHubWhite.png">](https://github.com/ChristieLaf) [<img style="height: 1em; width: 1em;" src="images/LinkedIn.png">](https://www.linkedin.com/in/christie-laferriere/) Christie Laferriere
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/TrippMurphy) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/trippmurphy/) Tripp Murphy
+[<img style="height: 1em; width: 1em;" src="images/GitHubWhite.png">](https://github.com/TrippMurphy) [<img style="height: 1em; width: 1em;" src="images/LinkedIn.png">](https://www.linkedin.com/in/trippmurphy/) Tripp Murphy
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">](https://github.com/Nikolaa92) [<img style="height: 1em; width: 1em;" src="./client/src/assets/images/LinkedIn.png">](https://www.linkedin.com/in/nikola-andelkovic/) Nikola Andelkovic
+[<img style="height: 1em; width: 1em;" src="images/GitHubWhite.png">](https://github.com/Nikolaa92) [<img style="height: 1em; width: 1em;" src="images/LinkedIn.png">](https://www.linkedin.com/in/nikola-andelkovic/) Nikola Andelkovic
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contact Us
 
-<img style="height: 1em; width: 1em;" src="./client/src/assets/images/Mail.png"> AppSkyScraper@gmail.com
+<img style="height: 1em; width: 1em;" src="images/Mail.png"> AppSkyScraper@gmail.com
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/XWhite.png">]() [@SkyScraperApp](https://x.com/SkyScraperApp)
+[<img style="height: 1em; width: 1em;" src="images/XWhite.png">]() [@SkyScraperApp](https://x.com/SkyScraperApp)
 
-[<img style="height: 1em; width: 1em;" src="./client/src/assets/images/GitHubWhite.png">]() [github.com/oslabs-beta/SkyScraper](https://github.com/oslabs-beta/SkyScraper/)
+[<img style="height: 1em; width: 1em;" src="images/GitHubWhite.png">]() [github.com/oslabs-beta/SkyScraper](https://github.com/oslabs-beta/SkyScraper/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
