@@ -6,12 +6,6 @@ import auth0Config from '../../auth_config.json';
 import store from './app/store';
 import App from './App';
 
-const rootElement = document.getElementById('root');
-
-if (!rootElement) {
-  throw new Error('Failed to find the root element');
-}
-
 // other properties available, see https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html
 // notable extra properties include token timeouts, onRedirectCallback, and authorizationParams: {scope}
 const Auth0ProviderConfig = {
@@ -22,6 +16,12 @@ const Auth0ProviderConfig = {
     audience: auth0Config.audience,
   },
 };
+
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error('Failed to find the root element');
+}
 
 createRoot(rootElement).render(
   <Provider store={store}>

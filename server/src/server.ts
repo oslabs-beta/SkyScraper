@@ -20,6 +20,8 @@ const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : 808
 // express security measures
 app.use(cors());
 app.use(helmet());
+app.disable('x-powered-by');
+
 app.use(
   auth({
     audience: process.env.AUDIENCE,
