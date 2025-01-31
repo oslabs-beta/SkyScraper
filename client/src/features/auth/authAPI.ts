@@ -7,10 +7,10 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
 
     // Production baseURL
-    baseUrl: 'https://skyscraper-api.com/api/',
+    // baseUrl: 'https://skyscraper-api.com/api/',
 
     // Development baseURL
-    // baseUrl: 'http://localhost:8080/api/',
+    baseUrl: 'http://localhost:8080/api/',
 
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
