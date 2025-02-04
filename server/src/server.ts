@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cors from 'cors';
 import 'dotenv/config';
@@ -12,7 +12,10 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-const PORT = process.env.NODE_ENV === 'production' ? process.env.PROD_PORT : 8080;
+const PORT: number =
+  process.env.NODE_ENV === 'production' && process.env.PROD_PORT
+    ? parseInt(process.env.PROD_PORT, 10)
+    : 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -24,12 +27,14 @@ app.use(express.static(path.join(__dirname, '../../client/dist')));
 app.use('/api', router);
 
 // Catch All Handler
-app.use('*', (req, res) => {
+app.use('*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 
 // Global Error Handler
-app.use(ErrorHandler);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  ErrorHandler(err, req, res, next);
+});
 
 app.listen(PORT, () => {
   console.log(`Server: Listening on PORT ${PORT}`);
