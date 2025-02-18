@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { fetchEC2Instances } from '../services/ec2Service.js';
+import { fetchEC2Instances } from '../services/ec2.service.js';
 import ErrorObject from '../utils/ErrorObject.js';
 import type { ec2Controller } from '../utils/types.js';
 

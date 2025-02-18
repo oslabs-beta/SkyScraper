@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { fetchEC2Metrics } from '../services/cloudService.js';
+import { fetchEC2Metrics } from '../services/cloud.service.js';
 import ErrorObject from '../utils/ErrorObject.js';
 import type { cloudController, SanitizedInstances } from '../utils/types.js';
 

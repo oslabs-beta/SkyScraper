@@ -3,7 +3,7 @@ import {
   verifyJWTService,
   getIdentityIDService,
   getTemporaryCredentialsService,
-} from '../services/authService.js';
+} from '../services/auth.service.js';
 import ErrorObject from '../utils/ErrorObject.js';
 
 const authController = {
